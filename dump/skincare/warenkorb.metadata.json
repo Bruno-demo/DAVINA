@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"user_id":{"$numberInt":"1"}},"name":"user_id_1","background":true}],"uuid":"90139c55a14544d2909ed2bb74a53675","collectionName":"warenkorb","type":"collection"}

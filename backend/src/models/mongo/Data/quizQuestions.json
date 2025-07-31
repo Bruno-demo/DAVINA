@@ -1,0 +1,16 @@
+{
+  "questions": [
+    { "key": "q1", "text": "Glänzt Ihre Haut am Ende des Tages?", "options": ["ja", "nein"] },
+    { "key": "q2", "text": "Spüren Sie ein Spannungsgefühl nach dem Duschen?", "options": ["ja", "nein"] },
+    { "key": "q3", "text": "Haben Sie häufig fettige Stellen im Gesicht?", "options": ["ja", "nein"] },
+    { "key": "q4", "text": "Reagiert Ihre Haut empfindlich auf neue Produkte?", "options": ["ja", "nein"] },
+    { "key": "q5", "text": "Fühlt sich Ihre Haut oft trocken an?", "options": ["ja", "nein"] },
+    { "key": "q6", "text": "Neigt Ihre Haut zu Unreinheiten?", "options": ["ja", "nein"] },
+    { "key": "q7", "text": "Wirkt Ihre Haut meist ausgeglichen?", "options": ["ja", "nein"] },
+    { "key": "q8", "text": "Brennt Ihre Haut bei Sonnencremes?", "options": ["ja", "nein"] },
+    { "key": "q9", "text": "Müssen Sie oft nachcremen?", "options": ["ja", "nein"] },
+    { "key": "q10", "text": "Benötigt Ihre Haut wenig Pflege?", "options": ["ja", "nein"] }
+  ]
+}
+
+

@@ -1,0 +1,297 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+html,body{
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  padding: 1rem  ;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+}
+
+h1,h2, h3 {
+  font-family: 'Raleway-Bold', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  color: #ee046c;
+  font-weight: 600;
+
+}
+
+.btn {
+  color: white;
+  background: #ee046c;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn:hover{
+  background: #b00353;
+}
+
+.btn_flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.card_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  padding: 1rem;
+  justify-items: center;
+  align-items: stretch;
+}
+
+ .img-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-block: 2rem;
+  border-bottom: 1.5px solid #eee;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.text-container > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.img-top {
+  display: block;
+  height: auto;
+  object-fit: cover;
+}
+
+.img-box {
+  width: 100%;
+  max-width: 500px;
+  align-self: center;
+}
+
+.img-box img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.wrapper_text {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.wrapper_text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+  font-weight: 500;
+}
+
+.login-header {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.register-login-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.box {
+  background-color: #fafafa;
+  border: 1px solid #eaeaea;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.field {
+  margin-bottom: 1.2rem;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #333;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: border 0.2s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ee046c;
+  box-shadow: 0 0 0 2px rgba(238, 4, 108, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  color: #fff;
+  border-radius: 0;
+}
+
+.login-btn:hover {
+  background-color: #c9035a;
+}
+
+.box p a, .bestellungsübersicht {
+  color: #ee046c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.box p a:hover, .bestellungsübersicht {
+  text-decoration: underline;
+}
+
+.has-text-centered {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+@media screen and (min-width: 427px) {
+  .wrapper {
+    padding: 4rem;
+  }
+
+   .img-text-container {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+  }
+
+
+
+  .text-container {
+    width: 45%;
+  }
+
+  .text-container > div {
+    gap: 20px;
+  }
+
+  .img-box {
+  width: 50%;
+}
+.register-login-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+
+}
+
+
+@media (min-width: 768px) {
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    width: auto;
+    align-self: center;
+  }
+  .login-btn {
+  width: 100%;
+  color: #fff;
+  border-radius: 0;
+}
+
+
+  .card_container {
+    gap: 3rem;
+}
+.img-text-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+    padding: 0 1rem;
+  }
+
+  .img-text-container.row_reverse {
+    flex-direction: row-reverse;
+  }
+
+  .text-container {
+    width: 50%;
+  }
+
+  .img-box {
+    width: 50%;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .card_container {
+    gap: 3.5rem;
+  }
+
+
+}
+
+
+
+

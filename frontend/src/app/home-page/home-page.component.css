@@ -1,0 +1,11 @@
+
+@media screen and (min-width: 427px) {
+  .row_reverse{
+  flex-direction: row-reverse;
+}
+
+}
+
+.btn_margin{
+  margin: 1rem 0;
+}

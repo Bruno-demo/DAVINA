@@ -1,0 +1,138 @@
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  max-width: 480px;
+  height: 100%;
+  background: white;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%);
+  overflow-y: auto; 
+  transition: transform 0.3s ease;
+}
+
+:host.open .cart-panel {
+  transform: translateX(0);
+}
+
+.warenkorb{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+}
+.warenkorb .warenkorb-title {
+    position: relative;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1eaf4;
+    margin: 10px 5px;
+}
+
+.warenkorb .warenkorb-title::before,
+.warenkorb .warenkorb-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #545353;
+}
+
+.warenkorb .warenkorb-title::before {
+  top: -3px;
+}
+
+.warenkorb .warenkorb-title::after {
+  bottom: -3px;
+}
+
+.warenkorb .warenkorb-title span {
+  color: #e20074;
+  font-weight: bold;
+  font-size: 20px;
+}
+.warenkorb .warenkorb-title i {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.cart-summary{
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  margin-top: 40px;
+  border-top: 1px solid #333;
+}
+
+.cart-summary div{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-summary div:last-child {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.cart-summary div p{
+  color: #EE046C;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cart-summary div span {
+  color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  white-space: nowrap;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 500;
+
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+@media screen and (max-width: 500px) {
+  .cart-panel{
+    width: 70vw;
+  }
+}

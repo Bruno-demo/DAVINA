@@ -1,0 +1,102 @@
+#footer {
+  background-color: #464545;  
+  color: #f0f0f0;
+  padding: 3rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+}
+
+#footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ee046c;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.social-icons span {
+  color: #ccc;
+  margin-right: 0.5rem;
+}
+
+.social-icons a {
+  color: #f0f0f0;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ee046c;
+}
+
+#link-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.linksblock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.linksheader {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ee046c;
+}
+
+.footer-link {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}
+
+#footer-bottom {
+  border-top: 1px solid #444;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+#footer-bottom span {
+  margin: 0 0.4rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#footer-bottom span:hover {
+  color: #ee046c;
+}

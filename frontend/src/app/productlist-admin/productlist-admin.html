@@ -1,0 +1,66 @@
+<div class="wrapper product-list-admin">
+
+  <div class="product-list">
+    <app-product-admin
+      *ngFor="let product of products"
+      [product]="product"
+      (productUpdated)="onProductUpdated($event)"
+      (productDeleted)="onProductDeleted($event)">
+    </app-product-admin>
+  </div>
+
+    
+  <button class="btn" (click)="startCreate()" *ngIf="!isCreating">Neues Produkt erstellen</button>
+
+  <div class="create-form" *ngIf="isCreating">
+    <h3>Neues Produkt erstellen</h3>
+    <form (ngSubmit)="saveNewProduct()">
+      <div class="form-group">
+        <label for="p_name">Produktname</label>
+        <input id="p_name" [(ngModel)]="newProduct.p_name" name="p_name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="image_url">Bild-URL</label>
+        <input id="image_url" [(ngModel)]="newProduct.image_url" name="image_url" />
+      </div>
+
+      <div class="form-group">
+        <label for="p_description">Beschreibung des Produkt</label>
+        <textarea id="p_description" [(ngModel)]="newProduct.p_description" name="p_description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Preise (€)</label>
+        <input id="price" type="number" [(ngModel)]="newProduct.price" name="price" required />
+      </div>
+
+      <div class="form-group">
+        <label for="skin_typ_target">Hauttyp</label>
+        <select id="skin_typ_target" [(ngModel)]="newProduct.skin_typ_target" name="skin_typ_target" required>
+          <option value="fettig">Fettig</option>
+          <option value="trocken">Trocken</option>
+          <option value="misch">Misch</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="effect">Effekt</label>
+        <select id="effect" [(ngModel)]="newProduct.effect" name="effect" required>
+          <option value="Hydratation">Hydratation</option>
+          <option value="Anti-Akne">Anti-Akne</option>
+          <option value="Beruhigend">Beruhigend</option>
+          <option value="Mattierend">Mattierend</option>
+          <option value="Anti-Age">Anti-Age</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">Erstellen</button>
+        <button type="button" (click)="cancelCreate()">Stornieren</button>
+      </div>
+    </form>
+  </div>
+
+</div>

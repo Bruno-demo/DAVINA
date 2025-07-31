@@ -1,0 +1,14 @@
+<div class="wrapper">
+  @for (group of groupedProducts; track group) {
+    <div>
+      <h2 class="category-title">{{ group.category | titlecase }}</h2>
+      <div class="card_container">
+        @for (item of group.items; track item._id) {
+          <app-product-card [product]="item"></app-product-card>
+        } @empty {
+          <p>No products available</p>
+        }
+      </div>
+    </div>
+  }
+</div>

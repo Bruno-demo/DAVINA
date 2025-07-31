@@ -1,0 +1,66 @@
+<header>
+  <div id="head">
+    <div class="top left">
+      <span id="hamburger" (click)="toggleNav()" [class.cross]="isNavOpen">
+        <i class="fa-solid fa-bars"></i>
+      </span>
+
+      <span id="logo">Davina</span>
+    </div>
+
+    <div class="top right">
+      <a (click)="toggleUserIconClick()" class="user_icon">
+        <i class="fa-solid fa-user"></i>
+      </a>
+
+  <div class="user_info_popup" *ngIf="!isLoggedIn && userInfoVisible">
+  <p class="info-title">Willkommen bei <strong>Davina</strong></p>
+
+  <div class="popup-section">
+    <p class="info-text">Neu hier?</p>
+    <a routerLink="/register" class="info-link">
+      <i class="fa-solid fa-user-plus"></i>registrieren
+    </a>
+  </div>
+
+  <div class="popup-section">
+    <p class="info-text">Schon ein Konto?</p>
+    <a routerLink="/login" class="info-link">
+      <i class="fa-solid fa-right-to-bracket"></i> Einloggen
+    </a>
+  </div>
+</div>
+
+
+      <a [routerLink]="[{ outlets: { modal: ['warenkorb'] } }]">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+    </div>
+    <app-searchbar id="searchbar"></app-searchbar>
+  </div>
+
+  <div class="overlay" [class.show]="isNavOpen" (click)="toggleNav()"></div>
+
+  <nav [class.show]="isNavOpen">
+    <span class="mobile-hamburger" (click)="toggleNav()">
+      <i
+        class="fa-solid"
+        [class.fa-bars]="!isNavOpen"
+        [class.fa-times]="isNavOpen"
+      ></i>
+    </span>
+
+    <a routerLink="" (click)="onNavLinkClick()"
+      ><i class="fa fa-home"></i> Home</a
+    >
+    <a routerLink="/hauttype" (click)="onNavLinkClick()"
+      ><i class="fa fa-solid fa-face-smile"></i> Hauttype</a
+    >
+    <a routerLink="/hautanalyse" (click)="onNavLinkClick()"
+      ><i class="fa fa-solid fa-microscope"></i> Hautanalyse</a
+    >
+    <a routerLink="/produkte" (click)="onNavLinkClick()"
+      ><i class="fa fa-solid fa-pump-soap"></i> Produkte</a
+    >
+  </nav>
+</header>

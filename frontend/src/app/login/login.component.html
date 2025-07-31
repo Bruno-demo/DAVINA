@@ -1,0 +1,30 @@
+<div class="wrapper">
+<h1 class="login-header">Einloggen</h1>
+<div class="register-login-container">
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="box">
+    <div class="field">
+      <label class="label">Email:</label>
+      <input
+        class="input"
+        type="email"
+        [(ngModel)]="credentials.email"
+        name="email"
+        placeholder="Enter your email"
+        required />
+    </div>
+    <div class="field">
+      <label class="label">Password:</label>
+      <input
+        class="input"
+        type="password"
+        [(ngModel)]="credentials.password"
+        name="password"
+        placeholder="Enter your password"
+        required />
+    </div>
+    <button class="btn login-btn" type="submit">Login</button>
+     <div class="box"> <p><a routerLink= "/register" id="hier">Hier</a> Konto erstellen</p></div>
+  </form>
+  <p class=".has-text-centered" style="color: red">{{ responseMessage }}</p>
+</div>
+</div>

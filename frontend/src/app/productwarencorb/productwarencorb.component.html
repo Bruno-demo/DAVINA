@@ -1,0 +1,20 @@
+<div class="product-container">
+  <div class="product">
+    <div class="product-image">
+      <img [src]="product.image_url" [alt]="product.p_name" />
+    </div>
+    <div class="product-info">
+      <h3>{{ product.p_name }}</h3>
+      <p>{{ product.price | currency:'EUR' }}</p>
+      <div class="quantity-controls">
+        <button (click)="decreaseQuantity()" >-</button>
+        <span>{{ quantity }}</span>
+        <button (click)="increaseQuantity()">+</button>
+      </div>
+    </div>
+    <div class="product-price">
+      <p>{{ product.price * quantity | currency:'EUR' }}</p>
+      <i class="fa-solid fa-trash remove-btn" (click)="removeItem()" role="button"></i>
+    </div>
+  </div>
+</div>

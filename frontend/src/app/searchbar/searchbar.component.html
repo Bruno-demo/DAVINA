@@ -1,0 +1,41 @@
+<div class="search-container">
+  <form (submit)="onSearch($event)" class="search-form">
+    <div class="search-input-group">
+      <input type="text"
+             [(ngModel)]="searchQuery"
+             (input)="onInputChange()"
+             [ngModelOptions]="{standalone: true}"
+             class="search-input"
+             placeholder="Produkt suchen...">
+
+      @if (searchQuery.length > 0) {
+        <button type="button" class="clear-button" (click)="clearSearch()">
+          <i class="fas fa-times"></i>
+        </button>
+      }
+
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+
+    @if (showSuggestions && filteredSuggestions.length > 0) {
+      <div class="search-suggestions">
+        <div class="suggestion-header">
+          <span>Suggestions</span>
+          <button class="close-suggestions" (click)="showSuggestions = false">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="card_container">
+          @for (product of filteredSuggestions; track trackById($index, product)) {
+            <app-product-card
+              [product]="product"
+              (click)="selectSuggestion(product)">
+            </app-product-card>
+          }
+        </div>
+      </div>
+    }
+  </form>
+</div>

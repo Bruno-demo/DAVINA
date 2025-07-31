@@ -1,0 +1,38 @@
+<div *ngIf="isLoading">Chargement des commandes...</div>
+
+<table *ngIf="!isLoading" class="orders-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date</th>
+      <th>Client</th>
+      <th>Email</th>
+      <th>Articles</th>
+      <th>Total</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <td>#{{ order.order_id }}</td>
+      <td>{{ order.createdAt | date:'short' }}</td>
+      <td>{{ order.user?.u_name }}</td>
+      <td>{{ order.user?.u_email }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let item of order.ordered_items">{{ item.name }} (x{{ item.quantity }})</li>
+        </ul>
+      </td>
+      <td>{{ order.total_price | currency:'EUR' }}</td>
+      <td>
+        <select [(ngModel)]="order.newStatus">
+          <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+        </select>
+      </td>
+      <td>
+        <button (click)="saveStatus(order)">Speichern</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

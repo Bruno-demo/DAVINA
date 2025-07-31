@@ -1,0 +1,34 @@
+<div class="product-card">
+  @if(product.image_url){
+    <div class="product-image">
+      <img [src]="product.image_url" alt="{{ product.p_name }}" loading="lazy">
+    </div>
+  }
+  <div class="product-content">
+    <h2 class="product-title">{{ product.p_name }}</h2>
+    <p class="product-description">{{ product.p_description || 'Beschreibung nicht verfügbar' }}</p>
+    <p class="product-price">{{ product.price | currency: 'EUR' }}</p>
+    <p class="product-details">
+      <strong>Hauttyp:</strong> {{ product.skin_typ_target | titlecase }} <br>
+      <strong>Effekt:</strong> {{ product.effect }}
+    </p>
+    <button class="btn" (click)="addToCart()" [disabled]="isAddingToCart">
+      @if(isAddingToCart) {
+        <span>Wird hinzugefügt...</span>
+      } @else {
+        <span>In den Warenkorb</span>
+      }
+    </button>
+
+    @if(addToCartSuccess) {
+      <div class="notification is-success">
+        Produkt wurde zum Warenkorb hinzugefügt!
+      </div>
+    }
+    @if(addToCartError) {
+      <div class="notification is-danger">
+        {{ addToCartError }}
+      </div>
+    }
+  </div>
+</div>

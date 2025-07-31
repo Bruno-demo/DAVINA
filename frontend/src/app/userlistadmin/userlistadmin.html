@@ -1,0 +1,37 @@
+<div class="cards-grid">
+  <div class="card" *ngFor="let user of users">
+    <div class="header">
+      <div class="avatar" *ngIf="user.avatarUrl">
+        <img [src]="user.avatarUrl" alt="Avatar">
+      </div>
+      <div class="avatar initials" *ngIf="!user.avatarUrl">
+        {{ user.initials }}
+      </div>
+      <div class="info">
+        <div class="name">{{ user.u_name || 'Utilisateur' }}</div>
+        <div class="date">{{ user.u_role }}</div>
+      </div>
+      <div class="menu" (click)="toggleMenu(user)">⋯</div>
+    </div>
+    <div class="details">
+      <div class="detail">
+          <i class="fa-solid fa-users"></i>
+          <span>ID: {{ user.u_id }}</span>
+      </div>
+      <div class="detail">
+          <i class="fa-solid fa-envelope"></i>
+          <span>{{ user.u_email }}</span>
+      </div>
+      <div class="detail">
+          <i class="fa-regular fa-hashtag"></i>
+          <span>{{ user.u_role }}</span>
+      </div>
+    </div>
+
+    <div class="floating-menu" *ngIf="user.showMenu">
+      <div class="menu-title">status ändern</div>
+      <button (click)="changeRole(user, 'user')">User</button>
+      <button (click)="changeRole(user, 'admin')">Admin</button>
+    </div>
+  </div>
+</div>

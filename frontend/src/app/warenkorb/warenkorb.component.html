@@ -1,0 +1,50 @@
+<div class="overlay" (click)="close()">
+  <div class="cart-panel" (click)="$event.stopPropagation()">
+    <div class="warenkorb">
+      <div class="warenkorb-title">
+        <span>Warenkorb ({{ orderedItems.length }})</span>
+        <i class="fa-solid fa-xmark" (click)="close()"></i>
+      </div>
+
+      @if (loading) {
+        <div class="loading">Loading...</div>
+      } @else {
+        <ng-container *ngIf="orderedItems.length > 0; else emptyCart">
+          <ng-container *ngFor="let item of orderedItems">
+            <ng-container *ngIf="productsMap.get(item.product_id) as product">
+              <app-productwarencorb
+                [product]="product"
+                [quantity]="item.quantity"
+                (quantityChange)="onQuantityChange($event)"
+                (remove)="onRemove(item.product_id)">
+              </app-productwarencorb>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      }
+
+      <ng-template #emptyCart>
+        <p>Ihr Warenkorb ist leer.</p>
+      </ng-template>
+
+      <div class="cart-summary" *ngIf="orderedItems.length > 0 && !loading">
+        <div class="summary-row">
+          <p>Zwischensumme</p>
+          <span>{{ subtotal | currency:'EUR' }}</span>
+        </div>
+        <div class="summary-row">
+          <p>Versand</p>
+          <span>{{ shipping | currency:'EUR' }}</span>
+        </div>
+        <div class="summary-row total">
+          <p>Gesamt</p>
+          <span>{{ total | currency:'EUR' }}</span>
+        </div>
+
+        <button class="btn checkout-button" (click)="navigateToCheckout()">
+          Zur Kasse gehen
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 10px 20px;
+}
+
+.card {
+  position: relative; 
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #eee;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #555;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  flex-grow: 1;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.date {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.menu {
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #999;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail {
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+i{
+  margin-right: 15px;
+  font-size: 20px;
+  color:rgba(238, 4, 108, .7);
+}
+
+.floating-menu {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  z-index: 10;
+}
+
+.floating-menu .menu-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.floating-menu button {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0;
+  background: #f0f0f0;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.floating-menu button:hover {
+  background: #ddd;
+}
+

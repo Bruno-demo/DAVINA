@@ -1,0 +1,214 @@
+<div class="wrapper liefConteneur">
+  <div class="liefConteneur-1">
+    <div class="title-form"><h2>Bestellung</h2></div>
+
+    <form #orderForm="ngForm" *ngIf="showLiefDetails" (ngSubmit)="submitOrder(orderForm)" class="liefForm" novalidate>
+
+      <div class="liefForm-title-1">
+        <h4>Kontakt</h4>
+        <h6>anmelden</h6>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="email"
+          name="email"
+          placeholder="E-Mail"
+          [(ngModel)]="userDetails.email"
+          required
+          email
+          #emailRef="ngModel"
+        />
+        <div *ngIf="emailRef.invalid && emailRef.touched" class="error-message">
+          Bitte gültige E-Mail eingeben.
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="country"
+          placeholder="Deutschland"
+          [(ngModel)]="country"
+        />
+      </div>
+
+      <div class="liefFormCont-2">
+        <div class="input-cont">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="Vorname"
+            [(ngModel)]="firstName"
+            required
+            #firstNameRef="ngModel"
+          />
+          <div *ngIf="firstNameRef.invalid && firstNameRef.touched" class="error-message">
+            Vorname ist erforderlich.
+          </div>
+        </div>
+
+        <div class="input-cont">
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Nachname"
+            [(ngModel)]="lastName"
+            required
+            #lastNameRef="ngModel"
+          />
+          <div *ngIf="lastNameRef.invalid && lastNameRef.touched" class="error-message">
+            Nachname ist erforderlich.
+          </div>
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="company"
+          placeholder="Firma (optional)"
+          [(ngModel)]="company"
+        />
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="address"
+          placeholder="Adresse"
+          [(ngModel)]="address"
+          required
+          #addressRef="ngModel"
+        />
+        <div *ngIf="addressRef.invalid && addressRef.touched" class="error-message">
+          Adresse ist erforderlich.
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="additionalAddress"
+          placeholder="Wohnung, Zimmer, usw (optional)"
+          [(ngModel)]="additionalAddress"
+        />
+      </div>
+
+      <div class="liefFormCont-2">
+        <div class="input-cont">
+          <input
+            type="text"
+            name="postalCode"
+            placeholder="Postleitzahl"
+            [(ngModel)]="postalCode"
+            required
+            #postalCodeRef="ngModel"
+          />
+          <div *ngIf="postalCodeRef.invalid && postalCodeRef.touched" class="error-message">
+            Postleitzahl ist erforderlich.
+          </div>
+        </div>
+
+        <div class="input-cont">
+          <input
+            type="text"
+            name="city"
+            placeholder="Stadt"
+            [(ngModel)]="city"
+            required
+            #cityRef="ngModel"
+          />
+          <div *ngIf="cityRef.invalid && cityRef.touched" class="error-message">
+            Stadt ist erforderlich.
+          </div>
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Telefon"
+          [(ngModel)]="phone"
+        />
+      </div>
+
+      <div class="liefForm-title-2">
+        <h4>Zahlung</h4>
+        <p>Bitte wählen Sie eine Zahlungsmethode aus</p>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="Kreditkarte"
+            [(ngModel)]="paymentMethod"
+            required
+            #paymentMethodRef="ngModel"
+          />
+              <i class="fa-solid fa-credit-card"></i>
+          <span class="label-text">Kreditkarte</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="Paypal"
+            [(ngModel)]="paymentMethod"
+          />
+          <i class="fa-brands fa-paypal"></i>
+
+          <span class="label-text">Paypal</span>
+        </label>
+      </div>
+
+
+      <div *ngIf="errorMsg" class="error-message">{{ errorMsg }}</div>
+
+
+      <button class="btn" type="submit" [disabled]="loading || orderForm.invalid">Bestellung aufgeben</button>
+
+
+    </form>
+
+    <div *ngIf="successMsg" class="success-message">{{ successMsg }} <a class="bestellungsübersicht"  routerLink="/profilepage">zu deine Bestellungsübersicht</a></div>
+    <div *ngIf="errorMsg" class="error-message">{{ errorMsg }}</div>
+  </div>
+
+  <div class="liefConteneur-2"  *ngIf="showLiefDetails">
+    <div class="liefContProd-1">
+
+
+    <ng-container *ngFor="let item of cartItems">
+      <ng-container *ngIf="productsMap.get(item.product_id) as product">
+        <app-productwarencorb
+          [product]="product"
+          [quantity]="item.quantity"
+          (quantityChange)="onQuantityChange($event)"
+          (remove)="onRemove(item.product_id)"
+        ></app-productwarencorb>
+      </ng-container>
+    </ng-container>
+
+    </div>
+
+    <div class="liefContProd-2">
+      <div>
+        <p>Zwischensumme</p>
+        <span>{{ subtotal | currency: 'EUR' }}</span>
+      </div>
+      <div>
+        <p>Versand</p>
+        <span>{{ shippingCost | currency: 'EUR' }}</span>
+      </div>
+      <div>
+        <p>Gesamtpreis</p>
+        <span>{{ total | currency: 'EUR' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

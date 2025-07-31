@@ -1,0 +1,51 @@
+<div class="quizz-container">
+
+  <div *ngIf="isLoading">Loading questions...</div>
+
+  <div *ngIf="!isLoading && questions.length === 0">
+    <p>Keine Fragen verfügbar.</p>
+  </div>
+
+  <div *ngIf="!isLoading && !skinType">
+    <div class="question-box">
+      <span class="question-text">
+        {{ currentQuestionIndex + 1 }}. {{ questions[currentQuestionIndex].text }}
+      </span>
+    </div>
+
+    <div class="option"
+         *ngFor="let option of questions[currentQuestionIndex].options"
+         [class.selected]="selectedAnswers[questions[currentQuestionIndex].key] === option"
+         (click)="selectAnswer(option)">
+      {{ option }}
+    </div>
+
+    <button class="btn btn-back" *ngIf="currentQuestionIndex > 0" (click)="previousQuestion()">← Back</button>
+    <button
+      class="btn btn-next"
+      type="button"
+      [disabled]="!selectedAnswers[questions[currentQuestionIndex].key]"
+      (click)="isLastQuestion() ? finishQuiz() : nextQuestion()">
+      {{ isLastQuestion() ? 'Finish' : 'Next Question' }} →
+    </button>
+  </div>
+
+  <div *ngIf="skinType" class="results-container">
+  <h2>👏 Analyse abgeschlossen!</h2>
+
+  <div class="results-content">
+    <p>Basierend auf deinen Antworten scheint dein Hauttyp zu sein:</p>
+    <div class="skin-result">
+      <h2>{{ skinType }}</h2>
+      <p>{{ skinAdvice }}</p>
+    </div>
+  </div>
+
+  <a routerLink="/hautanalyse" class="link-cta">
+    → Starte jetzt die Hautanalyse mit Kamera, um noch präzisere Empfehlungen zu erhalten.
+  </a>
+
+  <button class="btn" (click)="resetQuiz()">↻ Start Again</button>
+</div>
+
+</div>

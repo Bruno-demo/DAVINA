@@ -1,0 +1,310 @@
+{
+	"info": {
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Lola\", \"email\": \"Lola@example.com\", \"password\": \"123456\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"email\": \"Lola@example.com\", \"password\": \"123456\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+            "name": "POST /api/quiz - User macht ein Quiz",
+            "request": {
+                "method": "POST",
+                "header": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }
+                ],
+                "body": {
+                "mode": "raw",
+                "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"answers\": {\n    \"q1\": \"ja\",\n    \"q2\": \"nein\",\n    \"q3\": \"ja\",\n    \"q4\": \"nein\",\n    \"q5\": \"nein\",\n    \"q6\": \"ja\",\n    \"q7\": \"nein\",\n    \"q8\": \"nein\",\n    \"q9\": \"nein\",\n    \"q10\": \"ja\"\n  }\n}",
+                "options": {
+                    "raw": {
+                    "language": "json"
+                    }
+                }
+                },
+                "url": {
+                "raw": "http://localhost:3001/api/quiz",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3001",
+                "path": ["api", "quiz"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST /api/skin/analyse - Skinanalyse User",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                "mode": "formdata",
+                "formdata": [
+                    {
+                    "key": "userId",
+                    "value": "65e1234567abcd00123ef890",
+                    "type": "text"
+                    },
+                    {
+                    "key": "skinImage",
+                    "type": "file",
+                    "src": "group_m_fullstack_sose25/backend/src/utils/TestImage.png"
+                    }
+                ]
+                },
+                "url": {
+                "raw": "http://localhost:3001/api/skin-analysis/analyse",
+                "protocol": "http",
+                "host": [
+                    "localhost"
+                ],
+                "port": "3001",
+                "path": [
+                    "api",
+                    "skin",
+                    "analyse"
+                ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET /api/products - User sieht alle Produkte",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                "raw": "http://localhost:3001/api/product-items",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3001",
+                "path": ["api", "products"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Produkt A in den Warenkorb legen",
+            "request": {
+                "method": "POST",
+                "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Authorization", "value": "Bearer {{userToken}}" }
+                ],
+                "body": {
+                "mode": "raw",
+                "raw": "{\n  \"product_id\": \"{{productA}}\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                "raw": "http://localhost:3001/api/warenkorb/add",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3001",
+                "path": ["api", "warenkorb", "add"]
+                }
+            },
+            "response": []
+        },
+        {
+        "name": " Produkt B in den Warenkorb legen",
+        "request": {
+            "method": "POST",
+            "header": [
+            { "key": "Content-Type", "value": "application/json" },
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "body": {
+            "mode": "raw",
+            "raw": "{\n  \"product_id\": \"{{productB}}\",\n  \"quantity\": 2\n}"
+            },
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/add",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "add"]
+            }
+        },
+        "response": []
+        },
+        {
+        "name": "Produkt C in den Warenkorb legen",
+        "request": {
+            "method": "POST",
+            "header": [
+            { "key": "Content-Type", "value": "application/json" },
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "body": {
+            "mode": "raw",
+            "raw": "{\n  \"product_id\": \"{{productC}}\",\n  \"quantity\": 1\n}"
+            },
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/add",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "add"]
+            }
+        },
+        "response": []
+        },
+        {
+        "name": " Warenkorb anzeigen",
+        "request": {
+            "method": "GET",
+            "header": [
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/me",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "me"]
+            }
+        },
+        "response": []
+        },
+        {
+        "name": " Menge von Produkt B erhöhen",
+        "request": {
+            "method": "PUT",
+            "header": [
+            { "key": "Content-Type", "value": "application/json" },
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "body": {
+            "mode": "raw",
+            "raw": "{\n  \"product_id\": \"{{productB}}\",\n  \"quantity\": 3\n}"
+            },
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/update",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "update"]
+            }
+        },
+        "response": []
+        },
+        {
+        "name": " Produkt A aus dem Warenkorb entfernen",
+        "request": {
+            "method": "DELETE",
+            "header": [
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/remove/{{productA}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "remove", "{{productA}}"]
+            }
+        },
+        "response": []
+        },
+        {
+        "name": "Endgültigen Warenkorb mit Gesamtpreis anzeigen",
+        "request": {
+            "method": "GET",
+            "header": [
+            { "key": "Authorization", "value": "Bearer {{userToken}}" }
+            ],
+            "url": {
+            "raw": "http://localhost:3001/api/warenkorb/me",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3001",
+            "path": ["api", "warenkorb", "me"]
+            }
+        },
+        "response": []
+        },
+        {
+            "name": "POST /api/payments – Bestellung + Zahlung",
+            "request": {
+                "method": "POST",
+                "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Authorization", "value": "Bearer {{userToken}}" }
+                ],
+                "body": {
+                "mode": "raw",
+                "raw": "{}"
+                },
+                "url": {
+                "raw": "http://localhost:3001/api/payments",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "3001",
+                "path": ["api", "payments"]
+                }
+            },
+            "response": []
+        }
+    ]
+}
+
+		

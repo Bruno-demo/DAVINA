@@ -1,0 +1,74 @@
+<div class="product-card">
+  
+  <div class="product-image" *ngIf="!isEditing && product.image_url">
+    <img [src]="product.image_url" [alt]="product.p_name" loading="lazy">
+  </div>
+
+  <div class="product-content">
+
+    <h2 *ngIf="!isEditing">{{ product.p_name }}</h2>
+    
+    <div class="product-details-edit" *ngIf="isEditing">
+      <div class="form-group">
+        <label for="edit-name">Produktname</label>
+        <input id="edit-name" [(ngModel)]="editedProduct.p_name" placeholder="Nom du produit" />
+      </div>
+
+      <div class="form-group">
+        <label for="edit-image">Bild-URL</label>
+        <input id="edit-image" type="text" [(ngModel)]="editedProduct.image_url" placeholder="URL de l'image" />
+      </div>
+
+      <div class="form-group">
+        <label for="edit-desc">Beschreibung des Produkt</label>
+        <textarea id="edit-desc" [(ngModel)]="editedProduct.p_description" placeholder="Description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-price">Preise</label>
+        <input id="edit-price" type="number" [(ngModel)]="editedProduct.price" placeholder="Prix" />
+      </div>
+
+      <div class="form-group">
+        <label for="edit-skin-type">Hauttyp</label>
+        <select id="edit-skin-type" [(ngModel)]="editedProduct.skin_typ_target">
+          <option value="fettig">Fettig</option>
+          <option value="trocken">Trocken</option>
+          <option value="misch">Misch</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-effect">Effekt</label>
+        <select id="edit-effect" [(ngModel)]="editedProduct.effect">
+          <option value="Hydratation">Hydratation</option>
+          <option value="Anti-Akne">Anti-Akne</option>
+          <option value="Beruhigend">Beruhigend</option>
+          <option value="Mattierend">Mattierend</option>
+          <option value="Anti-Age">Anti-Age</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn save-btn" (click)="saveChanges()">Speichern</button>
+        <button class="btn cancel-btn" (click)="cancelEdit()">Stornieren</button>
+      </div>
+    </div>
+
+    <div *ngIf="!isEditing">
+      <p class="beschreibung">{{ product.p_description || 'Beschreibung nicht verfügbar' }}</p>
+      <p>{{ product.price | currency: 'EUR' }}</p>
+      <p>
+        <strong>Hauttyp:</strong> {{ product.skin_typ_target | titlecase }}<br>
+        <strong>Effekt:</strong> {{ product.effect }}
+      </p>
+      <div class="buttons">
+        <button class="btn edit-btn" (click)="enableEdit()">Ändern</button>
+        <i class="fa-solid fa-trash-can delete-icon" (click)="deleteProduct()" title="Löschen" role="button"></i>
+      </div>
+    </div>
+    
+  </div>
+
+</div>

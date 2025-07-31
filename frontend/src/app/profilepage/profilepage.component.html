@@ -1,0 +1,81 @@
+<div class="wrapper" *ngIf="userDetails">
+
+    <section class="profile-panel">
+      <div class="avatar-icon">👤</div>
+      <h2>{{ userDetails.name }}</h2>
+      <p class="email">{{ userDetails.email }}</p>
+      <p class="role-badge">{{ userDetails.role }}</p>
+
+      <div class="btn-group">
+        <button *ngIf="isAdmin" class="btn admin" (click)="navigateToAdmin()">👨‍💼 Admin Dashboard</button>
+        <button class="btn dark" (click)="logout()">🚪 Logout</button>
+        <button class="btn danger" (click)="confirmDelete()">🗑️ Delete Account</button>
+      </div>
+
+      <div class="modal-overlay" *ngIf="showDeleteConfirm">
+        <div class="modal">
+          <h3>Confirm Account Deletion</h3>
+          <p>Are you sure you want to delete your account? This action is irreversible.</p>
+          <div class="modal-actions">
+            <button class="cancel-btn" (click)="showDeleteConfirm = false">Cancel</button>
+            <button class="confirm-btn" (click)="deleteAccount()">Delete</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="orders-panel" *ngIf="orders.length > 0; else noOrders">
+      <h3>🛒 Bestellübersicht</h3>
+
+      <div class="order-table-container">
+        <table class="order-table">
+          <thead>
+            <tr class="table-header">
+              <th>Bestell-Nr.</th>
+              <th>Datum</th>
+              <th>Produkte</th>
+              <th>Menge</th>
+              <th>Preis</th>
+              <th>Gesamt</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders; let i = index" class="table-row">
+              <td>#{{ i + 1 }}</td>
+              <td>{{ order.createdAt | date:'medium' }}</td>
+              <td>
+                <div *ngFor="let item of order.ordered_items" class="product-item">
+                  <span class="product-name">{{ item.name }}</span>
+                </div>
+              </td>
+              <td>
+                <div *ngFor="let item of order.ordered_items">
+                  {{ item.quantity }}
+                </div>
+              </td>
+              <td>
+                <div *ngFor="let item of order.ordered_items">
+                  €{{ item.price | number:'1.2-2' }}
+                </div>
+              </td>
+               <td>
+              €{{ order.total_price | number:'1.2-2' }}
+              </td>
+              <td>
+                <span class="status" [ngClass]="order.status.toLowerCase()">
+                  {{ order.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <ng-template #noOrders>
+      <p class="no-orders" *ngIf="!isAdmin">🛍️ Du hast noch keine Bestellungen.</p>
+    </ng-template>
+
+</div>

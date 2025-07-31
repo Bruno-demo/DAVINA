@@ -1,0 +1,236 @@
+.liefConteneur{
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .liefConteneur{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .liefConteneur-1, .liefConteneur-2 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .liefConteneur .liefConteneur-1{
+    order: 2;
+  }
+  .liefConteneur .liefConteneur-2{
+    order: 1;
+  }
+}
+
+
+.liefConteneur-1, .liefConteneur-2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  padding: 10px;
+}
+
+.liefConteneur-2 .liefContProd-1, .liefConteneur-2 .liefContProd-2{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 10px;
+}
+
+.liefConteneur-2 .liefContProd-2{
+  margin-top: 40px;
+  border-top: 1px solid #333;
+}
+
+.liefConteneur-2 .liefContProd-2 div{
+  width: 98%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.liefConteneur-2 .liefContProd-2 div:last-child {
+  margin-top: 15px;
+}
+
+.liefConteneur-2 .liefContProd-2 div p{
+  color: #EE046C;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.liefContProd-2 div span {
+  color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.liefConteneur-2 .liefContProd-2 div:last-child p {
+  color: #EE046C;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.liefContProd-2 div:last-child span{
+  color: rgba(0, 0, 0, 0.90);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.liefConteneur-1 .title-form {
+  text-align: left;
+  width: 90%;
+}
+
+.liefConteneur-1 .title-form h2{
+   color: #EE046C;
+}
+
+.liefForm {
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto;
+}
+
+.liefForm .input-cont {
+  width: 100%;
+}
+
+.liefForm .liefForm-title-1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.liefForm .liefForm-title-1 h4{
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.liefForm .liefForm-title-1 h6{
+  color: rgba(0, 0, 0, 0.60);
+  text-align: right;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+
+.liefForm .liefFormCont-2{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.liefForm .input-cont input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #f48fb9;
+  outline: none;
+  color: #666;
+  font-weight: 550;
+  font-family: Arial, sans-serif;
+}
+
+.liefForm .input-cont input::placeholder {
+  color: #999;
+  font-weight: 600;
+}
+
+.liefForm .input-cont input:focus {
+  border-color: #EE046C;
+  box-shadow: 0 0 5px rgba(255, 105, 180, 0.4);
+}
+
+.liefFormPay {
+ border: 1px solid #f48fb9;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 10px;
+  background-color: #fff9fb;
+  transition: border 0.3s ease;
+}
+.liefFormPay:hover {
+  border-color: #ee046c;
+}
+
+.liefFormPay label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.liefFormPay input[type="radio"] {
+  accent-color: #ee046c;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.liefFormPay label input {
+  transform: scale(1.5);
+}
+
+.liefFormPay label .label-text {
+  color: rgba(0, 0, 0, 0.70);
+}
+
+.liefForm .liefForm-title-2 {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.liefForm .liefForm-title-2 h4 {
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.liefForm .liefForm-title-2 p {
+  color: rgba(0, 0, 0, 0.60);
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.liefFormPay i.fa-paypal {
+  font-size: 1.3rem;
+  color: #003087;
+}
+
+.liefFormPay i {
+  font-size: 1.3rem;
+  color: #444;
+}

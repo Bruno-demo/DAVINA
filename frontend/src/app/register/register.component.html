@@ -1,0 +1,81 @@
+<div class="wrapper">
+<h1 class="login-header">Konto erstellen</h1>
+<div class="register-login-container">
+  <form #signupForm="ngForm" (ngSubmit)="register(signupForm)" class="box">
+    <div class="field">
+      <label class="label" for="name">Name:</label>
+      <div>
+        <input
+          class="input"
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="data.name"
+          placeholder="Enter your Full Name"
+          required />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="email">E-mail:</label>
+      <div>
+        <input
+          class="input"
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="data.email"
+          placeholder="Enter your email"
+          required />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="password">Passwort:</label>
+      <div>
+        <input
+          class="input"
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="data.password"
+          placeholder="Enter your password" />
+      </div>
+    </div>
+    <div class="field">
+  <label class="label" for="confirmPassword">Passwort bestätigen:</label>
+  <div>
+    <input
+      class="input"
+      type="password"
+      id="confirmPassword"
+      name="confirmPassword"
+      [(ngModel)]="data.confirmPassword"
+      placeholder="Confirm your password"
+      required />
+  </div>
+</div>
+    <div class="field">
+      <label class="label" for="password_confirmation"></label>
+      @if (showPasswordInfo) {
+        <p class="help is-danger">
+        Das Passwort muss mindestens 8 Zeichen
+        lang sein und mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.
+        </p>
+      }
+    </div>
+    <div class="field is-grouped">
+      <div class="control">
+        <input class="btn login-btn" type="submit" value="Sign up" />
+      </div>
+    </div>
+  </form>
+
+  <div class="box">
+    <p>
+      Du hast bereits ein Konto? Klicke <a [routerLink]="['/login']">hier</a> , um dich anzumelden,
+    </p>
+  </div>
+  <p class="has-text-centered" style="color: rgb(128, 0, 0)">
+    {{ responseMessage }}
+  </p>
+</div>
+</div>
