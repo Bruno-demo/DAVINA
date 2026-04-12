@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
-export type SkinType = "fettig" | "trocken" | "misch" | "normal";
+export type SkinType = "oily" | "dry" | "combination" | "normal";
 
 export interface ISkinAnalysis extends Document {
   userId: number;
@@ -26,7 +26,7 @@ const SkinAnalysisSchema: Schema<ISkinAnalysis> = new Schema({
   },
   skin_typ_target: {
     type: String,
-    enum: ["fettig", "trocken", "misch", "normal"],
+    enum: ["oily", "dry", "combination", "normal"],
     required: true,
   },
   recommendedProducts: [

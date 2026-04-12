@@ -1,0 +1,81 @@
+<section class="gift-cards-page">
+  <h1><i class="fa-solid fa-gift"></i> Gift Cards</h1>
+  <p class="subtitle">Give the gift of beautiful skin — send a Davina gift card to someone special.</p>
+
+  <div class="tabs">
+    <button [class.active]="activeTab === 'purchase'" (click)="activeTab = 'purchase'"><i class="fa-solid fa-bag-shopping"></i> Purchase Gift Card</button>
+    <button [class.active]="activeTab === 'balance'" (click)="activeTab = 'balance'"><i class="fa-solid fa-wallet"></i> Check Balance</button>
+  </div>
+
+  <!-- Purchase Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'purchase'">
+    <form (ngSubmit)="purchaseGiftCard()" #purchaseForm="ngForm">
+      <div class="amount-selector">
+        <label>Select Amount</label>
+        <div class="amount-options">
+          <button type="button"
+            *ngFor="let preset of presetAmounts"
+            [class.selected]="amount === preset"
+            (click)="selectAmount(preset)">
+            RWF {{ preset }}
+          </button>
+        </div>
+        <div class="custom-amount">
+          <label>Or enter custom amount (RWF)</label>
+          <input type="number" [(ngModel)]="amount" name="amount" min="5" max="500" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Email</label>
+        <input type="email" [(ngModel)]="senderEmail" name="senderEmail" required placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Recipient Email</label>
+        <input type="email" [(ngModel)]="recipientEmail" name="recipientEmail" required placeholder="recipient@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Recipient Name (optional)</label>
+        <input type="text" [(ngModel)]="recipientName" name="recipientName" placeholder="Their name" />
+      </div>
+
+      <div class="form-group">
+        <label>Personal Message (optional)</label>
+        <textarea [(ngModel)]="message" name="message" rows="3" placeholder="Write a personal message..."></textarea>
+      </div>
+
+      <div class="alert success" *ngIf="purchaseSuccess">{{ purchaseSuccess }}</div>
+      <div class="alert error" *ngIf="purchaseError">{{ purchaseError }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="purchaseLoading">
+        <i class="fa-solid fa-paper-plane"></i> {{ purchaseLoading ? 'Processing...' : 'Purchase Gift Card — RWF ' + amount }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Balance Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'balance'">
+    <form (ngSubmit)="checkBalance()" #balanceForm="ngForm">
+      <div class="form-group">
+        <label>Gift Card Code</label>
+        <input type="text" [(ngModel)]="balanceCode" name="balanceCode" required placeholder="Enter your gift card code" />
+      </div>
+
+      <div class="alert error" *ngIf="balanceError">{{ balanceError }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="balanceLoading">
+        <i class="fa-solid fa-magnifying-glass"></i> {{ balanceLoading ? 'Checking...' : 'Check Balance' }}
+      </button>
+
+      <div class="balance-result" *ngIf="balanceResult">
+        <div class="balance-card">
+          <span class="balance-label">Remaining Balance</span>
+          <span class="balance-amount">RWF {{ balanceResult.balance.toFixed(0) }}</span>
+          <span class="balance-expires">Expires: {{ balanceResult.expires_at | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

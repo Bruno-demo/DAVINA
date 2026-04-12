@@ -1,0 +1,250 @@
+<div class="wrapper">
+
+  <div *ngIf="isLoading" class="loading-state">
+    <p>Loading product...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <h2>Product not found</h2>
+    <p>{{ error }}</p>
+    <a routerLink="/products" class="btn">Back to Products</a>
+  </div>
+
+  <div *ngIf="product && !isLoading" class="product-detail">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a routerLink="/">Home</a>
+      <span>/</span>
+      <a routerLink="/products">Products</a>
+      <span>/</span>
+      <span class="current">{{ product.p_name }}</span>
+    </nav>
+
+    <div class="detail-grid">
+      <!-- Image Gallery -->
+      <div class="detail-image-col">
+        <div class="main-image">
+          <img *ngIf="allImages.length > 0" [src]="allImages[selectedImageIndex]" [alt]="product.p_name" loading="eager">
+          <div *ngIf="allImages.length === 0" class="no-image">
+            <i class="fa-solid fa-image"></i>
+          </div>
+        </div>
+        <div class="thumbnail-strip" *ngIf="allImages.length > 1">
+          <button
+            *ngFor="let img of allImages; let i = index"
+            class="thumb"
+            [class.active]="i === selectedImageIndex"
+            (click)="selectImage(i)">
+            <img [src]="img" [alt]="'Image ' + (i + 1)" loading="lazy">
+          </button>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="detail-info">
+        <div class="detail-badges">
+          <span class="badge badge-skin">{{ formatSkinType(product.skin_typ_target) }}</span>
+          <span class="badge badge-effect">{{ formatEffect(product.effect) }}</span>
+          <span class="badge badge-category" *ngIf="product.category">{{ product.category }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ product.p_name }}</h1>
+        <p class="detail-price">{{ effectivePrice | currency:'RWF':'symbol':'1.0-0' }}</p>
+
+        <!-- Variant Selector -->
+        <div class="variant-selector" *ngIf="product.variants && product.variants.length > 0">
+          <p class="variant-label">Options:</p>
+          <div class="variant-options">
+            <button *ngFor="let v of product.variants; let i = index"
+                    class="variant-btn"
+                    [class.selected]="selectedVariantIndex === i"
+                    [class.out-of-stock]="v.stock <= 0"
+                    [disabled]="v.stock <= 0"
+                    (click)="selectVariant(i)">
+              {{ v.label }}
+              <span class="variant-price" *ngIf="v.price_modifier !== 0">
+                ({{ v.price_modifier > 0 ? '+' : '' }}{{ v.price_modifier | currency:'RWF':'symbol':'1.0-0' }})
+              </span>
+              <span class="variant-oos" *ngIf="v.stock <= 0">Out of stock</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rating Summary -->
+        <div class="rating-summary" *ngIf="product.average_rating">
+          <span class="stars">
+            <i *ngFor="let s of getStars(product.average_rating)" class="fa-solid fa-star"></i>
+            <i *ngFor="let s of getEmptyStars(product.average_rating)" class="fa-regular fa-star"></i>
+          </span>
+          <span class="rating-text">{{ product.average_rating.toFixed(1) }} ({{ product.review_count || 0 }} reviews)</span>
+        </div>
+
+        <p class="detail-description">{{ product.p_description || 'No description available for this product.' }}</p>
+
+        <!-- Quantity & Add to Cart -->
+        <div class="detail-actions">
+          <div class="quantity-selector">
+            <button (click)="decreaseQty()" [disabled]="quantity <= 1">−</button>
+            <span>{{ quantity }}</span>
+            <button (click)="increaseQty()" [disabled]="!product || quantity >= product.stock">+</button>
+          </div>
+          <button class="btn btn-add-cart" (click)="addToCart()"
+            [disabled]="isAddingToCart || !product || product.stock === 0">
+            <span *ngIf="!isAddingToCart && product && product.stock > 0">Add to Cart</span>
+            <span *ngIf="product && product.stock === 0">Out of Stock</span>
+            <span *ngIf="isAddingToCart">Adding...</span>
+          </button>
+          <button class="btn-wishlist" (click)="toggleWishlist()" [disabled]="wishlistLoading"
+                  [class.active]="isInWishlist">
+            <i [class]="isInWishlist ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+          <button class="btn-compare" (click)="toggleComparison()" [class.active]="isInComparison" title="Compare">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </button>
+        </div>
+
+        <div *ngIf="addToCartSuccess" class="notification is-success">Product added to cart!</div>
+        <div *ngIf="addToCartError" class="notification is-danger">{{ addToCartError }}</div>
+
+        <!-- Social Sharing -->
+        <div class="social-share">
+          <span>Share:</span>
+          <button (click)="shareOn('facebook')" class="share-btn"><i class="fa-brands fa-facebook-f"></i></button>
+          <button (click)="shareOn('twitter')" class="share-btn"><i class="fa-brands fa-x-twitter"></i></button>
+          <button (click)="shareOn('pinterest')" class="share-btn"><i class="fa-brands fa-pinterest-p"></i></button>
+        </div>
+
+        <!-- Details Meta -->
+        <div class="detail-meta">
+          <div class="meta-item">
+            <i class="fa-solid fa-leaf"></i>
+            <div>
+              <strong>Skin Type</strong>
+              <span>Best for {{ formatSkinType(product.skin_typ_target) }} skin</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <i class="fa-solid fa-flask-vial"></i>
+            <div>
+              <strong>Effect</strong>
+              <span>{{ formatEffect(product.effect) }}</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <div>
+              <strong>Promise</strong>
+              <span>100% Vegan, Cruelty-Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs: Description / Ingredients / Reviews -->
+    <div class="product-tabs">
+      <div class="tabs-header">
+        <button [class.active]="activeTab === 'description'" (click)="activeTab = 'description'">Description</button>
+        <button [class.active]="activeTab === 'ingredients'" (click)="activeTab = 'ingredients'">Ingredients</button>
+        <button [class.active]="activeTab === 'reviews'" (click)="activeTab = 'reviews'">Reviews ({{ reviewTotal }})</button>
+      </div>
+
+      <div class="tab-content" *ngIf="activeTab === 'description'">
+        <p>{{ product.p_description || 'No description available.' }}</p>
+      </div>
+
+      <div class="tab-content" *ngIf="activeTab === 'ingredients'">
+        <div *ngIf="product.ingredients && product.ingredients.length > 0" class="ingredients-list">
+          <span *ngFor="let ing of product.ingredients" class="ingredient-tag">{{ ing }}</span>
+        </div>
+        <p *ngIf="!product.ingredients || product.ingredients.length === 0" class="empty-tab">
+          No ingredients listed for this product.
+        </p>
+      </div>
+
+      <div class="tab-content" *ngIf="activeTab === 'reviews'">
+        <div class="reviews-header">
+          <h3>Customer Reviews</h3>
+          <button class="btn-write-review" (click)="showReviewForm = !showReviewForm">
+            {{ showReviewForm ? 'Cancel' : 'Write a Review' }}
+          </button>
+        </div>
+
+        <!-- Review Form -->
+        <div *ngIf="showReviewForm" class="review-form">
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="star-select">
+              <button *ngFor="let star of [1,2,3,4,5]" (click)="reviewRating = star"
+                      [class.active]="star <= reviewRating">
+                <i class="fa-solid fa-star"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" [(ngModel)]="reviewTitle" placeholder="Summarize your experience" />
+          </div>
+          <div class="form-group">
+            <label>Comment</label>
+            <textarea [(ngModel)]="reviewComment" rows="4" placeholder="Tell others about your experience..."></textarea>
+          </div>
+          <div *ngIf="reviewError" class="notification is-danger">{{ reviewError }}</div>
+          <button class="btn-submit-review" (click)="submitReview()" [disabled]="reviewSubmitting">
+            {{ reviewSubmitting ? 'Submitting...' : 'Submit Review' }}
+          </button>
+        </div>
+
+        <!-- Review List -->
+        <div class="reviews-list">
+          <div *ngFor="let review of reviews" class="review-card">
+            <div class="review-header">
+              <span class="review-author">{{ review.user_name }}</span>
+              <span class="review-stars">
+                <i *ngFor="let s of getStars(review.rating)" class="fa-solid fa-star"></i>
+                <i *ngFor="let s of getEmptyStars(review.rating)" class="fa-regular fa-star"></i>
+              </span>
+            </div>
+            <h4 *ngIf="review.title" class="review-title">{{ review.title }}</h4>
+            <p class="review-comment">{{ review.comment }}</p>
+          </div>
+          <p *ngIf="reviews.length === 0 && !showReviewForm" class="empty-tab">No reviews yet. Be the first to share your experience!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <div *ngIf="relatedProducts.length > 0" class="related-section">
+      <h2>You May Also Like</h2>
+      <div class="related-grid">
+        <a *ngFor="let rp of relatedProducts" [routerLink]="['/products', rp._id]" class="related-card">
+          <div class="related-img">
+            <img *ngIf="rp.image_url" [src]="rp.image_url" [alt]="rp.p_name" loading="lazy">
+          </div>
+          <div class="related-info">
+            <h4>{{ rp.p_name }}</h4>
+            <p>{{ rp.price | currency:'RWF':'symbol':'1.0-0' }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Recently Viewed -->
+    <div *ngIf="recentlyViewed.length > 0" class="related-section">
+      <h2>Recently Viewed</h2>
+      <div class="related-grid">
+        <a *ngFor="let rv of recentlyViewed" [routerLink]="['/products', rv._id]" class="related-card">
+          <div class="related-img">
+            <img *ngIf="rv.image_url" [src]="rv.image_url" [alt]="rv.p_name" loading="lazy">
+          </div>
+          <div class="related-info">
+            <h4>{{ rv.p_name }}</h4>
+            <p>{{ rv.price | currency:'RWF':'symbol':'1.0-0' }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

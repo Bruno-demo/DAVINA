@@ -1,9 +1,8 @@
-version: "3.9"
-
 services:
   backend:
     build: ./backend
     container_name: backend
+    restart: unless-stopped
     ports:
       - "3001:3000"
     env_file:
@@ -13,20 +12,25 @@ services:
         condition: service_healthy
       mongo:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
-      - ./backend:/app
       - ./dump:/dump
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: angular-frontend
+    restart: unless-stopped
     ports:
-      - "4200:4200"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "4200:80"
     depends_on:
       - backend
     environment:
@@ -36,27 +40,29 @@ services:
   mongo:
     image: mongo:6
     container_name: mongo
+    restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
       interval: 10s
-      timeout: 5s
+      timeout: 15s
       start_period: 50s
       retries: 5
 
   postgres:
     image: postgres:17
     container_name: postgres
+    restart: unless-stopped
     environment:
       POSTGRES_HOST_AUTH_METHOD: md5
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Fullstack25
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Fullstack25}
       POSTGRES_DB: skincare
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -66,6 +72,22 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   mongo_data:
   postgres_data:
+  redis_data:

@@ -1,52 +1,52 @@
-export type SkinType = 'fettig' | 'trocken' | 'normal' | 'misch';
+export type SkinType = 'oily' | 'dry' | 'normal' | 'combination';
 
 export function mapSkinType(faceApiValue: number): SkinType {
-  const mapping: SkinType[] = ['fettig', 'trocken', 'normal', 'misch'];
+  const mapping: SkinType[] = ['oily', 'dry', 'normal', 'combination'];
   return mapping[faceApiValue] || 'normal';
 }
 
 export function SkinAdviceforSkinAnalyse(skinType: SkinType): string {
   const advices: Record<SkinType, string> = {
-    fettig: `
-Ihre Haut neigt zur übermäßigen Talgproduktion, was häufig zu glänzender Haut, erweiterten Poren und gelegentlichen Unreinheiten führen kann. 
-Um das Gleichgewicht Ihrer Haut wiederherzustellen, empfehlen wir Ihnen:
+    oily: `
+Your skin tends to produce excess oil, which can lead to shine, enlarged pores, and occasional blemishes.
+To restore balance, we recommend:
 
-- **Leichte, ölfreie Feuchtigkeitscremes**, die hydratisieren ohne zu fetten.
-- **Reinigungsgele mit talgregulierenden Inhaltsstoffen** wie Salicylsäure oder Niacinamid.
-- **Mattierende Produkte**, die den Glanz reduzieren, ohne Ihre Haut auszutrocknen.
+- **Lightweight, oil-free moisturizers** that hydrate without feeling greasy.
+- **Cleansing gels with oil-regulating ingredients** such as salicylic acid or niacinamide.
+- **Mattifying products** that reduce shine without drying out your skin.
 
-Regelmäßige sanfte Reinigung ist entscheidend, um verstopfte Poren zu verhindern. Aggressive Reinigungsmethoden könnten jedoch die Talgproduktion weiter anregen.`,
+Gentle, regular cleansing is key to preventing clogged pores. However, harsh cleansing can stimulate even more oil production.`,
 
-    trocken: `
-Ihre Haut produziert nicht ausreichend Lipide und neigt dadurch zu Spannungsgefühlen, Trockenheitsfältchen und schuppigen Partien.
-Zur Unterstützung Ihrer Haut empfehlen wir:
+    dry: `
+Your skin does not produce enough lipids and may feel tight, show fine dryness lines, or have flaky patches.
+To support your skin, we recommend:
 
-- **Reichhaltige Feuchtigkeitscremes** mit Inhaltsstoffen wie Hyaluronsäure, Ceramiden und pflanzlichen Ölen.
-- **Sanfte Reinigungsmilch** ohne Alkohol, um die Hautbarriere nicht zusätzlich zu strapazieren.
-- **Pflegende Masken**, die intensiv Feuchtigkeit spenden.
+- **Rich moisturizers** with ingredients like hyaluronic acid, ceramides, and plant oils.
+- **Gentle cleansing milk** without alcohol to avoid stressing the skin barrier.
+- **Nourishing masks** that provide intensive hydration.
 
-Eine konsequente, feuchtigkeitsspendende Pflege hilft, die Hautschutzbarriere nachhaltig zu stärken und Spannungsgefühle zu reduzieren.`,
+A consistent, hydrating routine helps strengthen the skin barrier and reduce tightness over time.`,
 
-    misch: `
-Ihre Haut zeigt sowohl fettige als auch trockene Bereiche. Häufig ist die T-Zone (Stirn, Nase, Kinn) glänzend, während die Wangen eher trocken oder normal erscheinen.
-Wir empfehlen:
+    combination: `
+Your skin shows both oily and dry areas. Often the T-zone (forehead, nose, chin) is shiny, while the cheeks are drier or normal.
+We recommend:
 
-- **Ausgleichende Pflegeprodukte**, die sowohl Feuchtigkeit spenden als auch überschüssigen Talg regulieren.
-- **Leichte Gelcremes** für die T-Zone und nährende Produkte für die trockenen Partien.
-- **Milde Reinigung**, die die Haut nicht austrocknet und gleichzeitig Unreinheiten vorbeugt.
+- **Balancing products** that hydrate while regulating excess oil.
+- **Light gel creams** for the T-zone and richer products for drier areas.
+- **Mild cleansing** that doesn't strip the skin while helping prevent blemishes.
 
-Ziel ist es, das Gleichgewicht zwischen den unterschiedlichen Hautpartien zu fördern, ohne einen Bereich zu überpflegen oder zu unterversorgen.`,
+The goal is to support balance across different areas without over-treating or neglecting any zone.`,
 
     normal: `
-Ihre Haut ist ausgeglichen, weder zu trocken noch zu fettig, hat ein ebenmäßiges Hautbild mit feinen Poren.
-Um diesen optimalen Zustand zu erhalten, empfehlen wir:
+Your skin is balanced—not too dry or too oily—with an even texture and fine pores.
+To maintain this, we recommend:
 
-- **Leichte, feuchtigkeitsspendende Pflege** mit Hyaluronsäure und Vitaminen.
-- **Sanfte Reinigung**, um Schmutz und Make-up ohne Reizung zu entfernen.
-- **Regelmäßiger Sonnenschutz**, um die Hautalterung durch UV-Strahlung vorzubeugen.
+- **Light hydrating care** with hyaluronic acid and vitamins.
+- **Gentle cleansing** to remove dirt and makeup without irritation.
+- **Regular sun protection** to help prevent UV-related aging.
 
-Achten Sie auf eine kontinuierliche Pflege-Routine, um Ihre gesunde Hautstruktur langfristig zu bewahren.`
+Stick to a consistent routine to keep your skin healthy long-term.`
   };
 
-  return advices[skinType] ?? 'Keine Empfehlung verfügbar.';
+  return advices[skinType] ?? 'No recommendation available.';
 }

@@ -1,45 +1,58 @@
 <div id="footer">
     <div id="footer-top">
       <div id="logo-container">
-        <div id="logo">Davina</div>
+        <a routerLink="/" id="logo"><span class="logo-icon"><i class="fa-solid fa-spa"></i></span>Davina</a>
+        <p class="tagline">Premium beauty &amp; cosmetics, crafted for you.</p>
         <div class="social-icons">
           <span>Follow us</span>
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
         </div>
       </div>
 
       <div id="link-container">
         <div class="linksblock">
           <div class="linksheader">Shop</div>
-          <a href="#" class="footer-link">Products</a>
-          <a href="#" class="footer-link">Collections</a>
-          <a href="#" class="footer-link">Sale</a>
+          <a routerLink="/products" class="footer-link"><i class="fa-solid fa-bag-shopping"></i> Products</a>
+          <a routerLink="/skin-type" class="footer-link"><i class="fa-solid fa-clipboard-question"></i> Skin Type Quiz</a>
+          <a routerLink="/skin-analysis" class="footer-link"><i class="fa-solid fa-microscope"></i> Skin Analysis</a>
+          <a routerLink="/compare" class="footer-link"><i class="fa-solid fa-code-compare"></i> Compare</a>
+          <a routerLink="/gift-cards" class="footer-link"><i class="fa-solid fa-gift"></i> Gift Cards</a>
+        </div>
+        <div class="linksblock">
+          <div class="linksheader">Account</div>
+          <a routerLink="/profile" class="footer-link"><i class="fa-solid fa-user"></i> Profile</a>
+          <a routerLink="/wishlist" class="footer-link"><i class="fa-solid fa-heart"></i> Wishlist</a>
+          <a routerLink="/orders" class="footer-link"><i class="fa-solid fa-box"></i> Order History</a>
+          <a routerLink="/addresses" class="footer-link"><i class="fa-solid fa-location-dot"></i> Addresses</a>
         </div>
         <div class="linksblock">
           <div class="linksheader">Help</div>
-          <a href="#" class="footer-link">Contact</a>
-          <a href="#" class="footer-link">Shipping</a>
-          <a href="#" class="footer-link">Returns</a>
+          <a routerLink="/contact" class="footer-link"><i class="fa-solid fa-envelope"></i> Contact</a>
+          <a routerLink="/shipping" class="footer-link"><i class="fa-solid fa-truck-fast"></i> Shipping</a>
+          <a routerLink="/returns" class="footer-link"><i class="fa-solid fa-rotate-left"></i> Returns</a>
+          <a routerLink="/support" class="footer-link"><i class="fa-solid fa-headset"></i> Support</a>
         </div>
         <div class="linksblock">
-          <div class="linksheader">Company</div>
-          <a href="#" class="footer-link">About</a>
-          <a href="#" class="footer-link">Careers</a>
-          <a href="#" class="footer-link">Press</a>
+          <div class="linksheader">Legal</div>
+          <a routerLink="/terms" class="footer-link"><i class="fa-solid fa-file-contract"></i> Terms &amp; Conditions</a>
+          <a routerLink="/privacy" class="footer-link"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
         </div>
+      </div>
+
+      <div id="newsletter-container">
+        <app-newsletter></app-newsletter>
       </div>
     </div>
 
   <div id="footer-bottom">
-    <div>
-      <span>Terms</span>
-      <span>|</span>
-      <span>Privacy</span>
-      <span>|</span>
-      <span>Cookies</span>
+    <div class="footer-bottom-links">
+      <a routerLink="/terms">Terms</a>
+      <span class="separator">|</span>
+      <a routerLink="/privacy">Privacy</a>
     </div>
-    <div>&copy; 2024 DAVINA. All rights reserved.</div>
+    <div>&copy; 2025&ndash;2026 DAVINA. All rights reserved.</div>
   </div>
 </div>

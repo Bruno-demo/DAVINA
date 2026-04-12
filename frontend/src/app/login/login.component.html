@@ -1,30 +1,116 @@
-<div class="wrapper">
-<h1 class="login-header">Einloggen</h1>
-<div class="register-login-container">
-  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="box">
-    <div class="field">
-      <label class="label">Email:</label>
-      <input
-        class="input"
-        type="email"
-        [(ngModel)]="credentials.email"
-        name="email"
-        placeholder="Enter your email"
-        required />
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="brand-mark">DB</div>
+      <span class="brand-name">Davina Beauty</span>
     </div>
-    <div class="field">
-      <label class="label">Password:</label>
-      <input
-        class="input"
-        type="password"
-        [(ngModel)]="credentials.password"
-        name="password"
-        placeholder="Enter your password"
-        required />
-    </div>
-    <button class="btn login-btn" type="submit">Login</button>
-     <div class="box"> <p><a routerLink= "/register" id="hier">Hier</a> Konto erstellen</p></div>
-  </form>
-  <p class=".has-text-centered" style="color: red">{{ responseMessage }}</p>
-</div>
+
+    <!-- ── STEP 1: Credentials ── -->
+    <ng-container *ngIf="!otpStep">
+
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to your account to continue</p>
+
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="auth-form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input
+            id="email"
+            class="form-input"
+            type="email"
+            [(ngModel)]="credentials.email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email" />
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label class="form-label" for="password">Password</label>
+            <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a>
+          </div>
+          <div class="input-wrap">
+            <input
+              id="password"
+              class="form-input"
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="credentials.password"
+              name="password"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password" />
+            <button type="button" class="toggle-pw" (click)="showPassword = !showPassword" tabindex="-1">
+              <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Email not verified warning -->
+        <div *ngIf="needsVerification" class="verify-banner">
+          <i class="fa-solid fa-envelope-circle-check"></i>
+          Please verify your email first.
+          <button type="button" class="btn-resend" (click)="resendVerification()">Resend email</button>
+        </div>
+
+        <div *ngIf="responseMessage && !needsVerification" class="error-banner">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          {{ responseMessage }}
+        </div>
+
+        <button class="btn-auth" type="submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Sign in</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Signing in…</span>
+        </button>
+
+      </form>
+
+      <div class="auth-divider"><span>New to Davina Beauty?</span></div>
+      <div class="auth-footer">
+        <a routerLink="/register" class="btn-auth-secondary">Create an account</a>
+      </div>
+
+    </ng-container>
+
+    <!-- ── STEP 2: OTP Verification ── -->
+    <ng-container *ngIf="otpStep">
+
+      <div class="otp-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h1 class="auth-title">Check your email</h1>
+      <p class="auth-subtitle">We sent a 6-digit code to <strong>{{ credentials.email }}</strong></p>
+
+      <div class="otp-input-group">
+        <input
+          class="form-input otp-input"
+          type="text"
+          [(ngModel)]="otpCode"
+          name="otp"
+          placeholder="000000"
+          maxlength="6"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+        />
+      </div>
+
+      <div *ngIf="responseMessage" class="error-banner">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ responseMessage }}
+      </div>
+
+      <button class="btn-auth" type="button" (click)="submitOtp()" [disabled]="isLoading || otpCode.length !== 6">
+        <span *ngIf="!isLoading">Verify &amp; Sign In</span>
+        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin"></i>&nbsp; Verifying…</span>
+      </button>
+
+      <div class="otp-footer">
+        <button class="btn-text" type="button" (click)="resendCode()">Resend code</button>
+        <span class="otp-sep">·</span>
+        <button class="btn-text" type="button" (click)="backToLogin()">Use different email</button>
+      </div>
+
+    </ng-container>
+
+  </div>
 </div>

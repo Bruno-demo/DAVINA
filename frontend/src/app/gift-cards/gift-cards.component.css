@@ -1,0 +1,208 @@
+.gift-cards-page {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.gift-cards-page h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.tabs button.active {
+  color: #c8102e;
+  border-bottom-color: #c8102e;
+  font-weight: 600;
+}
+
+.amount-selector {
+  margin-bottom: 1.5rem;
+}
+
+.amount-selector label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a2e;
+}
+
+.amount-options {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.amount-options button {
+  padding: 0.6rem 1.4rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.amount-options button.selected {
+  border-color: #c8102e;
+  background: #fef2f2;
+  color: #c8102e;
+  font-weight: 600;
+}
+
+.custom-amount {
+  margin-top: 0.5rem;
+}
+
+.custom-amount label {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: #1a1a2e;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #c8102e;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.85rem;
+  background: #c8102e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #a30d25;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.alert.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.alert.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.balance-result {
+  margin-top: 1.5rem;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #c8102e 100%);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.balance-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.balance-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.balance-expires {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .gift-cards-page h1 { color: #eae7e2; }
+:host-context([data-theme="dark"]) .subtitle { color: #a8a4a0; }
+:host-context([data-theme="dark"]) .tabs { border-bottom-color: #3a3a3a; }
+:host-context([data-theme="dark"]) .tabs button { color: #a8a4a0; }
+:host-context([data-theme="dark"]) .tabs button.active { color: #ff6b6b; border-bottom-color: #ff6b6b; }
+:host-context([data-theme="dark"]) .amount-selector label { color: #eae7e2; }
+:host-context([data-theme="dark"]) .amount-options button { border-color: #444; background: #2a2a2a; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .amount-options button.selected { border-color: #ff6b6b; background: #2e1a1a; color: #ff6b6b; }
+:host-context([data-theme="dark"]) .custom-amount label { color: #a8a4a0; }
+:host-context([data-theme="dark"]) .form-group label { color: #eae7e2; }
+:host-context([data-theme="dark"]) .form-group input,
+:host-context([data-theme="dark"]) .form-group textarea { border-color: #444; background: #1e1e1e; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .btn-primary { background: #c8102e; }
+:host-context([data-theme="dark"]) .alert.success { background: #1a2e1a; color: #6ee7b7; border-color: #2a4a2a; }
+:host-context([data-theme="dark"]) .alert.error { background: #2e1a1a; color: #fca5a5; border-color: #4a2a2a; }

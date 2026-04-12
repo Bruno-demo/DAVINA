@@ -1,39 +1,50 @@
 <header>
   <div id="head">
     <div class="top left">
-      <span id="hamburger" (click)="toggleNav()" [class.cross]="isNavOpen">
+      <span id="hamburger" (click)="toggleNav()" [class.cross]="isNavOpen" role="button" [attr.aria-expanded]="isNavOpen" aria-label="Toggle navigation menu">
         <i class="fa-solid fa-bars"></i>
       </span>
 
-      <span id="logo">Davina</span>
+      <a routerLink="/" id="logo"><span class="logo-icon"><i class="fa-solid fa-spa"></i></span>Davina</a>
     </div>
 
     <div class="top right">
-      <a (click)="toggleUserIconClick()" class="user_icon">
+      <app-store-switcher></app-store-switcher>
+
+      <button class="theme-toggle" (click)="themeService.toggle()" [attr.aria-label]="themeService.isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+        <i class="fa-solid" [class.fa-moon]="!themeService.isDark" [class.fa-sun]="themeService.isDark"></i>
+      </button>
+
+      <a routerLink="/wishlist" *ngIf="isLoggedIn" class="header-icon-link" title="Wishlist" aria-label="Wishlist">
+        <i class="fa-regular fa-heart"></i>
+      </a>
+
+      <a (click)="toggleUserIconClick()" class="user_icon" role="button" aria-label="User account">
         <i class="fa-solid fa-user"></i>
       </a>
 
   <div class="user_info_popup" *ngIf="!isLoggedIn && userInfoVisible">
-  <p class="info-title">Willkommen bei <strong>Davina</strong></p>
+  <p class="info-title">Welcome to <strong>Davina</strong></p>
 
   <div class="popup-section">
-    <p class="info-text">Neu hier?</p>
+    <p class="info-text">New here?</p>
     <a routerLink="/register" class="info-link">
-      <i class="fa-solid fa-user-plus"></i>registrieren
+      <i class="fa-solid fa-user-plus"></i> Sign up
     </a>
   </div>
 
   <div class="popup-section">
-    <p class="info-text">Schon ein Konto?</p>
+    <p class="info-text">Already have an account?</p>
     <a routerLink="/login" class="info-link">
-      <i class="fa-solid fa-right-to-bracket"></i> Einloggen
+      <i class="fa-solid fa-right-to-bracket"></i> Log in
     </a>
   </div>
 </div>
 
 
-      <a [routerLink]="[{ outlets: { modal: ['warenkorb'] } }]">
-        <i class="fas fa-shopping-cart"></i>
+      <a [routerLink]="[{ outlets: { modal: ['cart'] } }]" class="cart-link" aria-label="Shopping cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge" *ngIf="cartItemCount > 0" [attr.aria-label]="cartItemCount + ' items in cart'">{{ cartItemCount }}</span>
       </a>
     </div>
     <app-searchbar id="searchbar"></app-searchbar>
@@ -41,7 +52,7 @@
 
   <div class="overlay" [class.show]="isNavOpen" (click)="toggleNav()"></div>
 
-  <nav [class.show]="isNavOpen">
+  <nav [class.show]="isNavOpen" role="navigation" aria-label="Main navigation">
     <span class="mobile-hamburger" (click)="toggleNav()">
       <i
         class="fa-solid"
@@ -51,16 +62,22 @@
     </span>
 
     <a routerLink="" (click)="onNavLinkClick()"
-      ><i class="fa fa-home"></i> Home</a
+      ><i class="fa-solid fa-house"></i> Home</a
     >
-    <a routerLink="/hauttype" (click)="onNavLinkClick()"
-      ><i class="fa fa-solid fa-face-smile"></i> Hauttype</a
+    <a routerLink="/skin-type" (click)="onNavLinkClick()"
+      ><i class="fa-solid fa-face-smile"></i> Skin Type Quiz</a
     >
-    <a routerLink="/hautanalyse" (click)="onNavLinkClick()"
-      ><i class="fa fa-solid fa-microscope"></i> Hautanalyse</a
+    <a routerLink="/skin-analysis" (click)="onNavLinkClick()"
+      ><i class="fa-solid fa-microscope"></i> Skin Analysis</a
     >
-    <a routerLink="/produkte" (click)="onNavLinkClick()"
-      ><i class="fa fa-solid fa-pump-soap"></i> Produkte</a
+    <a routerLink="/products" (click)="onNavLinkClick()"
+      ><i class="fa-solid fa-pump-soap"></i> Products</a
+    >
+    <a routerLink="/wishlist" (click)="onNavLinkClick()" *ngIf="isLoggedIn"
+      ><i class="fa-solid fa-heart"></i> Wishlist</a
+    >
+    <a routerLink="/orders" (click)="onNavLinkClick()" *ngIf="isLoggedIn"
+      ><i class="fa-solid fa-clock-rotate-left"></i> Orders</a
     >
   </nav>
 </header>

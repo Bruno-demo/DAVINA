@@ -1,0 +1,96 @@
+<div class="addresses-page">
+  <div class="container">
+    <div class="page-header">
+      <h2 class="page-title">Saved Addresses</h2>
+      <button class="btn-add" (click)="openAddForm()" *ngIf="!showForm">
+        <i class="fa-solid fa-plus"></i> Add Address
+      </button>
+    </div>
+
+    <div *ngIf="successMsg" class="msg msg-success">{{ successMsg }}</div>
+    <div *ngIf="errorMsg" class="msg msg-error">{{ errorMsg }}</div>
+
+    <div *ngIf="isLoading" class="loading">Loading addresses...</div>
+
+    <!-- Address Form -->
+    <div *ngIf="showForm" class="address-form-card">
+      <h3>{{ editingId ? 'Edit Address' : 'New Address' }}</h3>
+      <form (ngSubmit)="saveAddress()" #addrForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Label</label>
+            <input type="text" [(ngModel)]="form.label" name="label" placeholder="e.g. Home, Office" required />
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" [(ngModel)]="form.phone" name="phone" placeholder="Phone number" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" [(ngModel)]="form.first_name" name="first_name" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" [(ngModel)]="form.last_name" name="last_name" placeholder="Last name" required />
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Street</label>
+          <input type="text" [(ngModel)]="form.street" name="street" placeholder="Street address" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input type="text" [(ngModel)]="form.postal_code" name="postal_code" placeholder="Postal code" required />
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" [(ngModel)]="form.city" name="city" placeholder="City" required />
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Country</label>
+          <input type="text" [(ngModel)]="form.country" name="country" placeholder="Country" />
+        </div>
+        <div class="form-group full checkbox-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="form.is_default" name="is_default" />
+            Set as default address
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancelForm()">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="addrForm.invalid">Save</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Address Cards -->
+    <div *ngIf="!isLoading && addresses.length === 0 && !showForm" class="empty-state">
+      <i class="fa-solid fa-map-location-dot"></i>
+      <p>No saved addresses yet.</p>
+    </div>
+
+    <div class="address-grid" *ngIf="addresses.length > 0">
+      <div class="address-card" *ngFor="let addr of addresses" [class.is-default]="addr.is_default">
+        <div class="card-header">
+          <span class="addr-label">{{ addr.label || 'Address' }}</span>
+          <span class="default-badge" *ngIf="addr.is_default">Default</span>
+        </div>
+        <div class="card-body">
+          <p>{{ addr.first_name }} {{ addr.last_name }}</p>
+          <p>{{ addr.street }}</p>
+          <p>{{ addr.postal_code }} {{ addr.city }}</p>
+          <p>{{ addr.country }}</p>
+          <p *ngIf="addr.phone" class="phone"><i class="fa-solid fa-phone"></i> {{ addr.phone }}</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn-edit" (click)="editAddress(addr)"><i class="fa-solid fa-pen"></i> Edit</button>
+          <button class="btn-delete" (click)="deleteAddress(addr.address_id!)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

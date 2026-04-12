@@ -1,71 +1,182 @@
-<div class="wrapper">
-  <img class="img-top" src="assets/images/photo-prodoktepage.png" alt="">
+<div class="home-wrapper">
 
-<div class="img-text-container">
-  <div class="text-container">
-  <div>
-    <h2>Hauttyp</h2>
-<h3>Verstehe deine Haut, um sie richtig zu pflegen</h3>
+  <!-- Hero Slider -->
+  <section class="hero-slider" (mouseenter)="stopAutoPlay()" (mouseleave)="restartAutoPlay()">
+    <!-- Slides -->
+    <div class="slider-track">
+      <div
+        *ngFor="let slide of heroSlides; let i = index"
+        class="slide"
+        [class.active]="i === currentSlide"
+        [class.exit]="i !== currentSlide">
 
-<p>Deine Haut ist so individuell wie dein Fingerabdruck. Sie reagiert auf Umwelteinflüsse, Stress, Hormone und Pflegegewohnheiten. Deshalb ist es wichtig, deinen Hauttyp genau zu kennen, um die passenden Produkte und Routinen zu wählen.</p>
+        <!-- Background image -->
+        <div class="slide-bg">
+          <img [src]="slide.image" [alt]="slide.imageAlt" loading="eager" />
+          <div class="slide-overlay"></div>
+        </div>
 
-<p>Unsere Hauttyp-Bestimmung hilft dir dabei, herauszufinden, ob du eher zu trockener, fettiger, sensibler oder Mischhaut neigst. Mit diesem Wissen kannst du Hautirritationen vermeiden und die natürliche Balance deiner Haut gezielt unterstützen.</p>
+        <!-- Content -->
+        <div class="slide-content" [class.animate-in]="i === currentSlide">
+          <span class="hero-tag">{{ slide.tag }}</span>
+          <h1>{{ slide.title }}</h1>
+          <p class="hero-subtitle">{{ slide.subtitle }}</p>
+          <div class="hero-actions">
+            <button [routerLink]="slide.primaryBtn.link" class="btn">{{ slide.primaryBtn.label }}</button>
+            <button [routerLink]="slide.secondaryBtn.link" class="btn btn-outline">{{ slide.secondaryBtn.label }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<p>Wähle aus speziell entwickelten Pflegeprodukten, die deinen Hauttyp berücksichtigen und langfristig für ein gesundes, frisches Hautbild sorgen. Deine Haut wird es dir danken – jeden Tag.</p>
+    <!-- Arrows -->
+    <button class="slider-arrow slider-arrow--prev" (click)="prevSlide()" aria-label="Previous slide">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="slider-arrow slider-arrow--next" (click)="nextSlide()" aria-label="Next slide">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Dots -->
+    <div class="slider-dots">
+      <button
+        *ngFor="let slide of heroSlides; let i = index"
+        class="dot"
+        [class.active]="i === currentSlide"
+        (click)="goToSlide(i)"
+        [attr.aria-label]="'Go to slide ' + (i + 1)">
+        <span class="dot-progress" *ngIf="i === currentSlide"></span>
+      </button>
+    </div>
+
+    <!-- Slide counter -->
+    <div class="slider-counter">
+      <span class="counter-current">{{ (currentSlide + 1).toString().padStart(2, '0') }}</span>
+      <span class="counter-sep">/</span>
+      <span class="counter-total">{{ heroSlides.length.toString().padStart(2, '0') }}</span>
+    </div>
+
+    <!-- Organic SVG shape divider -->
+    <div class="hero-divider">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C320,100 620,0 960,50 C1200,85 1380,20 1440,40 L1440,100 L0,100 Z" fill="#FAF9F7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="trust-section">
+    <div class="trust-grid">
+      <div class="trust-card">
+        <i class="fa-solid fa-leaf"></i>
+        <h4>Ethically Sourced</h4>
+        <p>Ingredients grown and harvested sustainably in Rwanda</p>
+      </div>
+      <div class="trust-card">
+        <i class="fa-solid fa-flask-vial"></i>
+        <h4>Science-Backed</h4>
+        <p>Dermatologically tested formulations for visible results</p>
+      </div>
+      <div class="trust-card">
+        <i class="fa-solid fa-hand-holding-heart"></i>
+        <h4>100% Cruelty-Free</h4>
+        <p>Vegan, organic, and never tested on animals</p>
+      </div>
+      <div class="trust-card">
+        <i class="fa-solid fa-certificate"></i>
+        <h4>Clean Beauty</h4>
+        <p>No parabens, silicones, or microplastics — ever</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Sections -->
+  <div class="sections-wrapper">
+
+    <!-- Skin Type Quiz -->
+    <div class="img-text-container">
+      <div class="text-container">
+        <div>
+          <span class="section-tag">Discover</span>
+          <h2>Know Your Skin Type</h2>
+          <p>Your skin is as unique as your fingerprint. Our skin type quiz helps you discover whether you tend toward dry, oily, sensitive, or combination skin — so you can choose the right products and routines.</p>
+        </div>
+        <button routerLink="/skin-type" class="btn">Start the Quiz <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="img-box">
+        <img src="assets/images/quiz2.jpg" alt="Skin type quiz" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Skin Analysis -->
+    <div class="img-text-container row_reverse">
+      <div class="text-container">
+        <div>
+          <span class="section-tag">Analyze</span>
+          <h2>AI Skin Analysis</h2>
+          <p>Our digital skin analysis provides a precise assessment of your skin's needs in seconds. Get personalized product recommendations — no generic tips, just a plan that fits your skin.</p>
+        </div>
+        <button routerLink="/skin-analysis" class="btn">Start Analysis <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="img-box">
+        <img src="assets/images/Analyser.jpg" alt="Skin analysis" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="img-text-container">
+      <div class="text-container">
+        <div>
+          <span class="section-tag">Shop</span>
+          <h2>Nature Meets Science</h2>
+          <p>From gentle cleansers and targeted serums to luxury fragrances, professional makeup, and curated accessories — every product is crafted with care. 100% vegan, cruelty-free, made to make you shine.</p>
+        </div>
+        <button routerLink="/products" class="btn">Explore Products <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="img-box">
+        <img src="assets/images/unsereprodukte2.avif" alt="Our products" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Featured Products -->
+    <section class="featured-products" *ngIf="featuredProducts.length">
+      <div class="featured-header">
+        <span class="section-tag">Bestsellers</span>
+        <h2>Our Products</h2>
+      </div>
+      <div class="featured-grid">
+        <app-product-card *ngFor="let product of featuredProducts" [product]="product"></app-product-card>
+      </div>
+      <div class="featured-cta">
+        <button routerLink="/products" class="btn btn-outline">View All Products <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </section>
 
   </div>
-  <button  routerLink="/hauttype" class="btn btn_margin">Quiz anfangen</button>
 
-</div>
- <div class="img-box">
-  <img  src="assets/images/quiz2.jpg" alt="">
-</div>
-</div>
-
-
-<div class="img-text-container row_reverse">
-  <div class="text-container">
-  <div>
-  <h2>Hautanalyse</h2>
-<h3>Individuelle Pflege dank moderner Technologie</h3>
-
-<p>Unsere digitale Hautanalyse basiert auf wissenschaftlichen Messwerten und ermöglicht eine exakte Einschätzung deiner Hautbedürfnisse. Innerhalb weniger Sekunden erfassen wir Merkmale wie Feuchtigkeitsgehalt, Fettfilm, Porengröße und Hautelastizität.</p>
-
-<p>Das Ergebnis? Eine persönliche Pflegeempfehlung, die exakt auf dich zugeschnitten ist. Keine allgemeinen Tipps mehr – sondern ein Plan, der zu deiner Haut, deinem Alltag und deinen Zielen passt.</p>
-
-<p>Diese maßgeschneiderte Lösung ist ideal, wenn du deine Haut nachhaltig verbessern willst – ganz gleich, ob du mit Unreinheiten kämpfst, trockene Stellen hast oder einfach nur deinen Glow zurückholen willst.</p>
-
-  </div>
-  
-<button routerLink="/hautanalyse" class="btn btn_margin">Jetzt analysieren</button>
-</div>
-<div class="img-box">
-  <img src="assets\images\Analyser.jpg" alt="">
-</div>
-
-</div>
-
-
-<div class="img-text-container">
-  <div class="text-container">
-  <div>
-    <h2>Unsere Produkte</h2>
-<h3>Natürlich. Wirksam. Für deine Haut entwickelt.</h3>
-
-<p>Unsere Pflegeprodukte vereinen das Beste aus Natur und Wissenschaft. Wir verzichten bewusst auf schädliche Inhaltsstoffe wie Parabene, Silikone oder Mikroplastik – und setzen stattdessen auf wirksame Pflanzenextrakte, moderne Formulierungen und dermatologisch getestete Rezepturen.</p>
-
-<p>Ob sanfte Reinigung, tiefenwirksame Seren oder schützende Tagespflege: Jedes Produkt wurde mit Sorgfalt entwickelt, um deine Haut zu stärken, zu beruhigen und zum Strahlen zu bringen.</p>
-
-<p>Unsere Linie ist zu 100 % vegan, tierversuchsfrei und mit Liebe zum Detail hergestellt. Entdecke unsere Kollektion und finde deine ganz persönliche Pflege – weil deine Haut nur das Beste verdient.</p>
-
-<button routerLink="/produkte" class="btn btn_margin">Produkte entdecken</button>
-</div>
-
-</div>
- <div class="img-box">
-  <img src="assets\images\unsereprodukte2.avif" alt="">
-</div>
-</div>
-
+  <!-- Ethically Sourced Banner -->
+  <section class="ethical-banner">
+    <div class="ethical-content">
+      <div class="ethical-badge">
+        <i class="fa-solid fa-globe-africa"></i>
+      </div>
+      <h2>Ethically Sourced in Rwanda</h2>
+      <p>Every ingredient tells a story of sustainable farming, fair trade partnerships, and deep respect for the land. From the rolling hills of Rwanda to your daily beauty ritual.</p>
+      <div class="ethical-stats">
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Organic</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">50+</span>
+          <span class="stat-label">Local Partners</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">Zero</span>
+          <span class="stat-label">Waste Policy</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </div>

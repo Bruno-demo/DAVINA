@@ -22,7 +22,7 @@ export const calculateTotal = async (ordered_items: OrderedItemInput[]): Promise
 
   for (const item of ordered_items) {
     const product = await Product.findById(item.product_id);
-    if (!product) throw new Error(`Produkt ${item.product_id} nicht gefunden.`);
+    if (!product) throw new Error(`Product ${item.product_id} not found.`);
 
     const subtotal = product.price * item.quantity;
     total_price += subtotal;

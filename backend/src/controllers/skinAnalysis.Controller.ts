@@ -10,8 +10,8 @@ dotenv.config();
 const analyseSkinFromBuffer = async (
   imageBuffer: Buffer
 ): Promise<{
-  diagnose: string;
-  hauttyp: SkinTyp;
+  diagnosis: string;
+  skinType: SkinTyp;
 }> => {
   const imageBase64 = imageBuffer.toString("base64");
 
@@ -29,34 +29,34 @@ const analyseSkinFromBuffer = async (
 
   const result = response.data.result;
 
-  const hautprobleme: string[] = [];
+  const skinProblems: string[] = [];
 
-  if (result.acne?.value === 0.3) hautprobleme.push("Unreine Haut (Akne)");
+  if (result.acne?.value === 0.3) skinProblems.push("Blemishes (acne)");
   if (result.dark_circle?.value === 1)
-    hautprobleme.push("Dunkle Schatten unter den Augen (Augenringe)");
+    skinProblems.push("Dark circles under the eyes");
   if (result.nasolabial_fold?.value === 1)
-    hautprobleme.push("Ausgeprägte Linien um den Mund (Nasolabialfalten)");
+    skinProblems.push("Pronounced lines around the mouth (nasolabial folds)");
   if (result.forehead_wrinkle?.value === 1)
-    hautprobleme.push("Falten auf der Stirn");
+    skinProblems.push("Forehead wrinkles");
   if (result.eye_pouch?.value === 1)
-    hautprobleme.push("Geschwollene Unterlider (Tränensäcke)");
+    skinProblems.push("Under-eye bags (puffiness)");
   if (result.mole?.value === 1)
-    hautprobleme.push("Pigmentflecken oder Muttermale");
+    skinProblems.push("Pigmentation spots or moles");
   if (result.skin_spot?.value === 0.4)
-    hautprobleme.push("Hautverfärbungen oder Flecken");
+    skinProblems.push("Skin discoloration or spots");
   if (result.blackhead?.value === 1)
-    hautprobleme.push("Mitesser (offene Poren)");
+    skinProblems.push("Blackheads (open pores)");
   if (result.left_eyelids?.value >= 1 || result.right_eyelids?.value >= 1)
-    hautprobleme.push("Geschwollene Augenlider");
+    skinProblems.push("Swollen eyelids");
 
-  const hauttyp = mapSkinType(result.skin_type?.skin_type);
+  const skinType = mapSkinType(result.skin_type?.skin_type);
 
   return {
-    diagnose:
-      hautprobleme.length > 0
-        ? hautprobleme.join(", ")
-        : "Keine sichtbaren Hautprobleme erkannt",
-    hauttyp,
+    diagnosis:
+      skinProblems.length > 0
+        ? skinProblems.join(", ")
+        : "No visible skin concerns detected",
+    skinType,
   };
 };
 
@@ -67,8 +67,7 @@ async function analyseSkin(req: Request, res: Response): Promise<void> {
 
     if (!file || !userId) {
       res.status(400).json({
-        message:
-          "Bitte lade ein Foto hoch und stelle sicher, dass du eingeloggt bist.",
+        message: "Please upload a photo and make sure you are logged in.",
       });
       return;
     }
@@ -76,41 +75,40 @@ async function analyseSkin(req: Request, res: Response): Promise<void> {
     const numericUserId = Number(userId);
     if (isNaN(numericUserId)) {
       res.status(400).json({
-        message: "Ein Fehler ist aufgetreten – bitte melde dich erneut an.",
+        message: "Something went wrong—please log in again.",
       });
       return;
     }
 
-    const { diagnose, hauttyp } = await analyseSkinFromBuffer(file.buffer);
+    const { diagnosis, skinType } = await analyseSkinFromBuffer(file.buffer);
 
-    const empfohleneProdukte = await ProductItem.find({
-      skin_typ_target: hauttyp,
+    const recommendedProducts = await ProductItem.find({
+      skin_typ_target: skinType,
     });
 
     const result = await SkinAnalysis.create({
       userId: numericUserId,
       imageUrl: "",
-      diagnostic: diagnose,
-      skin_typ_target: hauttyp,
-      recommendedProducts: empfohleneProdukte.map((p) => p._id),
+      diagnostic: diagnosis,
+      skin_typ_target: skinType,
+      recommendedProducts: recommendedProducts.map((p) => p._id),
     });
 
     res.status(200).json({
-      nachricht: "Hautanalyse erfolgreich durchgeführt",
-      diagnose,
-      hauttyp,
-      empfohleneProdukte,
-      pflegeempfehlung: SkinAdviceforSkinAnalyse(hauttyp),
+      message: "Skin analysis completed successfully",
+      diagnosis,
+      skinType,
+      recommendedProducts,
+      skinAdvice: SkinAdviceforSkinAnalyse(skinType),
     });
 
     console.log("Received userId:", userId);
     console.log("File present:", !!file);
   } catch (err) {
-    console.error("Fehler bei der Hautanalyse:", err);
+    console.error("Error during skin analysis:", err);
     res.status(500).json({
-      fehler: "Die Hautanalyse konnte leider nicht durchgeführt werden.",
-      hinweis:
-        "Bitte lade ein klares Bild von deinem Gesicht hoch und versuche es erneut.",
+      error: "Skin analysis could not be completed.",
+      hint: "Please upload a clear photo of your face and try again.",
       details: (err as Error).message,
     });
   }

@@ -1,34 +1,85 @@
-<div class="product-card">
-  @if(product.image_url){
-    <div class="product-image">
-      <img [src]="product.image_url" alt="{{ product.p_name }}" loading="lazy">
+<article class="product-card">
+
+  <!-- Image zone -->
+  <div class="product-image" [routerLink]="['/products', product._id]">
+
+    <!-- Badge: New / Sale -->
+    <div class="product-badges">
+      <span class="badge badge-new" *ngIf="isNew()">New</span>
+      <span class="badge badge-low" *ngIf="product.stock > 0 && product.stock <= 5">Low Stock</span>
+      <span class="badge badge-out" *ngIf="product.stock === 0">Out of Stock</span>
     </div>
-  }
-  <div class="product-content">
-    <h2 class="product-title">{{ product.p_name }}</h2>
-    <p class="product-description">{{ product.p_description || 'Beschreibung nicht verfügbar' }}</p>
-    <p class="product-price">{{ product.price | currency: 'EUR' }}</p>
-    <p class="product-details">
-      <strong>Hauttyp:</strong> {{ product.skin_typ_target | titlecase }} <br>
-      <strong>Effekt:</strong> {{ product.effect }}
-    </p>
-    <button class="btn" (click)="addToCart()" [disabled]="isAddingToCart">
-      @if(isAddingToCart) {
-        <span>Wird hinzugefügt...</span>
-      } @else {
-        <span>In den Warenkorb</span>
-      }
+
+    <!-- Wishlist heart -->
+    <button class="btn-wish" (click)="toggleWishlist($event)" [attr.aria-label]="wishlisted ? 'Remove from wishlist' : 'Add to wishlist'">
+      <i class="fa-heart" [class.fa-solid]="wishlisted" [class.fa-regular]="!wishlisted"></i>
     </button>
 
-    @if(addToCartSuccess) {
-      <div class="notification is-success">
-        Produkt wurde zum Warenkorb hinzugefügt!
-      </div>
-    }
-    @if(addToCartError) {
-      <div class="notification is-danger">
-        {{ addToCartError }}
-      </div>
-    }
+    <!-- Primary image -->
+    <img
+      [src]="activeImage"
+      [alt]="product.p_name"
+      loading="lazy"
+      decoding="async"
+      class="main-img"
+    />
+
+    <!-- Image dots (gallery) -->
+    <div class="img-dots" *ngIf="allImages.length > 1">
+      <button
+        *ngFor="let img of allImages; let i = index"
+        class="img-dot"
+        [class.active]="i === activeIndex"
+        (click)="setImage(i, $event)"
+        [attr.aria-label]="'Image ' + (i + 1)"
+      ></button>
+    </div>
+
+    <!-- Hover overlay -->
+    <div class="img-overlay">
+      <span class="overlay-cta"><i class="fa-solid fa-eye"></i> Quick View</span>
+    </div>
   </div>
-</div>
+
+  <!-- Content -->
+  <div class="product-content">
+
+    <!-- Category chip -->
+    <span class="category-chip">{{ product.category }}</span>
+
+    <a class="product-title" [routerLink]="['/products', product._id]">{{ product.p_name }}</a>
+
+    <!-- Rating row -->
+    <div class="rating-row" *ngIf="product.average_rating">
+      <div class="stars">
+        <i *ngFor="let s of starArray" class="fa-star" [class.fa-solid]="s === 'full'" [class.fa-regular]="s === 'empty'" [class.fa-star-half-stroke]="s === 'half'"></i>
+      </div>
+      <span class="rating-count">({{ product.review_count }})</span>
+    </div>
+
+    <!-- Skin type tags -->
+    <div class="skin-tags" *ngIf="product.category === 'Skincare'">
+      <span class="skin-tag"><i class="fa-solid fa-droplet"></i> {{ formatSkinType(product.skin_typ_target) }}</span>
+      <span class="skin-tag"><i class="fa-solid fa-star-of-life"></i> {{ formatEffect(product.effect) }}</span>
+    </div>
+
+    <!-- Price row -->
+    <div class="price-row">
+      <span class="product-price">{{ formatPrice(product.price) }}</span>
+    </div>
+
+    <!-- Add to cart -->
+    <button
+      class="btn-cart"
+      (click)="addToCart()"
+      [disabled]="isAddingToCart || product.stock === 0"
+      [class.success]="addToCartSuccess"
+    >
+      <i class="fa-solid" [class.fa-check]="addToCartSuccess" [class.fa-bag-shopping]="!addToCartSuccess && !isAddingToCart" [class.fa-spinner]="isAddingToCart"></i>
+      <span>{{ addToCartSuccess ? 'Added!' : (isAddingToCart ? 'Adding…' : (product.stock === 0 ? 'Out of Stock' : 'Add to Cart')) }}</span>
+    </button>
+
+    <p class="error-msg" *ngIf="addToCartError">{{ addToCartError }}</p>
+  </div>
+
+</article>

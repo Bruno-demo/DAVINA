@@ -22,7 +22,7 @@ const authenticateUser = (
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res
       .status(401)
-      .json({ message: "Access denied. Token missing or malformed." });
+      .json({ message: "Please log in to continue." });
     return;
   }
 
@@ -38,7 +38,7 @@ const authenticateUser = (
     ) {
       res
         .status(401)
-        .json({ message: "Token payload malformed (missing userId or role)." });
+        .json({ message: "Your session is invalid. Please log in again." });
       return;
     }
 
@@ -50,9 +50,27 @@ const authenticateUser = (
 
     next();
   } catch (error: any) {
-    console.error("JWT verification failed:", error.message);
-    res.status(401).json({ message: "Invalid or expired token." });
+    res.status(401).json({ message: "Your session has expired. Please log in again." });
   }
 };
 
 export default authenticateUser;
+
+/** Optional auth — attaches user if token present, but does NOT reject guests */
+export const optionalAuth = (
+  req: AuthenticatedRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return next();
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    if (typeof decoded === "object" && "userId" in decoded && "role" in decoded) {
+      req.user = { userId: decoded.userId, role: decoded.role, ...decoded };
+    }
+  } catch { /* ignore invalid token for guests */ }
+  next();
+};

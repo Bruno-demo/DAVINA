@@ -1,15 +1,15 @@
 <div class="wrapper" *ngIf="userDetails">
 
     <section class="profile-panel">
-      <div class="avatar-icon">👤</div>
+      <div class="avatar-icon"><i class="fa-solid fa-circle-user"></i></div>
       <h2>{{ userDetails.name }}</h2>
       <p class="email">{{ userDetails.email }}</p>
       <p class="role-badge">{{ userDetails.role }}</p>
 
       <div class="btn-group">
-        <button *ngIf="isAdmin" class="btn admin" (click)="navigateToAdmin()">👨‍💼 Admin Dashboard</button>
-        <button class="btn dark" (click)="logout()">🚪 Logout</button>
-        <button class="btn danger" (click)="confirmDelete()">🗑️ Delete Account</button>
+        <button *ngIf="isAdmin" class="btn admin" (click)="navigateToAdmin()"><i class="fa-solid fa-shield-halved"></i> Admin Dashboard</button>
+        <button class="btn dark" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        <button class="btn danger" (click)="confirmDelete()"><i class="fa-solid fa-trash-can"></i> Delete Account</button>
       </div>
 
       <div class="modal-overlay" *ngIf="showDeleteConfirm">
@@ -26,18 +26,18 @@
     </section>
 
     <section class="orders-panel" *ngIf="orders.length > 0; else noOrders">
-      <h3>🛒 Bestellübersicht</h3>
+      <h3><i class="fa-solid fa-clock-rotate-left"></i> Order overview</h3>
 
       <div class="order-table-container">
         <table class="order-table">
           <thead>
             <tr class="table-header">
-              <th>Bestell-Nr.</th>
-              <th>Datum</th>
-              <th>Produkte</th>
-              <th>Menge</th>
-              <th>Preis</th>
-              <th>Gesamt</th>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Products</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Total</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -57,11 +57,11 @@
               </td>
               <td>
                 <div *ngFor="let item of order.ordered_items">
-                  €{{ item.price | number:'1.2-2' }}
+                  {{ item.price | currency:'RWF':'symbol':'1.0-0' }}
                 </div>
               </td>
                <td>
-              €{{ order.total_price | number:'1.2-2' }}
+              {{ order.total_price | currency:'RWF':'symbol':'1.0-0' }}
               </td>
               <td>
                 <span class="status" [ngClass]="order.status.toLowerCase()">
@@ -75,7 +75,7 @@
     </section>
 
     <ng-template #noOrders>
-      <p class="no-orders" *ngIf="!isAdmin">🛍️ Du hast noch keine Bestellungen.</p>
+      <p class="no-orders" *ngIf="!isAdmin">🛍️ You don't have any orders yet.</p>
     </ng-template>
 
 </div>

@@ -1,16 +1,28 @@
-import { registerUser } from "./user.Controller";
 import { beforeAll, describe, expect, it, jest } from "@jest/globals";
-import { Request, Response } from "express";
-import User from "../models/user";
-import Warenkorb from "../models/warenkorb";
-import bcrypt from "bcryptjs";
-import { error } from "console";
+import type { Request, Response } from "express";
 
-jest.mock("../models/user");
-jest.mock("../models/warenkorb");
+jest.mock("../models/user", () => ({
+  __esModule: true,
+  default: {
+    findOne: jest.fn(),
+    create: jest.fn(),
+  },
+}));
+
+jest.mock("../models/cart", () => ({
+  __esModule: true,
+  default: {
+    create: jest.fn(),
+  },
+}));
+
 jest.mock("bcryptjs", () => ({
   hash: jest.fn(() => "mockedHashedPassword123"),
 }));
+
+const User = require("../models/user").default as any;
+const Cart = require("../models/cart").default as any;
+const { registerUser } = require("./user.Controller") as typeof import("./user.Controller");
 
 describe("registerUser", () => {
   beforeAll(()=>{
@@ -35,7 +47,7 @@ describe("registerUser", () => {
     });
   });
   it("returns 409 if user already exists", async () => {
-    jest.spyOn(User, "findOne").mockResolvedValue({ u_id: 1 } as any);
+    User.findOne.mockResolvedValue({ u_id: 1 } as any);
 
     const req = {
       body: {
@@ -58,10 +70,10 @@ describe("registerUser", () => {
     });
   });
 
-  it("returns 201 and creates user + warenkorb", async () => {
-    jest.spyOn(User, "findOne").mockResolvedValue(null);
-    jest.spyOn(User, "create").mockResolvedValue({ u_id: 42 } as any);
-    jest.spyOn(Warenkorb, "create").mockResolvedValue({} as any);
+  it("returns 201 and creates user + cart", async () => {
+    User.findOne.mockResolvedValue(null);
+    User.create.mockResolvedValue({ u_id: 42 } as any);
+    Cart.create.mockResolvedValue({} as any);
 
     const req = {
       body: {
@@ -85,9 +97,9 @@ describe("registerUser", () => {
       u_role: "user",
     });
 
-    expect(Warenkorb.create).toHaveBeenCalledWith({
+    expect(Cart.create).toHaveBeenCalledWith({
       user_id: 42,
-      status: "Offen",
+      status: "Open",
       ordered_items: [],
       total_price: 0.0,
     });
@@ -97,7 +109,7 @@ describe("registerUser", () => {
   });
 
   it("returns 500 if an unexpected error occurs", async () => {
-    jest.spyOn(User, "findOne").mockRejectedValue(new Error("DB exploded"));
+    User.findOne.mockRejectedValue(new Error("DB exploded"));
     const req = {
       body: {
         name: "Oops",

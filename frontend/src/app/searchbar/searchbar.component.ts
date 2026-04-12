@@ -27,6 +27,29 @@ export class SearchbarComponent implements OnInit {
 
   constructor(private productService: ProductService) {}
 
+  private formatSkinType(skinType?: string): string {
+    const normalized = skinType?.toLowerCase();
+
+    if (normalized === 'dry') return 'Dry';
+    if (normalized === 'oily') return 'Oily';
+    if (normalized === 'combination') return 'Combination';
+    if (normalized === 'normal') return 'Normal';
+
+    return skinType ?? '';
+  }
+
+  private formatEffect(effect?: string): string {
+    const normalized = effect?.toLowerCase();
+
+    if (normalized === 'hydration') return 'Hydration';
+    if (normalized === 'soothing') return 'Soothing';
+    if (normalized === 'mattifying') return 'Mattifying';
+    if (normalized === 'anti-aging') return 'Anti-aging';
+    if (normalized === 'anti-acne') return 'Anti-acne';
+
+    return effect ?? '';
+  }
+
   ngOnInit(): void {
     this.loadProducts();
 
@@ -47,7 +70,7 @@ export class SearchbarComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading products:', err);
-        this.errorMessage = 'Failed to load products. Please refresh.';
+        this.errorMessage = 'We couldn\'t load products. Please refresh the page.';
         this.isLoading = false;
       }
     });
@@ -66,8 +89,11 @@ export class SearchbarComponent implements OnInit {
     const normalizedQuery = query.toLowerCase();
     this.filteredSuggestions = this.products.filter(product =>
       product.p_name?.toLowerCase().includes(normalizedQuery) ||
+      product.p_description?.toLowerCase().includes(normalizedQuery) ||
       product.effect?.toLowerCase().includes(normalizedQuery) ||
-      product.skin_typ_target?.toLowerCase().includes(normalizedQuery)
+      this.formatEffect(product.effect).toLowerCase().includes(normalizedQuery) ||
+      product.skin_typ_target?.toLowerCase().includes(normalizedQuery) ||
+      this.formatSkinType(product.skin_typ_target).toLowerCase().includes(normalizedQuery)
     ).slice(0, 5);
 
     this.showSuggestions = this.filteredSuggestions.length > 0;

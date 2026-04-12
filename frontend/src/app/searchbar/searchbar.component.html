@@ -6,16 +6,16 @@
              (input)="onInputChange()"
              [ngModelOptions]="{standalone: true}"
              class="search-input"
-             placeholder="Produkt suchen...">
+             placeholder="Search products...">
 
       @if (searchQuery.length > 0) {
         <button type="button" class="clear-button" (click)="clearSearch()">
-          <i class="fas fa-times"></i>
+          <i class="fa-solid fa-xmark"></i>
         </button>
       }
 
       <button type="submit" class="search-button">
-        <i class="fas fa-search"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
 
@@ -24,7 +24,7 @@
         <div class="suggestion-header">
           <span>Suggestions</span>
           <button class="close-suggestions" (click)="showSuggestions = false">
-            <i class="fas fa-times"></i>
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
         <div class="card_container">

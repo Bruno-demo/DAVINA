@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Orange circle background — matches .logo-icon { background: #f24901 } -->
+  <circle cx="32" cy="32" r="32" fill="#f24901"/>
+  <!-- Spa / lotus icon — matches fa-spa visual, white on orange -->
+  <g fill="#ffffff" transform="translate(32,30)">
+    <!-- Center petal -->
+    <path d="M0,-18 C4,-12 5,-2 0,4 C-5,-2 -4,-12 0,-18Z"/>
+    <!-- Left petal -->
+    <path d="M-4,2 C-14,-8 -17,-16 -12,-20 C-8,-17 -3,-8 -4,2Z"/>
+    <!-- Right petal -->
+    <path d="M4,2 C14,-8 17,-16 12,-20 C8,-17 3,-8 4,2Z"/>
+    <!-- Far left petal -->
+    <path d="M-6,4 C-18,-2 -22,-8 -19,-13 C-15,-10 -8,-2 -6,4Z"/>
+    <!-- Far right petal -->
+    <path d="M6,4 C18,-2 22,-8 19,-13 C15,-10 8,-2 6,4Z"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="8" r="2.5"/>
+  </g>
+</svg>

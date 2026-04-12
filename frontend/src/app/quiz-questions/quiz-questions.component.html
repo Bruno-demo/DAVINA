@@ -3,7 +3,7 @@
   <div *ngIf="isLoading">Loading questions...</div>
 
   <div *ngIf="!isLoading && questions.length === 0">
-    <p>Keine Fragen verfügbar.</p>
+    <p>No questions available.</p>
   </div>
 
   <div *ngIf="!isLoading && !skinType">
@@ -31,18 +31,18 @@
   </div>
 
   <div *ngIf="skinType" class="results-container">
-  <h2>👏 Analyse abgeschlossen!</h2>
+  <h2>👏 Quiz completed!</h2>
 
   <div class="results-content">
-    <p>Basierend auf deinen Antworten scheint dein Hauttyp zu sein:</p>
+    <p>Based on your answers, your skin type seems to be:</p>
     <div class="skin-result">
-      <h2>{{ skinType }}</h2>
+      <h2>{{ formatSkinType(skinType) }}</h2>
       <p>{{ skinAdvice }}</p>
     </div>
   </div>
 
-  <a routerLink="/hautanalyse" class="link-cta">
-    → Starte jetzt die Hautanalyse mit Kamera, um noch präzisere Empfehlungen zu erhalten.
+  <a routerLink="/skin-analysis" class="link-cta">
+    → Start the camera skin analysis to get even more precise recommendations.
   </a>
 
   <button class="btn" (click)="resetQuiz()">↻ Start Again</button>

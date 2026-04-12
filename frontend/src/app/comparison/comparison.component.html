@@ -1,0 +1,71 @@
+<div class="wrapper">
+  <h1 class="page-title">Compare Products</h1>
+
+  <div *ngIf="products.length === 0" class="empty-state">
+    <i class="fa-solid fa-scale-balanced"></i>
+    <p>No products to compare. Browse products and click "Compare" to add items.</p>
+    <a routerLink="/products" class="btn">Browse Products</a>
+  </div>
+
+  <div *ngIf="products.length > 0">
+    <button class="btn btn-clear" (click)="clearAll()">Clear All</button>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th *ngFor="let p of products">
+              <div class="compare-product-header">
+                <img [src]="p.image_url" [alt]="p.p_name" class="compare-img" *ngIf="p.image_url" loading="lazy">
+                <a [routerLink]="['/products', p._id]">{{ p.p_name }}</a>
+                <button class="remove-btn" (click)="remove(p._id)" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-label">Price</td>
+            <td *ngFor="let p of products"><strong>{{ p.price | currency:'RWF':'symbol':'1.0-0' }}</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-label">Skin Type</td>
+            <td *ngFor="let p of products"><span class="badge badge-skin">{{ p.skin_typ_target }}</span></td>
+          </tr>
+          <tr>
+            <td class="feature-label">Effect</td>
+            <td *ngFor="let p of products"><span class="badge badge-effect">{{ p.effect }}</span></td>
+          </tr>
+          <tr>
+            <td class="feature-label">Category</td>
+            <td *ngFor="let p of products">{{ p.category || '—' }}</td>
+          </tr>
+          <tr>
+            <td class="feature-label">Rating</td>
+            <td *ngFor="let p of products">
+              <span class="stars">
+                <i *ngFor="let s of getStars(p.average_rating)" class="fa-solid fa-star"></i>
+                <i *ngFor="let s of getEmptyStars(p.average_rating)" class="fa-regular fa-star"></i>
+              </span>
+              <span>({{ p.review_count || 0 }})</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="feature-label">Stock</td>
+            <td *ngFor="let p of products">
+              <span [class.text-danger]="p.stock <= 5">{{ p.stock > 0 ? p.stock + ' available' : 'Out of stock' }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="feature-label">Ingredients</td>
+            <td *ngFor="let p of products">
+              <span class="ingredient-tag" *ngFor="let ing of (p.ingredients || []).slice(0, 5)">{{ ing }}</span>
+              <span *ngIf="(p.ingredients || []).length > 5">+{{ p.ingredients.length - 5 }} more</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

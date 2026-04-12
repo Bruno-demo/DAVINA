@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import logger from "../utils/logger";
 
 dotenv.config();
 
@@ -9,17 +10,15 @@ const connectMongoDB = async (): Promise<void> => {
 
   try {
     await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
     } as mongoose.ConnectOptions);
 
-    console.log("Connected to MongoDB successfully");
+    logger.info("Connected to MongoDB successfully");
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Error connecting to MongoDB:", error.message);
+      logger.error("Error connecting to MongoDB", { error: error.message });
     } else {
-      console.error("Unknown error connecting to MongoDB");
+      logger.error("Unknown error connecting to MongoDB");
     }
     process.exit(1);
   }

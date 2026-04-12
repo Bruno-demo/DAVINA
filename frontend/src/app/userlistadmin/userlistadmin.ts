@@ -1,100 +1,133 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../services/user';
 import { Users } from '../models/users';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-interface UserViewModel extends Users {
-  initials: string;
-  avatarUrl?: string;
-  showMenu?: boolean;
-}
-
-const Roles = {
-  ADMIN: 'admin',
-  USER: 'user'
-} as const;
 
 @Component({
   selector: 'app-userlistadmin',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './userlistadmin.html',
   styleUrls: ['./userlistadmin.css']
 })
-
 export class Userlistadmin implements OnInit {
-  users:  UserViewModel[] = [];
+  users: any[] = [];
+  isLoading = true;
+  searchQuery = '';
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 10;
 
   constructor(
     private userService: UserService,
-    private elementRef: ElementRef,
     private cdRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
-      this.users.forEach(u => u.showMenu = false);
-    }
-  }
-
   loadUsers(): void {
+    this.isLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (data: Users[]) => {
-        this.users = data.map((user) => ({
+        this.users = data.map(user => ({
           ...user,
-          initials: this.getInitials(user.u_name),
-          avatarUrl: undefined 
+          newRole: user.u_role
         }));
+        this.isLoading = false;
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des utilisateurs', err);
+        console.error('Error loading users:', err);
+        this.isLoading = false;
       }
     });
   }
 
-  getInitials(name?: string): string {
-    if (!name) return '?';
-    const parts = name.trim().split(' ');
-    if (parts.length === 1) {
-      return parts[0][0].toUpperCase();
-    }
-    return (parts[0][0] + parts[1][0]).toUpperCase();
+  get filteredUsers(): any[] {
+    if (!this.searchQuery.trim()) return this.users;
+    const q = this.searchQuery.toLowerCase();
+    return this.users.filter(u =>
+      u.u_name?.toLowerCase().includes(q) ||
+      u.u_email?.toLowerCase().includes(q)
+    );
   }
 
-
-  toggleMenu(user: UserViewModel): void {
-    const wasOpen = user.showMenu;
-    this.users.forEach(u => u.showMenu = false);
-    user.showMenu = !wasOpen;
+  get paginatedUsers(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredUsers.slice(start, start + this.pageSize);
   }
 
-  changeRole(user: UserViewModel, newRole: string): void {
+  get totalPages(): number {
+    return Math.ceil(this.filteredUsers.length / this.pageSize);
+  }
+
+  get pageNumbers(): number[] {
+    const pages: number[] = [];
+    const start = Math.max(1, this.currentPage - 2);
+    const end = Math.min(this.totalPages, this.currentPage + 2);
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+  }
+
+  onSearch(): void {
+    this.currentPage = 1;
+  }
+
+  saveRole(user: any): void {
+    if (user.newRole === user.u_role) return;
     this.userService.updateUserRole({
       userId: user.u_id,
-      newRole: newRole 
+      newRole: user.newRole
     }).subscribe({
-      next: (response) => {
-        console.log('Role updated successfully', response);
-        user.u_role = newRole;
-        user.showMenu = false;
+      next: () => {
+        user.u_role = user.newRole;
         this.cdRef.detectChanges();
       },
       error: (err) => {
-        console.error('Erreur lors de la mise à jour du rôle', err);
-        alert(err.error?.error || 'Erreur lors de la mise à jour');
+        console.error('Error updating role:', err);
+        user.newRole = user.u_role;
       }
     });
   }
 
+  getRoleBadgeClass(role: string): string {
+    return role === 'admin' ? 'role-admin' : 'role-user';
+  }
 
+  verifyUser(user: any): void {
+    this.userService.adminVerifyUser(user.u_id).subscribe({
+      next: () => {
+        user.is_verified = true;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error verifying user:', err);
+      }
+    });
+  }
+
+  deleteUser(user: any): void {
+    if (!confirm(`Are you sure you want to delete user "${user.u_name || user.u_email}"?`)) return;
+    this.userService.adminDeleteUser(user.u_id).subscribe({
+      next: () => {
+        this.users = this.users.filter(u => u.u_id !== user.u_id);
+        this.cdRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error deleting user:', err);
+        alert(err.error?.message || 'Failed to delete user.');
+      }
+    });
+  }
 }
 
 

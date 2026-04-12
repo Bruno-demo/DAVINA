@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface SkinAnalysisResponse {
-  diagnose: string;
-  hauttyp: string;
-  empfohleneProdukte: any[]; 
-  pflegeempfehlung: string;
+  diagnosis: string;
+  skinType: string;
+  recommendedProducts: any[];
+  skinAdvice: string;
 }
 
 @Injectable({

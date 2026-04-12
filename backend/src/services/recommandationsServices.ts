@@ -8,7 +8,7 @@ export const getRecommendedProducts = async (req: Request, res: Response): Promi
 
     const quiz = await QuizResponse.findOne({ userId });
     if (!quiz) {
-      res.status(404).json({ nachricht: 'Kein Quiz gefunden für diesen Benutzer.' });
+      res.status(404).json({ message: 'No quiz found for this user.' });
       return;
     }
 
@@ -17,11 +17,11 @@ export const getRecommendedProducts = async (req: Request, res: Response): Promi
     const products = await ProductItem.find({ skin_typ_target: skinType });
 
     res.status(200).json({
-      hauttyp: skinType,
-      empfohleneProdukte: products
+      skinType: skinType,
+      recommendedProducts: products
     });
-  } catch (fehler: any) {
-    console.error('Fehler bei getRecommendedProducts:', fehler.message);
-    res.status(500).json({ fehler: 'Fehler beim Laden der empfohlenen Produkte.' });
+  } catch (error: any) {
+    console.error('Error in getRecommendedProducts:', error.message);
+    res.status(500).json({ error: 'Error loading recommended products.' });
   }
 };

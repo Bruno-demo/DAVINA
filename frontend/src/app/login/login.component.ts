@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ToastService } from '../services/toast.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +18,17 @@ export class LoginComponent {
   responseMessage = '';
   isLoading = false;
 
+  otpStep = false;
+  otpUserId: number | null = null;
+  otpCode = '';
+  needsVerification = false;
+  showPassword = false;
+
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService,
+    private cartService: CartService
   ) {}
 
   login(form: NgForm): void {
@@ -26,68 +36,79 @@ export class LoginComponent {
       this.responseMessage = 'Please fill out all fields correctly.';
       return;
     }
-
     this.isLoading = true;
     this.responseMessage = '';
 
-    this.authService.login(this.credentials).subscribe({
-      next: (response) => {
-        this.handleSuccessfulLogin(response);
-      },
-      error: (error) => {
-        this.handleLoginError(error);
-      },
-      complete: () => {
+    this.authService.loginStep1(this.credentials).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
-      }
+        if (res.otpRequired) {
+          this.otpStep = true;
+          this.otpUserId = res.userId;
+          this.toastService.info('A 6-digit code has been sent to your email.');
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        if (error.status === 403 && error.error?.needsVerification) {
+          this.needsVerification = true;
+          this.responseMessage = error.error.message;
+        } else if (error.status === 401 || error.status === 404) {
+          this.responseMessage = 'Invalid email or password.';
+        } else {
+          this.responseMessage = error.error?.message || 'Login failed. Please try again.';
+        }
+        this.toastService.error(this.responseMessage);
+      },
     });
   }
 
-  private handleSuccessfulLogin(response: any): void {
-    const token = response?.token || response?.access_token;
-    const role = this.getRoleFromResponse(response);
+  submitOtp(): void {
+    if (!this.otpCode || !this.otpUserId) return;
+    this.isLoading = true;
+    this.responseMessage = '';
 
-    if (!token) {
-      this.responseMessage = 'Login successful but no token received';
-      this.isLoading = false;
-      return;
-    }
-
-    localStorage.setItem('token', token);
-
-    console.log('Role from response:', role);
-    console.log('Token stored:', !!token);
-
-    setTimeout(() => {
-      if (role && role.toLowerCase() === 'admin') {
-        this.router.navigate(['/adminpage'])
-          .then(() => console.log('Redirected to admin page'))
-          .catch(err => console.error('Redirect error:', err));
-      } else {
-        this.router.navigate(['/'])
-          .then(() => console.log('Redirected to home page'));
-      }
-    }, 100);
+    this.authService.verifyOtp(this.otpUserId, this.otpCode).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.toastService.success('Welcome back!');
+        // Merge guest cart into backend cart
+        this.cartService.mergeGuestCart().subscribe({
+          complete: () => {
+            const role = this.authService.getDecodedToken()?.role;
+            this.router.navigate([role?.toLowerCase() === 'admin' ? '/adminpage' : '/']);
+          },
+          error: () => {
+            const role = this.authService.getDecodedToken()?.role;
+            this.router.navigate([role?.toLowerCase() === 'admin' ? '/adminpage' : '/']);
+          }
+        });
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        this.responseMessage = err.error?.message || 'Invalid or expired code.';
+        this.toastService.error(this.responseMessage);
+      },
+    });
   }
 
-  private getRoleFromResponse(response: any): string | null {
-    
-    return response?.user?.role ||
-           response?.role ||
-           response?.body?.user?.role ||
-           this.authService.getDecodedToken()?.role;
+  resendCode(): void {
+    if (!this.credentials.email || !this.credentials.password) return;
+    this.authService.loginStep1(this.credentials).subscribe({ error: () => {} });
+    this.toastService.info('A new code has been sent to your email.');
   }
 
-  private handleLoginError(error: any): void {
-    console.error('Login failed:', error);
-    this.isLoading = false;
+  backToLogin(): void {
+    this.otpStep = false;
+    this.otpCode = '';
+    this.responseMessage = '';
+    this.needsVerification = false;
+  }
 
-    if (error.status === 401) {
-      this.responseMessage = 'Invalid email or password';
-    } else if (error.status === 0) {
-      this.responseMessage = 'Network error. Please check your connection';
-    } else {
-      this.responseMessage = error.error?.message || 'Login failed. Please try again later';
-    }
+  resendVerification(): void {
+    this.authService.resendVerificationEmail(this.credentials.email).subscribe({
+      next: (r: any) => this.toastService.success(r.message),
+      error: () => this.toastService.error('We couldn\'t resend the email right now. Please try again later.'),
+    });
   }
 }

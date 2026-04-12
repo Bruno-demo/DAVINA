@@ -128,7 +128,7 @@
   width: 100%;
 }
 
-.beschreibung {
+.description {
   text-align: start;
 }
 
@@ -175,3 +175,13 @@
     background: #c9035a;
   }
 }
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .product-card { background: #242424; border-color: #3a3a3a; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+:host-context([data-theme="dark"]) .product-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.35); }
+:host-context([data-theme="dark"]) .product-details-edit label { color: #b5b1ac; }
+:host-context([data-theme="dark"]) .product-details-edit input,
+:host-context([data-theme="dark"]) .product-details-edit select,
+:host-context([data-theme="dark"]) .product-details-edit textarea { background: #1e1e1e; border-color: #444; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .cancel-btn { background: #333; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .cancel-btn:hover { background: #444; }

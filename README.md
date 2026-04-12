@@ -1,52 +1,52 @@
 # 🧴 Skincare Fullstack Web Application (SoSe 2025)
 
-Diese Webanwendung ist ein Fullstack-Projekt im Bereich E-Commerce und Hautpflege. Die Plattform ermöglicht es Benutzer:innen, Hautpflegeprodukte zu kaufen sowie eine personalisierte Hautanalyse durchzuführen. Die Analyse basiert auf einem hochgeladenen Foto, das mithilfe eines Algorithmus Hautunreinheiten erkennt (z. B. Akne, Rötungen, Trockenheit). Anschließend werden passende Produkte empfohlen.
+This web application is a fullstack project in the area of e-commerce and skincare. The platform allows users to purchase skincare products and perform a personalized skin analysis. The analysis is based on an uploaded photo, which uses an algorithm to detect skin impurities (e.g., acne, redness, dryness). Matching products are then recommended.
 
-Neben der Analyse bietet die Plattform einen klassischen Online-Shop, in dem Benutzer:innen weitere Produkte entdecken, in den Warenkorb legen und kaufen können.
+In addition to the analysis, the platform offers a classic online shop where users can discover, add to cart, and purchase additional products.
 
-## 🚀 Ziel
+## 🚀 Goal
 
-Entwicklung einer modernen und interaktiven Webanwendung, die zwei zentrale Funktionen vereint:
+Development of a modern and interactive web application that combines two core features:
 
-1. Eine **personalisierte Hautanalyse**, die auf Bildverarbeitung basiert und gezielte Produktvorschläge liefert.
-2. Einen **funktionalen Webshop**, in dem Benutzer:innen Hautpflegeprodukte entdecken, auswählen und erwerben können.
-3. Ein **Hauttypen-Quiz**, das durch Auswertung der Antworten den Hauttyp bestimmt.
+1. A **personalized skin analysis** based on image processing that delivers targeted product recommendations.
+2. A **functional web shop** where users can discover, select, and purchase skincare products.
+3. A **skin type quiz** that determines the skin type by evaluating the user's answers.
 
-Das Projekt legt besonderen Wert auf:
+The project places special emphasis on:
 
-- eine klare Trennung zwischen Frontend und Backend (Clean Architecture),
-- eine reibungslose Benutzerführung (UX),
-- sowie den Einsatz moderner Technologien wie TypeScript, Angular, Docker, API und JWT.
-
----
-
-## 🧩 Funktionen (User Stories)
-
-### 👤 Als anonymer Benutzer
-
-- Als anonymer Benutzer möchte ich mich registrieren und einloggen können, damit ich auf personalisierte Funktionen zugreifen kann.
-
-### 🧑‍💻 Als eingeloggter Benutzer
-
-- Als eingeloggter Benutzer möchte ich ein Foto von meinem Gesicht hochladen können, damit meine Haut analysiert wird.
-- Als eingeloggter Benutzer möchte ich die Analyseergebnisse mit klaren Empfehlungen sehen, damit ich gezielt Produkte auswählen kann.
-- Als eingeloggter Benutzer möchte ich empfohlene Produkte direkt in den Warenkorb legen können, damit ich sie später kaufen kann.
-- Als eingeloggter Benutzer möchte ich auch andere Produkte durchsuchen und in den Warenkorb legen können.
-- Als eingeloggter Benutzer möchte ich meinen Warenkorb verwalten (hinzufügen, entfernen, Menge ändern), damit ich meine Bestellung anpassen kann.
-- Als eingeloggter Benutzer möchte ich eine Bestellung abschließen und bezahlen können, damit ich die gewünschten Produkte erhalte.
-- Als eingeloggter Benutzer möchte ich ein Hauttypen-Quiz ausfüllen, damit mein Hauttyp automatisch bestimmt wird.
-
-### 🔐 Als Administrator
-
-- Als Admin möchte ich Produkte erstellen, bearbeiten und löschen können, damit das Sortiment aktuell bleibt.
-- Als Admin möchte ich die Benutzerliste sehen können, um die Plattform zu verwalten.
-- Als Admin möchte ich Bestellungen und Zahlungen einsehen können, um den Überblick über den Shopbetrieb zu behalten.
+- a clear separation between frontend and backend (Clean Architecture),
+- a smooth user experience (UX),
+- and the use of modern technologies such as TypeScript, Angular, Docker, API, and JWT.
 
 ---
 
-## Installing nodemodules in Backend 
+## 🧩 Features (User Stories)
 
-tap npm install in folder backend/
+### 👤 As an anonymous user
+
+- As an anonymous user, I want to register and log in so I can access personalized features.
+
+### 🧑‍💻 As a logged-in user
+
+- As a logged-in user, I want to upload a photo of my face so my skin can be analyzed.
+- As a logged-in user, I want to see the analysis results with clear recommendations so I can select products accordingly.
+- As a logged-in user, I want to add recommended products directly to my cart so I can purchase them later.
+- As a logged-in user, I want to browse and add other products to my cart.
+- As a logged-in user, I want to manage my cart (add, remove, change quantity) so I can adjust my order.
+- As a logged-in user, I want to complete an order and pay so I receive the desired products.
+- As a logged-in user, I want to fill out a skin type quiz so my skin type is automatically determined.
+
+### 🔐 As an Administrator
+
+- As an admin, I want to create, edit, and delete products so the catalog stays up to date.
+- As an admin, I want to view the user list to manage the platform.
+- As an admin, I want to view orders and payments to keep track of shop operations.
+
+---
+
+## Installing node modules in Backend 
+
+Run npm install in the backend/ folder.
 
 ## Installing and accessing web application
 
@@ -92,48 +92,48 @@ Run this to start the backend test:
 npm test
 ```
 
-## 🧠 Schritt 1: Modellierung
+## 🧠 Step 1: Modeling
 
-### 📌 Use-Case-Diagramm
+### 📌 Use Case Diagram
 
-![Use Case Diagramm](./Utils/use_case.png)
+![Use Case Diagram](./Utils/use_case.png)
 
 ---
 
-## 📷 Produktbilder mit imgbb
+## 📷 Product Images with imgbb
 
-Für die Darstellung der Hautpflegeprodukte in der Anwendung nutzen wir den Online-Dienst [imgbb](https://imgbb.com/)
+For displaying skincare product images in the application, we use the online service [imgbb](https://imgbb.com/).
 
-### 🔄 Vorgehensweise
+### 🔄 Workflow
 
-1. Das Produktbild wird lokal ausgewählt und auf der Webseite [imgbb.com](https://imgbb.com/) hochgeladen.
-2. Nach dem Hochladen wird das Bild digitalisiert und online gespeichert.
-3. Der Dienst generiert automatisch einen **öffentlichen Link** (z. B. `https://i.ibb.co/xyz/produktbild.jpg`), der weltweit zugänglich ist.
-4. Dieser Link wird anschließend in unserer **Datenbank** gespeichert, in einem Produktobjekt unter dem Feld `imageUrl`.
-5. Beim Abrufen der Produkte wird dieser Link genutzt, um das Bild im Frontend anzuzeigen.
+1. The product image is selected locally and uploaded to [imgbb.com](https://imgbb.com/).
+2. After uploading, the image is digitized and stored online.
+3. The service automatically generates a **public link** (e.g., `https://i.ibb.co/xyz/product-image.jpg`) that is globally accessible.
+4. This link is then stored in our **database**, in a product object under the `imageUrl` field.
+5. When products are fetched, this link is used to display the image in the frontend.
 
-### 📦 Beispiel
+### 📦 Example
 
 ```json
 {
-  "name": "Tagescreme SPF 30",
-  "description": "Schützt die Haut vor UV-Strahlen und spendet Feuchtigkeit.",
+  "name": "Day Cream SPF 30",
+  "description": "Protects the skin from UV rays and provides moisture.",
   "price": 14.99,
-  "imageUrl": "https://i.ibb.co/xyz123/tagescreme.jpg"
+  "imageUrl": "https://i.ibb.co/xyz123/daycream.jpg"
 }
 ```
 
 ---
 
-## 🧼 Code Style & Formatierung
+## 🧼 Code Style & Formatting
 
-Dieses Projekt verwendet [Prettier](https://prettier.io/) zur automatischen Codeformatierung, sowohl im Backend als auch im Frontend.
+This project uses [Prettier](https://prettier.io/) for automatic code formatting, both in the backend and frontend.
 
-- Die Konfigurationen befinden sich in den Dateien:
+- Configurations are located in the following files:
   - `backend/.prettierrc`
   - `frontend/.prettierrc`
-- Für das Frontend wurde zusätzlich ein spezieller Parser für Angular-Templates (`*.html`) konfiguriert.
-- Ziel ist ein einheitlicher, lesbarer und wartbarer Code über das gesamte Projekt hinweg.
+- For the frontend, a special parser for Angular templates (`*.html`) was additionally configured.
+- The goal is consistent, readable, and maintainable code across the entire project.
 
 ---
 
@@ -151,81 +151,81 @@ Dieses Projekt verwendet [Prettier](https://prettier.io/) zur automatischen Code
 
 ## 🖼️ Screenshots
 
-### 🏠 Startseite
+### 🏠 Home Page
 
 <p align="center">
-  <img src="./Utils/startseite.png" alt="Startseite" width="700"/>
+  <img src="./Utils/startseite.png" alt="Home Page" width="700"/>
 </p>
 
 ---
 
-### 🧪 Hautanalyse – Bildauswertung
+### 🧪 Skin Analysis – Image Evaluation
 
 <p align="center">
-  <img src="./Utils/analyse_seite.png" alt="Analyse" width="700"/>
+  <img src="./Utils/analyse_seite.png" alt="Analysis" width="700"/>
 </p>
 
 ---
 
-### 🧴 Produkte
+### 🧴 Products
 
 <p align="center">
-  <img src="./Utils/produkte_seite.png" alt="Analyse" width="700"/>
+  <img src="./Utils/produkte_seite.png" alt="Products" width="700"/>
 </p>
 
 ---
 
-### 🛒 Warenkorb & Bestellung
+### 🛒 Cart & Orders
 
 <p align="center">
-  <img src="./Utils/Bestellung_und_Warenkorb.png" alt="Warenkorb" width="700"/>
+  <img src="./Utils/Bestellung_und_Warenkorb.png" alt="Cart" width="700"/>
 </p>
 
 ---
 
-### 🛒Admin Seite
+### 🛒 Admin Page
 
 <p align="center">
-  <img src="./Utils/Admin_Page.png" alt="Warenkorb" width="700"/>
+  <img src="./Utils/Admin_Page.png" alt="Admin Page" width="700"/>
 </p>
 
-## 📚 Offizielle Dokumentationen & Nützliche Tools
+## 📚 Official Documentation & Useful Tools
 
-### Backend-Entwicklung
+### Backend Development
 
-| Technologie    | Dokumentation                                       | Beschreibung                                              |
-| -------------- | --------------------------------------------------- | --------------------------------------------------------- |
-| **Node.js**    | [Offizielle Docs](https://nodejs.org/en/docs/)      | JavaScript-Laufzeitumgebung für Serverseitige Entwicklung |
-| **TypeScript** | [TS Handbuch](https://www.typescriptlang.org/docs/) | Typisiertes JavaScript-Superset                           |
+| Technology     | Documentation                                       | Description                                    |
+| -------------- | --------------------------------------------------- | ---------------------------------------------- |
+| **Node.js**    | [Official Docs](https://nodejs.org/en/docs/)        | JavaScript runtime for server-side development |
+| **TypeScript** | [TS Handbook](https://www.typescriptlang.org/docs/) | Typed JavaScript superset                      |
 
-### Datenbanken
+### Databases
 
-| Technologie    | Dokumentation                                 | Beschreibung                          |
-| -------------- | --------------------------------------------- | ------------------------------------- |
-| **MongoDB**    | [MongoDB Docs](https://docs.mongodb.com/)     | Dokumentenorientierte NoSQL-Datenbank |
-| **PostgreSQL** | [PostgreSQL Docs](https://node-postgres.com/) | Open-Source RDBMS                     |
+| Technology     | Documentation                                 | Description                    |
+| -------------- | --------------------------------------------- | ------------------------------ |
+| **MongoDB**    | [MongoDB Docs](https://docs.mongodb.com/)     | Document-oriented NoSQL database |
+| **PostgreSQL** | [PostgreSQL Docs](https://node-postgres.com/) | Open-source RDBMS              |
 
-### Sicherheit
+### Security
 
-| Technologie | Dokumentation                                          | Beschreibung                |
-| ----------- | ------------------------------------------------------ | --------------------------- |
-| **bcrypt**  | [npm bcryptjs](https://www.npmjs.com/package/bcryptjs) | Passwort-Hashing Bibliothek |
-| **JWT**     | [jwt.io](https://jwt.io/introduction/)                 | JSON Web Tokens Standard    |
+| Technology  | Documentation                                          | Description              |
+| ----------- | ------------------------------------------------------ | ------------------------ |
+| **bcrypt**  | [npm bcryptjs](https://www.npmjs.com/package/bcryptjs) | Password hashing library |
+| **JWT**     | [jwt.io](https://jwt.io/introduction/)                 | JSON Web Tokens standard |
 
-### Infrastruktur
+### Infrastructure
 
-| Technologie | Dokumentation                           | Beschreibung        |
-| ----------- | --------------------------------------- | ------------------- |
-| **Docker**  | [Docker Docs](https://docs.docker.com/) | Container-Plattform |
+| Technology  | Documentation                            | Description        |
+| ----------- | ---------------------------------------- | ------------------ |
+| **Docker**  | [Docker Docs](https://docs.docker.com/)  | Container platform |
 
 ### Frontend
 
-| Technologie | Dokumentation                           | Beschreibung              |
-| ----------- | --------------------------------------- | ------------------------- |
-| **Angular** | [Angular Docs](https://angular.io/docs) | Web Application Framework |
+| Technology  | Documentation                            | Description               |
+| ----------- | ---------------------------------------- | ------------------------- |
+| **Angular** | [Angular Docs](https://angular.io/docs)  | Web Application Framework |
 
-### Projekt-Dokumentation
+### Project Documentation
 
-| Tool          | Dokumentation                                    | Beschreibung                       |
+| Tool          | Documentation                                    | Description                        |
 | ------------- | ------------------------------------------------ | ---------------------------------- |
-| **README.md** | [Markdown Guide](https://www.markdownguide.org/) | Standard für Projektbeschreibungen |
+| **README.md** | [Markdown Guide](https://www.markdownguide.org/) | Standard for project documentation |

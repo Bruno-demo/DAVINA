@@ -1,14 +1,303 @@
-.admin-container {
-  padding: 16px;
-  margin: 0 auto;
+/* ───── Admin Dashboard Layout ───── */
+.admin-layout {
   display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
+  min-height: calc(100vh - 80px);
+  background: var(--color-base, #F0EDE8);
 }
 
-.admin-group {
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  background: var(--color-dark, #1a1a1a);
+  color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  flex-shrink: 0;
 }
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1.5rem 1.25rem;
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.sidebar-brand i { color: var(--color-orange, #f24901); font-size: 1.2rem; }
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+.sidebar-nav button {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  padding: .85rem 1.25rem;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: .88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: left;
+  border-left: 3px solid transparent;
+}
+.sidebar-nav button:hover {
+  background: rgba(255,255,255,.06);
+  color: #fff;
+}
+.sidebar-nav button.active {
+  background: rgba(242,73,1,.12);
+  color: #fff;
+  border-left-color: var(--color-orange, #f24901);
+}
+.sidebar-nav button i { width: 1.2rem; text-align: center; }
+
+/* ── Main ── */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-header {
+  padding: 1.5rem 2rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.admin-header h1 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-dark, #1a1a1a);
+  margin: 0;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 1.5rem 2rem 2rem;
+  overflow-y: auto;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .sidebar-brand {
+    padding: 1rem;
+    border-bottom: none;
+    border-right: 1px solid rgba(255,255,255,.08);
+    white-space: nowrap;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+    padding: 0;
+    overflow-x: auto;
+  }
+  .sidebar-nav button {
+    padding: .75rem 1rem;
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+  .sidebar-nav button.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--color-orange, #f24901);
+  }
+  .admin-content { padding: 1rem; }
+}
+
+/* ── Admin Tab Content ── */
+.admin-tab-content { width: 100%; }
+
+.tab-actions {
+  margin-bottom: 1rem;
+}
+
+.btn-admin {
+  padding: 0.55rem 1.1rem;
+  background: var(--color-dark, #1a1a1a);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-admin:hover {
+  background: var(--color-orange, #f24901);
+}
+
+.btn-green {
+  background: var(--color-green, #B8D14A) !important;
+  color: var(--color-dark, #1a1a1a) !important;
+}
+
+.btn-green:hover {
+  background: #a3bc3f !important;
+}
+
+.btn-green-sm,
+.btn-danger-sm {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}
+
+.btn-danger-sm {
+  background: #e74c3c !important;
+}
+
+.btn-danger-sm:hover {
+  background: #c0392b !important;
+}
+
+/* Admin Form Card */
+.admin-form-card {
+  background: #fff;
+  border-radius: var(--radius, 16px);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.form-row-admin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-group-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.form-group-admin label {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-group-admin input,
+.form-group-admin select {
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid rgba(0,0,0,.12);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group-admin input:focus,
+.form-group-admin select:focus {
+  border-color: var(--color-orange, #f24901);
+}
+
+/* Admin Table */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: var(--radius, 16px);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.admin-table thead {
+  background: var(--color-dark, #1a1a1a);
+  color: #fff;
+}
+
+.admin-table th {
+  padding: 0.7rem 0.75rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.admin-table td {
+  padding: 0.65rem 0.75rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.reason-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-cell {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.status-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending { background: #fff3cd; color: #856404; }
+.status-approved { background: rgba(184, 209, 74, 0.15); color: #6b8e00; }
+.status-rejected { background: rgba(242, 73, 1, 0.08); color: #c0380a; }
+.status-completed { background: rgba(184, 209, 74, 0.15); color: #4a7100; }
+
+.status-active { color: #4a7100; font-weight: 600; }
+.status-inactive { color: #999; }
+
+.empty-msg {
+  color: #999;
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .admin-layout { background: #1a1a1a; }
+:host-context([data-theme="dark"]) .sidebar { background: #111; color: #fff; }
+:host-context([data-theme="dark"]) .sidebar-brand { color: #fff; border-bottom-color: rgba(255,255,255,.08); }
+:host-context([data-theme="dark"]) .sidebar-nav button { color: rgba(255,255,255,.6); }
+:host-context([data-theme="dark"]) .sidebar-nav button:hover { background: rgba(255,255,255,.06); color: #fff; }
+:host-context([data-theme="dark"]) .sidebar-nav button.active { background: rgba(242,73,1,.12); color: #fff; }
+:host-context([data-theme="dark"]) .admin-header { background: #242424; border-bottom-color: #3a3a3a; }
+:host-context([data-theme="dark"]) .admin-header h1 { color: #eae7e2; }
+:host-context([data-theme="dark"]) .admin-form-card { background: #242424; box-shadow: 0 2px 12px rgba(0,0,0,0.25); }
+:host-context([data-theme="dark"]) .form-group-admin label { color: #a8a4a0; }
+:host-context([data-theme="dark"]) .form-group-admin input,
+:host-context([data-theme="dark"]) .form-group-admin select { background: #1e1e1e; border-color: #444; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .admin-table { background: #242424; box-shadow: 0 2px 12px rgba(0,0,0,0.25); }
+:host-context([data-theme="dark"]) .admin-table thead { background: #111; color: #fff; }
+:host-context([data-theme="dark"]) .admin-table th { color: #fff; }
+:host-context([data-theme="dark"]) .admin-table td { border-bottom-color: #3a3a3a; color: #d4d0cb; }
+:host-context([data-theme="dark"]) .btn-admin { background: #f0ede8; color: #1a1a1a; }
+:host-context([data-theme="dark"]) .btn-admin:hover { background: var(--color-orange, #f24901); color: #fff; }
+:host-context([data-theme="dark"]) .status-pending { background: #3d3520; color: #fbbf24; }
+:host-context([data-theme="dark"]) .status-approved { background: #1a2e1a; color: #86c232; }
+:host-context([data-theme="dark"]) .status-rejected { background: #2e1a1a; color: #ff6b6b; }
+:host-context([data-theme="dark"]) .status-completed { background: #1a2e1a; color: #6ee7b7; }
+:host-context([data-theme="dark"]) .status-active { color: #6ee7b7; }
+:host-context([data-theme="dark"]) .status-inactive { color: #666; }
+:host-context([data-theme="dark"]) .empty-msg { color: #666; }

@@ -39,4 +39,14 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/update-role`, data, { withCredentials: true });
   }
 
+  adminVerifyUser(userId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/admin-verify`, { userId }, { withCredentials: true });
+  }
+
+  adminDeleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/admin-delete`, {
+      body: { userId },
+      withCredentials: true,
+    });
+  }
 }

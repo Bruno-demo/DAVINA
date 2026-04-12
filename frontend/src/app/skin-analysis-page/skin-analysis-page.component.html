@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="analyse start">
+  <p>
+  Upload a clear photo of your face to get a precise analysis of your skin condition.
+</p>
+<p>
+  <i class="fa-solid fa-circle-info" title="The analysis is anonymous and secure."></i>
+
+  Your image is used only for analysis—it is not stored or shared.
+
+</p>
+
+    <div *ngIf="!selectedImageUrl" class="image-frame">
+      <p>Please upload a photo</p>
+      <i class="fa-solid fa-camera fa-3x"></i>
+    </div>
+
+    <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Uploaded photo" />
+
+    <div *ngIf="errorMessage" class="error" [innerHTML]="errorMessage"></div>
+
+    <input type="file" accept="image/*" hidden #fileInput (change)="onFileSelected($event)" />
+
+   <div class="button-group">
+  <input type="file" accept="image/*" hidden #fileInput (change)="onFileSelected($event)" />
+
+  <button class="btn btn_flex" (click)="triggerFileUpload(fileInput)" [disabled]="!isLoggedIn">
+    <span>Upload photo</span>
+    <i class="fa-solid fa-upload"></i>
+  </button>
+
+  <button class="btn btn_flex" (click)="startAnalysis()" [disabled]="!selectedImageUrl || !isLoggedIn">
+    <span>Start analysis</span>
+    <i class="fa-solid fa-microscope"></i>
+  </button>
+</div>
+
+    <div *ngIf="!isLoggedIn" class="login-warning">
+      🔒 You must be <a href="/login">logged in</a> to run a skin analysis.
+    </div>
+  </div>
+
+  <div *ngIf="showResult" class="analyse finish">
+    <h2>🔍 Analysis complete</h2>
+    <p>{{ resultText }}</p>
+  </div>
+
+  <div *ngIf="showProducts">
+    <h2>Recommended products</h2>
+    <div class="card_container">
+      <app-product-card *ngFor="let item of filteredProducts" [product]="item"></app-product-card>
+    </div>
+  </div>
+
+</div>

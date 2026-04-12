@@ -1,3 +1,14 @@
+FROM node:18-slim AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npx tsc -p tsconfig.build.json
+
+# --- Production image ---
 FROM node:18-slim
 
 WORKDIR /app
@@ -10,13 +21,11 @@ RUN apt-get update && \
     apt-get install -y mongodb-database-tools && \
     rm -rf /var/lib/apt/lists/*
 
-
 COPY package*.json ./
-RUN npm install
-RUN npm install -g ts-node typescript
+RUN npm install --omit=dev
 
-COPY . .
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
-CMD npm run start
+CMD ["node", "dist/src/index.js"]
 

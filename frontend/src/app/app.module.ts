@@ -6,12 +6,12 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { HautanalysePageComponent } from './hautanalyse-page/hautanalyse-page.component';
-import { HauttypPageComponent } from './hauttyp-page/hauttyp-page.component';
+import { SkinAnalysisPageComponent } from './skin-analysis-page/skin-analysis-page.component';
+import { SkinTypePageComponent } from './skin-type-page/skin-type-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
-import { WarenkorbComponent } from './warenkorb/warenkorb.component';
-import { ProductwarencorbComponent } from './productwarencorb/productwarencorb.component';
-import { LiferungformComponent } from './lieferungform/liferungform.component';
+import { CartComponent } from './cart/cart.component';
+import { CartProductComponent } from './cart-product/cart-product.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AdminPage } from './admin-page/admin-page';
@@ -28,12 +28,12 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   declarations: [
     AppComponent,
     HomePageComponent,
-    HautanalysePageComponent,
-    HauttypPageComponent,
+    SkinAnalysisPageComponent,
+    SkinTypePageComponent,
     ProductPageComponent,
-    WarenkorbComponent,
-    ProductwarencorbComponent,
-    LiferungformComponent,
+    CartComponent,
+    CartProductComponent,
+    CheckoutComponent,
     RegisterComponent,
     LoginComponent,
     AdminPage,

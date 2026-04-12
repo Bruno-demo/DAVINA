@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import QuizResponse from "../models/quizResponse.model";
 import { determineSkinTypeAndAdvice } from "../utils/skinTypeHelper";
-import fs from "fs";
-import path from "path";
+import quizQuestions from "../models/mongo/Data/quizQuestions.json";
 
 async function createOrUpdateQuiz(req: Request, res: Response): Promise<void> {
   try {
@@ -11,7 +10,7 @@ async function createOrUpdateQuiz(req: Request, res: Response): Promise<void> {
     if (!userId || !answers) {
       res
         .status(400)
-        .json({ message: "userId und Antworten sind erforderlich." });
+        .json({ message: "userId and answers are required." });
       return;
     }
 
@@ -29,7 +28,7 @@ async function createOrUpdateQuiz(req: Request, res: Response): Promise<void> {
 
       res
         .status(200)
-        .json({ message: "Aktualisiert", result: skinType, advice });
+        .json({ message: "Updated", result: skinType, advice });
       return;
     }
 
@@ -40,9 +39,9 @@ async function createOrUpdateQuiz(req: Request, res: Response): Promise<void> {
     });
     await newQuiz.save();
 
-    res.status(201).json({ message: "Gespeichert", result: skinType, advice });
+    res.status(201).json({ message: "Saved", result: skinType, advice });
   } catch (err) {
-    console.error(" Fehler in createOrUpdateQuiz:", (err as Error).message);
+    console.error("Error in createOrUpdateQuiz:", (err as Error).message);
     res.status(500).json({ error: (err as Error).message });
   }
 }
@@ -53,28 +52,23 @@ async function getQuizByUser(req: Request, res: Response): Promise<void> {
     const quiz = await QuizResponse.findOne({ userId: id });
 
     if (!quiz) {
-      res.status(404).json({ message: "Kein Quiz gefunden." });
+      res.status(404).json({ message: "Quiz not found." });
       return;
     }
 
     res.status(200).json(quiz);
   } catch (err) {
-    console.error(" Fehler in getQuizByUser:", (err as Error).message);
+    console.error("Error in getQuizByUser:", (err as Error).message);
     res.status(500).json({ error: (err as Error).message });
   }
 }
 
-function getQuizQuestions(req: Request, res: Response): void {
+function getQuizQuestions(_req: Request, res: Response): void {
   try {
-    const filePath = path.join(
-      __dirname,
-      "../models/mongo/Data/quizQuestions.json"
-    );
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    res.status(200).json(data.questions);
+    res.status(200).json(quizQuestions.questions);
   } catch (err) {
-    console.error(" Fehler in getQuizQuestions:", (err as Error).message);
-    res.status(500).json({ error: "Fragen konnten nicht geladen werden." });
+    console.error("Error in getQuizQuestions:", (err as Error).message);
+    res.status(500).json({ error: "Questions could not be loaded." });
   }
 }
 

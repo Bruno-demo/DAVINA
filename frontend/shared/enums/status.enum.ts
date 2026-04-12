@@ -1,19 +1,19 @@
-export enum StatusKorb {
-  OFFEN = "Offen",
-  BESTELLT = "Bestellt",
-  ABGEBROCHEN = "Abgebrochen",
-  ABGELAUFEN = "Abgelaufen",
+export enum StatusCart {
+  OPEN = "Open",
+  ORDERED = "Ordered",
+  CANCELLED = "Cancelled",
+  EXPIRED = "Expired",
 }
 
-export enum StatusProdukt {
-  VERFUEGBAR = "Verfuegbar",
-  AUSVERKAUFT = "Ausverkauft",
+export enum StatusProduct {
+  AVAILABLE = "Available",
+  SOLD_OUT = "Sold Out",
 }
 
 export enum StatusPayment {
-  AUSSTEHEND = "ausstehend",
-  BEZAHLT = "bezahlt",
-  FEHLGESCHLAGEN = "fehlgeschlagen",
+  PENDING = "pending",
+  PAID = "paid",
+  FAILED = "failed",
 }
 
 export enum StatusOrder {

@@ -1,38 +1,152 @@
-<div *ngIf="isLoading">Chargement des commandes...</div>
+<div class="panel">
 
-<table *ngIf="!isLoading" class="orders-table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Date</th>
-      <th>Client</th>
-      <th>Email</th>
-      <th>Articles</th>
-      <th>Total</th>
-      <th>Statut</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let order of orders">
-      <td>#{{ order.order_id }}</td>
-      <td>{{ order.createdAt | date:'short' }}</td>
-      <td>{{ order.user?.u_name }}</td>
-      <td>{{ order.user?.u_email }}</td>
-      <td>
-        <ul>
-          <li *ngFor="let item of order.ordered_items">{{ item.name }} (x{{ item.quantity }})</li>
-        </ul>
-      </td>
-      <td>{{ order.total_price | currency:'EUR' }}</td>
-      <td>
-        <select [(ngModel)]="order.newStatus">
-          <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
-        </select>
-      </td>
-      <td>
-        <button (click)="saveStatus(order)">Speichern</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <!-- Filter Bar -->
+  <div class="toolbar">
+    <div class="filter-group">
+      <label>Filter by status:</label>
+      <select [(ngModel)]="filterStatus" (change)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+      </select>
+    </div>
+    <span class="count">{{ filteredOrders.length }} orders</span>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">Loading orders...</div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="!isLoading">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of paginatedOrders" class="clickable-row" (click)="openOrder(order)">
+          <td class="id-cell">#{{ order.order_id }}</td>
+          <td>{{ order.createdAt | date:'mediumDate' }}</td>
+          <td class="customer-cell">
+            <strong>{{ order.user?.u_name || '—' }}</strong>
+            <span>{{ order.user?.u_email || '' }}</span>
+          </td>
+          <td>
+            <ul class="items-list">
+              <li *ngFor="let item of order.ordered_items">{{ item.name }} &times;{{ item.quantity }}</li>
+            </ul>
+          </td>
+          <td class="price-cell">{{ order.total_price | currency:'RWF':'symbol':'1.0-0' }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+          </td>
+          <td>
+            <div class="status-update" (click)="$event.stopPropagation()">
+              <select [(ngModel)]="order.newStatus">
+                <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+              </select>
+              <button class="save-btn" (click)="saveStatus(order)" [disabled]="order.newStatus === order.status">Save</button>
+            </div>
+          </td>
+          <td (click)="$event.stopPropagation()">
+            <button class="icon-btn delete" (click)="deleteOrder(order)" title="Delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="paginatedOrders.length === 0">
+          <td colspan="8" class="empty">No orders found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">&laquo; Prev</button>
+    <button *ngFor="let pg of pageNumbers" [class.active]="pg === currentPage" (click)="goToPage(pg)">{{ pg }}</button>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages">Next &raquo;</button>
+  </div>
+
+  <!-- Order Detail Overlay -->
+  <div class="od-overlay" *ngIf="selectedOrder" (click)="closeOrder()">
+    <div class="od-card" (click)="$event.stopPropagation()">
+
+      <div class="od-header">
+        <div>
+          <h2 class="od-title">Order <span class="od-id">#{{ selectedOrder.order_id }}</span></h2>
+          <span class="od-date">{{ selectedOrder.createdAt | date:'medium' }}</span>
+        </div>
+        <button class="od-close" (click)="closeOrder()" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="od-body">
+
+        <!-- Status -->
+        <div class="od-section">
+          <span class="od-label">Status</span>
+          <span class="status-badge" [ngClass]="getStatusClass(selectedOrder.status)">{{ selectedOrder.status }}</span>
+        </div>
+
+        <!-- Customer -->
+        <div class="od-section">
+          <span class="od-label">Customer</span>
+          <div class="od-customer">
+            <strong>{{ selectedOrder.user?.u_name || '—' }}</strong>
+            <span>{{ selectedOrder.user?.u_email || '' }}</span>
+          </div>
+        </div>
+
+        <!-- Items -->
+        <div class="od-section od-items-section">
+          <span class="od-label">Items</span>
+          <div class="od-items">
+            <div class="od-item" *ngFor="let item of selectedOrder.ordered_items">
+              <span class="od-item-name">{{ item.name }}</span>
+              <span class="od-item-qty">&times; {{ item.quantity }}</span>
+              <span class="od-item-price">{{ (item.price * item.quantity) | currency:'RWF':'symbol':'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="od-section od-total-row">
+          <span class="od-label">Total</span>
+          <span class="od-total-val">{{ selectedOrder.total_price | currency:'RWF':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <!-- Shipping address if present -->
+        <div class="od-section" *ngIf="selectedOrder.shipping_address">
+          <span class="od-label">Shipping Address</span>
+          <address class="od-address">{{ selectedOrder.shipping_address }}</address>
+        </div>
+
+        <!-- Update status -->
+        <div class="od-section od-update">
+          <span class="od-label">Update Status</span>
+          <div class="od-update-row">
+            <select [(ngModel)]="selectedOrder.newStatus">
+              <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+            </select>
+            <button class="save-btn"
+              (click)="saveStatus(selectedOrder)"
+              [disabled]="selectedOrder.newStatus === selectedOrder.status">
+              Save
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,143 @@
+<section class="analytics-page">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Analytics Dashboard</h1>
+      <div class="export-actions">
+        <button class="btn-export" (click)="exportOrders()">Export Orders CSV</button>
+        <button class="btn-export" (click)="exportProducts()">Export Products CSV</button>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading">Loading analytics...</div>
+
+    <div *ngIf="stats && !loading">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon revenue-icon"><i class="fa-solid fa-coins"></i></div>
+          <div class="kpi-content">
+            <span class="kpi-value">RWF {{ stats.totalRevenue | number:'1.0-0' }}</span>
+            <span class="kpi-label">Total Revenue</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon orders-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ stats.totalOrders }}</span>
+            <span class="kpi-label">Total Orders</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon users-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ stats.totalUsers }}</span>
+            <span class="kpi-label">Users</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon products-icon"><i class="fa-solid fa-box-open"></i></div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ stats.totalProducts }}</span>
+            <span class="kpi-label">Products</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon recent-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="kpi-content">
+            <span class="kpi-value">{{ stats.recentOrdersCount }}</span>
+            <span class="kpi-label">Orders (30 days)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <!-- Orders by Status -->
+        <div class="chart-card">
+          <h3>Orders by Status</h3>
+          <div class="status-bars">
+            <div *ngFor="let s of stats.ordersByStatus" class="status-bar-row">
+              <span class="status-label">{{ s.status }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="(s.count / stats.totalOrders * 100) || 0"></div>
+              </div>
+              <span class="bar-count">{{ s.count }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="chart-card">
+          <h3>Payment Methods</h3>
+          <div class="status-bars">
+            <div *ngFor="let pm of stats.paymentMethods" class="status-bar-row">
+              <span class="status-label">{{ pm.payment_method }}</span>
+              <div class="bar-track">
+                <div class="bar-fill bar-green" [style.width.%]="(pm.count / stats.totalOrders * 100) || 0"></div>
+              </div>
+              <span class="bar-count">{{ pm.count }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue by Month -->
+      <div class="chart-card full-width" *ngIf="stats.revenueByMonth.length > 0">
+        <h3>Monthly Revenue</h3>
+        <div class="monthly-chart">
+          <div *ngFor="let m of stats.revenueByMonth" class="month-bar">
+            <div class="month-bar-fill" [style.height.%]="(m.revenue / (stats.totalRevenue || 1) * 100)"></div>
+            <span class="month-label">{{ m.month | date:'MMM' }}</span>
+            <span class="month-value">RWF {{ m.revenue | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Products -->
+      <div class="chart-card full-width">
+        <h3>Top Selling Products</h3>
+        <div class="top-products-table">
+          <div class="table-header">
+            <span>Product</span>
+            <span>Qty Sold</span>
+            <span>Revenue</span>
+            <span>Bar</span>
+          </div>
+          <div *ngFor="let p of stats.topProducts" class="table-row">
+            <span class="product-name">{{ p.name }}</span>
+            <span>{{ p.quantity }}</span>
+            <span class="product-revenue">RWF {{ p.revenue | number:'1.0-0' }}</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-orange" [style.width.%]="(p.revenue / getMaxRevenue() * 100)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Low Stock Alert -->
+      <div class="chart-card full-width" *ngIf="stats.lowStockProducts.length > 0">
+        <h3 class="alert-title">⚠ Low Stock Alert</h3>
+        <div class="low-stock-grid">
+          <div *ngFor="let p of stats.lowStockProducts" class="low-stock-item">
+            <span class="low-stock-name">{{ p.p_name }}</span>
+            <span class="low-stock-count" [class.critical]="p.stock <= 2">{{ p.stock }} left</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk Import -->
+      <div class="chart-card full-width">
+        <h3>Bulk Product Import</h3>
+        <p class="import-hint">Paste a JSON array of products to import.</p>
+        <textarea
+          [(ngModel)]="importProducts"
+          placeholder='[{"p_name":"Product","skin_typ_target":"oily","effect":"Hydration","price":29.99,"stock":100,"image_url":"..."}]'
+          rows="4"
+          class="import-textarea"
+        ></textarea>
+        <button class="btn-import" (click)="bulkImport()" [disabled]="!importProducts">Import Products</button>
+        <p *ngIf="importMessage" class="import-message">{{ importMessage }}</p>
+      </div>
+    </div>
+  </div>
+</section>

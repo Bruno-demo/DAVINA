@@ -22,6 +22,29 @@ export class ProductAdmin {
 
   constructor(private productService: ProductService) {}
 
+  formatSkinType(skinType: string): string {
+    const normalized = skinType?.toLowerCase();
+
+    if (normalized === 'dry') return 'Dry';
+    if (normalized === 'oily') return 'Oily';
+    if (normalized === 'combination') return 'Combination';
+    if (normalized === 'normal') return 'Normal';
+
+    return skinType;
+  }
+
+  formatEffect(effect: string): string {
+    const normalized = effect?.toLowerCase();
+
+    if (normalized === 'hydration') return 'Hydration';
+    if (normalized === 'soothing') return 'Soothing';
+    if (normalized === 'mattifying') return 'Mattifying';
+    if (normalized === 'anti-aging') return 'Anti-aging';
+    if (normalized === 'anti-acne') return 'Anti-acne';
+
+    return effect;
+  }
+
   enableEdit() {
     this.isEditing = true;
     this.editedProduct = { ...this.product };
@@ -49,7 +72,7 @@ export class ProductAdmin {
   }
 
   deleteProduct() {
-    if (confirm(`Möchten Sie "${this.product.p_name}" wirklich löschen?`)) {
+    if (confirm(`Are you sure you want to delete "${this.product.p_name}"?`)) {
       this.productService.deleteProduct(this.product._id).subscribe(() => {
         this.productDeleted.emit(this.product._id);
       });

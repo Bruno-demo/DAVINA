@@ -171,4 +171,36 @@ getDecodedToken(): any {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  /** Step 1: validate email+password, server sends OTP */
+  loginStep1(data: { email: string; password: string }): Observable<{ otpRequired: boolean; userId: number; message: string }> {
+    return this.http.post<any>(`${this.baseUrl}/login`, data);
+  }
+
+  /** Step 2: submit OTP, receive JWT */
+  verifyOtp(userId: number, otp: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.baseUrl}/verify-otp`, { userId, otp }).pipe(
+      tap((res) => {
+        this.saveToken(res.token);
+        this.isLoggedInSubject.next(true);
+        this.fetchUserRole();
+      })
+    );
+  }
+
+  verifyEmail(token: string): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(`${this.baseUrl}/verify-email`, { params: { token } });
+  }
+
+  resendVerificationEmail(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.baseUrl}/resend-verification`, { email });
+  }
+
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.baseUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, password: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.baseUrl}/reset-password`, { token, password });
+  }
 }

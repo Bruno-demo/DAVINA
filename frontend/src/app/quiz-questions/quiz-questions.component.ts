@@ -24,6 +24,17 @@ export class QuizQuestionsComponent implements OnInit {
 
   constructor(private quizService: QuizService) {}
 
+  formatSkinType(skinType: string): string {
+    const normalized = skinType?.toLowerCase();
+
+    if (normalized === 'dry') return 'Dry';
+    if (normalized === 'oily') return 'Oily';
+    if (normalized === 'combination') return 'Combination';
+    if (normalized === 'normal') return 'Normal';
+
+    return skinType;
+  }
+
   ngOnInit() {
     this.quizService.getQuizQuestions().subscribe((qs: QuizQuestion[]) => {
       this.questions = qs;

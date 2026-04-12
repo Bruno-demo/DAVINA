@@ -1,4 +1,4 @@
-{
+﻿{
 	"info": {
 		"name": "New Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -64,7 +64,7 @@
 			"response": []
 		},
 		{
-            "name": "POST /api/quiz - User macht ein Quiz",
+            "name": "POST /api/quiz - User takes a quiz",
             "request": {
                 "method": "POST",
                 "header": [
@@ -75,7 +75,7 @@
                 ],
                 "body": {
                 "mode": "raw",
-                "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"answers\": {\n    \"q1\": \"ja\",\n    \"q2\": \"nein\",\n    \"q3\": \"ja\",\n    \"q4\": \"nein\",\n    \"q5\": \"nein\",\n    \"q6\": \"ja\",\n    \"q7\": \"nein\",\n    \"q8\": \"nein\",\n    \"q9\": \"nein\",\n    \"q10\": \"ja\"\n  }\n}",
+                "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"answers\": {\n    \"q1\": \"yes\",\n    \"q2\": \"no\",\n    \"q3\": \"yes\",\n    \"q4\": \"no\",\n    \"q5\": \"no\",\n    \"q6\": \"yes\",\n    \"q7\": \"no\",\n    \"q8\": \"no\",\n    \"q9\": \"no\",\n    \"q10\": \"yes\"\n  }\n}",
                 "options": {
                     "raw": {
                     "language": "json"
@@ -93,7 +93,7 @@
             "response": []
         },
         {
-            "name": "POST /api/skin/analyse - Skinanalyse User",
+            "name": "POST /api/skin/analyse - Skin analysis user",
             "request": {
                 "method": "POST",
                 "header": [],
@@ -129,7 +129,7 @@
             "response": []
         },
         {
-            "name": "GET /api/products - User sieht alle Produkte",
+            "name": "GET /api/products - User sees all products",
             "request": {
                 "method": "GET",
                 "header": [],
@@ -144,7 +144,7 @@
             "response": []
         },
         {
-            "name": "Produkt A in den Warenkorb legen",
+            "name": "Add product A to cart",
             "request": {
                 "method": "POST",
                 "header": [
@@ -156,17 +156,17 @@
                 "raw": "{\n  \"product_id\": \"{{productA}}\",\n  \"quantity\": 1\n}"
                 },
                 "url": {
-                "raw": "http://localhost:3001/api/warenkorb/add",
+                "raw": "http://localhost:3001/api/cart/add",
                 "protocol": "http",
                 "host": ["localhost"],
                 "port": "3001",
-                "path": ["api", "warenkorb", "add"]
+                "path": ["api", "cart", "add"]
                 }
             },
             "response": []
         },
         {
-        "name": " Produkt B in den Warenkorb legen",
+        "name": "Add product B to cart",
         "request": {
             "method": "POST",
             "header": [
@@ -178,17 +178,17 @@
             "raw": "{\n  \"product_id\": \"{{productB}}\",\n  \"quantity\": 2\n}"
             },
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/add",
+            "raw": "http://localhost:3001/api/cart/add",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "add"]
+            "path": ["api", "cart", "add"]
             }
         },
         "response": []
         },
         {
-        "name": "Produkt C in den Warenkorb legen",
+        "name": "Add product C to cart",
         "request": {
             "method": "POST",
             "header": [
@@ -200,34 +200,34 @@
             "raw": "{\n  \"product_id\": \"{{productC}}\",\n  \"quantity\": 1\n}"
             },
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/add",
+            "raw": "http://localhost:3001/api/cart/add",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "add"]
+            "path": ["api", "cart", "add"]
             }
         },
         "response": []
         },
         {
-        "name": " Warenkorb anzeigen",
+        "name": "View cart",
         "request": {
             "method": "GET",
             "header": [
             { "key": "Authorization", "value": "Bearer {{userToken}}" }
             ],
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/me",
+            "raw": "http://localhost:3001/api/cart/me",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "me"]
+            "path": ["api", "cart", "me"]
             }
         },
         "response": []
         },
         {
-        "name": " Menge von Produkt B erhöhen",
+        "name": "Increase quantity of product B",
         "request": {
             "method": "PUT",
             "header": [
@@ -239,51 +239,51 @@
             "raw": "{\n  \"product_id\": \"{{productB}}\",\n  \"quantity\": 3\n}"
             },
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/update",
+            "raw": "http://localhost:3001/api/cart/update",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "update"]
+            "path": ["api", "cart", "update"]
             }
         },
         "response": []
         },
         {
-        "name": " Produkt A aus dem Warenkorb entfernen",
+        "name": "Remove product A from cart",
         "request": {
             "method": "DELETE",
             "header": [
             { "key": "Authorization", "value": "Bearer {{userToken}}" }
             ],
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/remove/{{productA}}",
+            "raw": "http://localhost:3001/api/cart/remove/{{productA}}",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "remove", "{{productA}}"]
+            "path": ["api", "cart", "remove", "{{productA}}"]
             }
         },
         "response": []
         },
         {
-        "name": "Endgültigen Warenkorb mit Gesamtpreis anzeigen",
+        "name": "Show final cart with total price",
         "request": {
             "method": "GET",
             "header": [
             { "key": "Authorization", "value": "Bearer {{userToken}}" }
             ],
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb/me",
+            "raw": "http://localhost:3001/api/cart/me",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb", "me"]
+            "path": ["api", "cart", "me"]
             }
         },
         "response": []
         },
         {
-            "name": "POST /api/payments – Bestellung + Zahlung",
+            "name": "POST /api/payments â€“ Order + Payment",
             "request": {
                 "method": "POST",
                 "header": [

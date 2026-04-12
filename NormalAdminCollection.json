@@ -1,11 +1,11 @@
-{
+﻿{
   "info": {
     "name": "NormalAdminCollection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
         {
-        "name": "POST /api/users/login - Admin einloggen",
+        "name": "POST /api/users/login - Admin login",
         "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -23,7 +23,7 @@
         }
         },
         {
-        "name": "GET /api/users - Alle Benutzer anzeigen",
+        "name": "GET /api/users - Show all users",
         "request": {
             "method": "GET",
             "header": [
@@ -39,23 +39,23 @@
         }
         },
         {
-        "name": "GET /api/warenkorb - Alle Warenkörbe anzeigen",
+        "name": "GET /api/cart - Show all carts",
         "request": {
             "method": "GET",
             "header": [
             { "key": "Authorization", "value": "Bearer {{userToken}}" }
             ],
             "url": {
-            "raw": "http://localhost:3001/api/warenkorb",
+            "raw": "http://localhost:3001/api/cart",
             "protocol": "http",
             "host": ["localhost"],
             "port": "3001",
-            "path": ["api", "warenkorb"]
+            "path": ["api", "cart"]
             }
         }
         },
         {
-        "name": "GET /api/orders - Alle Bestellungen anzeigen",
+        "name": "GET /api/orders - Show all orders",
         "request": {
             "method": "GET",
             "header": [
@@ -71,7 +71,7 @@
         }
         },
         {
-        "name": "PUT /api/orders/:orderId/status - Bestellstatus ändern",
+        "name": "PUT /api/orders/:orderId/status - Change order status",
         "request": {
             "method": "PUT",
             "header": [
@@ -80,7 +80,7 @@
             ],
             "body": {
             "mode": "raw",
-            "raw": "{\n  \"status\": \"Versandt\"\n}"
+            "raw": "{\n  \"status\": \"shipped\"}"
             },
             "url": {
             "raw": "http://localhost:3001/api/orders/1/status",
@@ -92,7 +92,7 @@
         }
         },
         {
-            "name": "POST /api/product-items - Neues Produkt hinzufügen",
+            "name": "POST /api/product-items - Add new product",
             "request": {
                 "method": "POST",
                 "header": [
@@ -101,7 +101,7 @@
                 ],
                 "body": {
                 "mode": "raw",
-                "raw": "{\n  \"p_name\": \"Product Test A\",\n  \"p_description\": \"Nur Test\",\n  \"skin_typ_target\": \"misch\",\n  \"effect\": \"Beruhigend\",\n  \"price\": 49.99,\n  \"image_url\": \"https://example.com/serum.jpg\"\n}"
+                "raw": "{\n  \"p_name\": \"Product Test A\",\n  \"p_description\": \"Test only\",\n  \"skin_typ_target\": \"combination\",\n  \"effect\": \"Soothing\",\n  \"price\": 49.99,\n  \"image_url\": \"https://example.com/serum.jpg\"\n}"
                 },
                 "url": {
                 "raw": "http://localhost:3001/api/product-items",
@@ -113,7 +113,7 @@
             }
         },
         {
-        "name": "GET /api/payments - Alle Zahlungen anzeigen",
+        "name": "GET /api/payments - Show all payments",
         "request": {
             "method": "GET",
             "header": [
@@ -129,7 +129,7 @@
         }
         },
         {
-            "name": "PUT /api/users/update-role - Benutzer zum Admin machen",
+            "name": "PUT /api/users/update-role - Make user admin",
             "request": {
                 "method": "PUT",
                 "header": [

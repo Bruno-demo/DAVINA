@@ -1,22 +1,159 @@
-<div class="admin-container">
+<div class="admin-layout">
 
-  <div class="admin-group">
-    <h2>👥 Liste der Nutzer</h2>
-    <app-userlistadmin></app-userlistadmin>
-  </div>
-  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Admin Panel</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button [class.active]="activeTab === 'orders'" (click)="setTab('orders')">
+        <i class="fa-solid fa-box"></i>
+        <span>Orders</span>
+      </button>
+      <button [class.active]="activeTab === 'products'" (click)="setTab('products')">
+        <i class="fa-solid fa-tags"></i>
+        <span>Products & Stock</span>
+      </button>
+      <button [class.active]="activeTab === 'users'" (click)="setTab('users')">
+        <i class="fa-solid fa-users"></i>
+        <span>Users</span>
+      </button>
+      <button [class.active]="activeTab === 'analytics'" (click)="setTab('analytics')">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Analytics</span>
+      </button>
+      <button [class.active]="activeTab === 'coupons'" (click)="setTab('coupons')">
+        <i class="fa-solid fa-ticket"></i>
+        <span>Coupons</span>
+      </button>
+      <button [class.active]="activeTab === 'returns'" (click)="setTab('returns')">
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Returns</span>
+      </button>
+    </nav>
+  </aside>
 
-  <div class="admin-group">
-    <h2>📦 Liste der Bestellungen</h2>
-    <app-orderlist-admin></app-orderlist-admin>
-  </div>
+  <!-- Main Content -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <h1 *ngIf="activeTab === 'orders'">Order Management</h1>
+      <h1 *ngIf="activeTab === 'products'">Products & Stock</h1>
+      <h1 *ngIf="activeTab === 'users'">User Management</h1>
+      <h1 *ngIf="activeTab === 'analytics'">Analytics Dashboard</h1>
+      <h1 *ngIf="activeTab === 'coupons'">Coupon Management</h1>
+      <h1 *ngIf="activeTab === 'returns'">Return Requests</h1>
+    </header>
 
+    <section class="admin-content">
+      <app-orderlist-admin *ngIf="activeTab === 'orders'"></app-orderlist-admin>
+      <app-productlist-admin *ngIf="activeTab === 'products'"></app-productlist-admin>
+      <app-userlistadmin *ngIf="activeTab === 'users'"></app-userlistadmin>
+      <app-analytics-dashboard *ngIf="activeTab === 'analytics'"></app-analytics-dashboard>
 
+      <!-- Coupons Tab -->
+      <div *ngIf="activeTab === 'coupons'" class="admin-tab-content">
+        <div class="tab-actions">
+          <button class="btn-admin" (click)="showCouponForm = !showCouponForm">
+            {{ showCouponForm ? 'Cancel' : '+ New Coupon' }}
+          </button>
+        </div>
 
-  <div class="admin-group">
-    <h2>🛍️ Liste von Produkten</h2>
-    <app-productlist-admin></app-productlist-admin>
-  </div>
+        <div *ngIf="showCouponForm" class="admin-form-card">
+          <div class="form-row-admin">
+            <div class="form-group-admin">
+              <label>Code</label>
+              <input type="text" [(ngModel)]="couponForm.code" placeholder="e.g. SAVE20" />
+            </div>
+            <div class="form-group-admin">
+              <label>Type</label>
+              <select [(ngModel)]="couponForm.discount_type">
+                <option value="percentage">Percentage</option>
+                <option value="fixed">Fixed Amount</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-admin">
+            <div class="form-group-admin">
+              <label>Value</label>
+              <input type="number" [(ngModel)]="couponForm.discount_value" />
+            </div>
+            <div class="form-group-admin">
+              <label>Min Order (€)</label>
+              <input type="number" [(ngModel)]="couponForm.min_order_amount" />
+            </div>
+          </div>
+          <div class="form-row-admin">
+            <div class="form-group-admin">
+              <label>Max Uses</label>
+              <input type="number" [(ngModel)]="couponForm.max_uses" />
+            </div>
+            <div class="form-group-admin">
+              <label>Expires At</label>
+              <input type="date" [(ngModel)]="couponForm.expires_at" />
+            </div>
+          </div>
+          <button class="btn-admin btn-green" (click)="createCoupon()">Create Coupon</button>
+        </div>
 
+        <table class="admin-table" *ngIf="coupons.length > 0">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Type</th>
+              <th>Value</th>
+              <th>Used</th>
+              <th>Max Uses</th>
+              <th>Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of coupons">
+              <td><strong>{{ c.code }}</strong></td>
+              <td>{{ c.discount_type }}</td>
+              <td>{{ c.discount_type === 'percentage' ? c.discount_value + '%' : c.discount_value + ' €' }}</td>
+              <td>{{ c.used_count }}</td>
+              <td>{{ c.max_uses || '∞' }}</td>
+              <td><span [class]="c.active ? 'status-active' : 'status-inactive'">{{ c.active ? 'Active' : 'Inactive' }}</span></td>
+              <td><button class="btn-admin btn-danger-sm" (click)="deleteCoupon(c._id!)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="coupons.length === 0" class="empty-msg">No coupons created yet.</p>
+      </div>
+
+      <!-- Returns Tab -->
+      <div *ngIf="activeTab === 'returns'" class="admin-tab-content">
+        <table class="admin-table" *ngIf="returnRequests.length > 0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Order #</th>
+              <th>User</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of returnRequests">
+              <td>#{{ r.return_id }}</td>
+              <td>#{{ r.order_id }}</td>
+              <td>{{ r.user_id }}</td>
+              <td class="reason-cell">{{ r.reason }}</td>
+              <td><span [class]="'status-badge status-' + r.status">{{ r.status }}</span></td>
+              <td class="action-cell">
+                <button *ngIf="r.status === 'pending'" class="btn-admin btn-green-sm" (click)="updateReturnStatus(r.return_id, 'approved')">Approve</button>
+                <button *ngIf="r.status === 'pending'" class="btn-admin btn-danger-sm" (click)="updateReturnStatus(r.return_id, 'rejected')">Reject</button>
+                <span *ngIf="r.status !== 'pending'">—</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="returnRequests.length === 0" class="empty-msg">No return requests.</p>
+      </div>
+    </section>
+  </main>
 
 </div>

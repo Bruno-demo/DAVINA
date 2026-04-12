@@ -1,14 +1,72 @@
 <div class="wrapper">
-  @for (group of groupedProducts; track group) {
-    <div>
-      <h2 class="category-title">{{ group.category | titlecase }}</h2>
-      <div class="card_container">
-        @for (item of group.items; track item._id) {
-          <app-product-card [product]="item"></app-product-card>
-        } @empty {
-          <p>No products available</p>
-        }
-      </div>
+
+  <!-- Filter Toolbar -->
+  <div class="product-toolbar">
+    <div class="search-box">
+      <i class="fa-solid fa-search"></i>
+      <input type="text" placeholder="Search products..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()">
     </div>
-  }
+    <div class="filter-group">
+      <select [(ngModel)]="filterCategory" (change)="onFilterChange()">
+        <option value="">All Categories</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+      <select *ngIf="!filterCategory || filterCategory === 'Skincare'" [(ngModel)]="filterSkinType" (change)="onFilterChange()">
+        <option value="">All Skin Types</option>
+        <option value="oily">Oily</option>
+        <option value="dry">Dry</option>
+        <option value="combination">Combination</option>
+        <option value="normal">Normal</option>
+      </select>
+      <select *ngIf="!filterCategory || filterCategory === 'Skincare'" [(ngModel)]="filterEffect" (change)="onFilterChange()">
+        <option value="">All Effects</option>
+        <option value="Hydration">Hydration</option>
+        <option value="Anti-Acne">Anti-Acne</option>
+        <option value="Soothing">Soothing</option>
+        <option value="Mattifying">Mattifying</option>
+        <option value="Anti-Aging">Anti-Aging</option>
+        <option value="Brightening">Brightening</option>
+        <option value="Long-Lasting">Long-Lasting</option>
+        <option value="Volumizing">Volumizing</option>
+        <option value="Nourishing">Nourishing</option>
+        <option value="Refreshing">Refreshing</option>
+      </select>
+      <select [(ngModel)]="sortOption" (change)="onSortChange()" class="sort-select">
+        <option value="">Sort by</option>
+        <option value="price_asc">Price: Low → High</option>
+        <option value="price_desc">Price: High → Low</option>
+        <option value="name_asc">Name: A → Z</option>
+        <option value="name_desc">Name: Z → A</option>
+        <option value="newest">Newest First</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div *ngIf="isLoading" class="card_container">
+    <app-skeleton *ngFor="let i of [1,2,3,4,5,6,7,8]" type="card"></app-skeleton>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-state">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="card_container" *ngIf="!isLoading && !errorMessage">
+    <app-product-card *ngFor="let item of products" [product]="item"></app-product-card>
+  </div>
+
+  <div *ngIf="!isLoading && products.length === 0 && !errorMessage" class="empty-state">
+    <p>No products found. Try adjusting your filters.</p>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">&laquo; Prev</button>
+    <button *ngFor="let pg of pageNumbers" [class.active]="pg === currentPage" (click)="goToPage(pg)">{{ pg }}</button>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages">Next &raquo;</button>
+    <span class="page-info">{{ total }} products</span>
+  </div>
+
 </div>

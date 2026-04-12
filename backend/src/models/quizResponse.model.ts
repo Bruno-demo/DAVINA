@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export type SkinType = "fettig" | "trocken" | "normal" | "misch";
+export type SkinType = "oily" | "dry" | "normal" | "combination";
 
 export interface IQuizResponse extends Document {
   userId: string;
@@ -21,7 +21,7 @@ const quizResponseSchema: Schema<IQuizResponse> = new Schema({
   },
   result: {
     type: String,
-    enum: ["fettig", "trocken", "normal", "misch"],
+    enum: ["oily", "dry", "normal", "combination"],
     required: true,
   },
   createdAt: {

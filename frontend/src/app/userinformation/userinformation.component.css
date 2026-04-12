@@ -51,3 +51,9 @@
     font-size: 16px;
     font-weight: 600;
 }
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .userinformation { background-color: rgba(255, 255, 255, 0.1); }
+:host-context([data-theme="dark"]) .userinformation div:nth-child(1) { border-bottom-color: rgba(255, 255, 255, 0.2); }
+:host-context([data-theme="dark"]) .userinformation div:nth-child(1) h3 { color: #eae7e2; }
+:host-context([data-theme="dark"]) .userinformation div p { color: #d4d0cb; }

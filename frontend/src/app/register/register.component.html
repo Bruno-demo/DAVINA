@@ -1,81 +1,97 @@
-<div class="wrapper">
-<h1 class="login-header">Konto erstellen</h1>
-<div class="register-login-container">
-  <form #signupForm="ngForm" (ngSubmit)="register(signupForm)" class="box">
-    <div class="field">
-      <label class="label" for="name">Name:</label>
-      <div>
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="brand-mark">DB</div>
+      <span class="brand-name">Davina Beauty</span>
+    </div>
+
+    <h1 class="auth-title">Create an account</h1>
+    <p class="auth-subtitle">Join us and discover your perfect skincare routine</p>
+
+    <form #signupForm="ngForm" (ngSubmit)="register(signupForm)" class="auth-form" novalidate>
+
+      <div class="form-group">
+        <label class="form-label" for="name">Full name</label>
         <input
-          class="input"
-          type="text"
           id="name"
+          class="form-input"
+          type="text"
           name="name"
           [(ngModel)]="data.name"
-          placeholder="Enter your Full Name"
-          required />
+          placeholder="Jane Doe"
+          required
+          autocomplete="name" />
       </div>
-    </div>
-    <div class="field">
-      <label class="label" for="email">E-mail:</label>
-      <div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
         <input
-          class="input"
-          type="email"
           id="email"
+          class="form-input"
+          type="email"
           name="email"
           [(ngModel)]="data.email"
-          placeholder="Enter your email"
-          required />
+          placeholder="you@example.com"
+          required
+          autocomplete="email" />
       </div>
-    </div>
-    <div class="field">
-      <label class="label" for="password">Passwort:</label>
-      <div>
-        <input
-          class="input"
-          type="password"
-          id="password"
-          name="password"
-          [(ngModel)]="data.password"
-          placeholder="Enter your password" />
-      </div>
-    </div>
-    <div class="field">
-  <label class="label" for="confirmPassword">Passwort bestätigen:</label>
-  <div>
-    <input
-      class="input"
-      type="password"
-      id="confirmPassword"
-      name="confirmPassword"
-      [(ngModel)]="data.confirmPassword"
-      placeholder="Confirm your password"
-      required />
-  </div>
-</div>
-    <div class="field">
-      <label class="label" for="password_confirmation"></label>
-      @if (showPasswordInfo) {
-        <p class="help is-danger">
-        Das Passwort muss mindestens 8 Zeichen
-        lang sein und mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.
-        </p>
-      }
-    </div>
-    <div class="field is-grouped">
-      <div class="control">
-        <input class="btn login-btn" type="submit" value="Sign up" />
-      </div>
-    </div>
-  </form>
 
-  <div class="box">
-    <p>
-      Du hast bereits ein Konto? Klicke <a [routerLink]="['/login']">hier</a> , um dich anzumelden,
-    </p>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-wrap">
+          <input
+            id="password"
+            class="form-input"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="data.password"
+            placeholder="••••••••"
+            autocomplete="new-password" />
+          <button type="button" class="toggle-pw" (click)="showPassword = !showPassword" tabindex="-1">
+            <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        @if (showPasswordInfo) {
+          <p class="password-hint">
+            <i class="fa-solid fa-circle-info"></i>
+            Minimum 8 characters — include an uppercase letter, a number, and a special character.
+          </p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="confirmPassword">Confirm password</label>
+        <div class="input-wrap">
+          <input
+            id="confirmPassword"
+            class="form-input"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            name="confirmPassword"
+            [(ngModel)]="data.confirmPassword"
+            placeholder="••••••••"
+            required
+            autocomplete="new-password" />
+          <button type="button" class="toggle-pw" (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1">
+            <i class="fa-solid" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="responseMessage" class="error-banner">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ responseMessage }}
+      </div>
+
+      <button class="btn-auth" type="submit">Create account</button>
+
+    </form>
+
+    <div class="auth-divider"><span>Already have an account?</span></div>
+
+    <div class="auth-footer">
+      <a routerLink="/login" class="btn-auth-secondary">Sign in</a>
+    </div>
+
   </div>
-  <p class="has-text-centered" style="color: rgb(128, 0, 0)">
-    {{ responseMessage }}
-  </p>
-</div>
 </div>

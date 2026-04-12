@@ -1,0 +1,184 @@
+/* ───── Cart Slide-in Panel ───── */
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  max-width: 460px;
+  height: 100%;
+  background: var(--color-white, #fff);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  overflow-y: auto;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:host.open .cart-panel {
+  transform: translateX(0);
+}
+
+/* ── Cart Layout ── */
+.cart {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem 0;
+}
+
+.cart .cart-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  margin: 0 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cart .cart-title span {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.cart .cart-title i {
+  font-size: 1.1rem;
+  color: var(--color-muted, #6b6b6b);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+}
+
+.cart .cart-title i:hover {
+  color: var(--color-dark, #1a1a1a);
+}
+
+/* ── Summary ── */
+.cart-summary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-row p {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  color: var(--color-muted, #6b6b6b);
+  margin: 0;
+}
+
+.summary-row span {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.summary-row.total p {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.summary-row.total span {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-orange, #f24901);
+}
+
+/* ── Checkout Button ── */
+.checkout-button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.85rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-white, #fff);
+  background: var(--color-dark, #1a1a1a);
+  border: 2px solid var(--color-dark, #1a1a1a);
+  border-radius: var(--radius-pill, 9999px);
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background: var(--color-orange, #f24901);
+  border-color: var(--color-orange, #f24901);
+}
+
+.checkout-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Loading & empty ── */
+.loading {
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  color: var(--color-muted, #6b6b6b);
+  font-size: 0.9rem;
+}
+
+.cart > p {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  color: var(--color-muted, #6b6b6b);
+  font-size: 0.95rem;
+}
+
+/* ───── Responsive ───── */
+@media screen and (max-width: 768px) {
+  .cart-panel {
+    width: 85vw;
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 427px) {
+  .cart-panel {
+    width: 100vw;
+  }
+}
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .cart-panel { background: #242424; box-shadow: -8px 0 32px rgba(0,0,0,0.4); }
+:host-context([data-theme="dark"]) .cart .cart-title { border-bottom-color: #3a3a3a; }
+:host-context([data-theme="dark"]) .cart-summary { border-top-color: #3a3a3a; }
+:host-context([data-theme="dark"]) .checkout-button { background: #f0ede8; color: #1a1a1a; border-color: #f0ede8; }
+:host-context([data-theme="dark"]) .checkout-button:hover { background: var(--color-orange, #f24901); color: #fff; border-color: var(--color-orange, #f24901); }

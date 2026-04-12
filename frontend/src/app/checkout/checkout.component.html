@@ -1,0 +1,322 @@
+<div class="wrapper liefConteneur">
+  <div class="liefConteneur-1">
+    <div class="title-form"><h2>Checkout</h2></div>
+
+    <!-- Progress Bar -->
+    <div class="checkout-progress" *ngIf="showLiefDetails" role="navigation" aria-label="Checkout steps">
+      <div class="progress-step" [class.active]="true" [class.completed]="checkoutStep > 1">
+        <span class="step-num">1</span><span class="step-label">Contact</span>
+      </div>
+      <div class="progress-line" [class.filled]="checkoutStep > 1"></div>
+      <div class="progress-step" [class.active]="checkoutStep >= 2" [class.completed]="checkoutStep > 2">
+        <span class="step-num">2</span><span class="step-label">Shipping</span>
+      </div>
+      <div class="progress-line" [class.filled]="checkoutStep > 2"></div>
+      <div class="progress-step" [class.active]="checkoutStep >= 3" [class.completed]="checkoutStep > 3">
+        <span class="step-num">3</span><span class="step-label">Payment</span>
+      </div>
+      <div class="progress-line" [class.filled]="checkoutStep > 3"></div>
+      <div class="progress-step" [class.active]="checkoutStep >= 4">
+        <span class="step-num">4</span><span class="step-label">Review</span>
+      </div>
+    </div>
+
+    <form #orderForm="ngForm" *ngIf="showLiefDetails" (ngSubmit)="submitOrder(orderForm)" class="liefForm" novalidate>
+
+      <!-- Saved Addresses -->
+      <div *ngIf="savedAddresses.length > 0" class="saved-addr-section">
+        <h4>Saved Addresses</h4>
+        <div class="saved-addr-list">
+          <button type="button"
+            *ngFor="let addr of savedAddresses"
+            class="saved-addr-btn"
+            [class.selected]="selectedAddressId === addr.address_id"
+            (click)="selectAddress(addr)">
+            <strong>{{ addr.label || 'Address' }}</strong>
+            <span>{{ addr.street }}, {{ addr.postal_code }} {{ addr.city }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="liefForm-title-1">
+        <h4>Contact</h4>
+        <h6>sign in</h6>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          [(ngModel)]="userDetails.email"
+          required
+          email
+          #emailRef="ngModel"
+        />
+        <div *ngIf="emailRef.invalid && emailRef.touched" class="error-message">
+          Please enter a valid email.
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="country"
+          placeholder="Germany"
+          [(ngModel)]="country"
+        />
+      </div>
+
+      <div class="liefFormCont-2">
+        <div class="input-cont">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First name"
+            [(ngModel)]="firstName"
+            required
+            #firstNameRef="ngModel"
+          />
+          <div *ngIf="firstNameRef.invalid && firstNameRef.touched" class="error-message">
+            First name is required.
+          </div>
+        </div>
+
+        <div class="input-cont">
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last name"
+            [(ngModel)]="lastName"
+            required
+            #lastNameRef="ngModel"
+          />
+          <div *ngIf="lastNameRef.invalid && lastNameRef.touched" class="error-message">
+            Last name is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="company"
+          placeholder="Company (optional)"
+          [(ngModel)]="company"
+        />
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          [(ngModel)]="address"
+          required
+          #addressRef="ngModel"
+        />
+        <div *ngIf="addressRef.invalid && addressRef.touched" class="error-message">
+          Address is required.
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="text"
+          name="additionalAddress"
+          placeholder="Apartment, suite, etc. (optional)"
+          [(ngModel)]="additionalAddress"
+        />
+      </div>
+
+      <div class="liefFormCont-2">
+        <div class="input-cont">
+          <input
+            type="text"
+            name="postalCode"
+            placeholder="Postal code"
+            [(ngModel)]="postalCode"
+            required
+            #postalCodeRef="ngModel"
+          />
+          <div *ngIf="postalCodeRef.invalid && postalCodeRef.touched" class="error-message">
+            Postal code is required.
+          </div>
+        </div>
+
+        <div class="input-cont">
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            [(ngModel)]="city"
+            required
+            #cityRef="ngModel"
+          />
+          <div *ngIf="cityRef.invalid && cityRef.touched" class="error-message">
+            City is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="input-cont">
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone"
+          [(ngModel)]="phone"
+        />
+      </div>
+
+      <!-- Shipping Method -->
+      <div class="liefForm-title-2">
+        <h4>Shipping</h4>
+        <p>Choose your shipping method</p>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="shippingMethod" value="standard" [(ngModel)]="shippingMethod" (change)="onShippingMethodChange()" />
+          <i class="fa-solid fa-truck"></i>
+          <span class="label-text">Standard (4.99 €) — 5–7 business days</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="shippingMethod" value="express" [(ngModel)]="shippingMethod" (change)="onShippingMethodChange()" />
+          <i class="fa-solid fa-truck-fast"></i>
+          <span class="label-text">Express (9.99 €) — 2–3 business days</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="shippingMethod" value="overnight" [(ngModel)]="shippingMethod" (change)="onShippingMethodChange()" />
+          <i class="fa-solid fa-jet-fighter"></i>
+          <span class="label-text">Overnight (19.99 €) — Next business day</span>
+        </label>
+      </div>
+      <div class="liefFormPay" *ngIf="subtotal >= 50">
+        <label>
+          <input type="radio" name="shippingMethod" value="free" [(ngModel)]="shippingMethod" (change)="onShippingMethodChange()" />
+          <i class="fa-solid fa-gift"></i>
+          <span class="label-text">Free Shipping — Orders over 50 €</span>
+        </label>
+      </div>
+
+      <!-- Payment -->
+      <div class="liefForm-title-2">
+        <h4>Payment</h4>
+        <p>Please choose a payment method</p>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="paymentMethod" value="cash_on_delivery" [(ngModel)]="paymentMethod" required #paymentMethodRef="ngModel" />
+          <i class="fa-solid fa-money-bill-wave"></i>
+          <span class="label-text">Cash on Delivery</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="paymentMethod" value="paystack" [(ngModel)]="paymentMethod" />
+          <i class="fa-solid fa-credit-card"></i>
+          <span class="label-text">Credit / Debit Card (Paystack)</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="paymentMethod" value="bank_transfer" [(ngModel)]="paymentMethod" />
+          <i class="fa-solid fa-building-columns"></i>
+          <span class="label-text">Bank Transfer</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="paymentMethod" value="momo" [(ngModel)]="paymentMethod" />
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <span class="label-text">MoMo (Mobile Money)</span>
+        </label>
+      </div>
+      <div class="liefFormPay">
+        <label>
+          <input type="radio" name="paymentMethod" value="airtel" [(ngModel)]="paymentMethod" />
+          <i class="fa-solid fa-mobile-screen-button"></i>
+          <span class="label-text">Airtel Money</span>
+        </label>
+      </div>
+
+      <!-- Order Notes -->
+      <div class="liefForm-title-2">
+        <h4>Order Notes</h4>
+        <p>Any special instructions? (optional)</p>
+      </div>
+      <div class="input-cont">
+        <textarea
+          name="orderNotes"
+          placeholder="Special delivery instructions, gift message, etc."
+          [(ngModel)]="orderNotes"
+          rows="3"
+          class="order-notes-input"
+        ></textarea>
+      </div>
+
+      <div *ngIf="errorMsg" class="error-message">{{ errorMsg }}</div>
+
+      <button class="btn" type="submit" [disabled]="loading || orderForm.invalid">Place order</button>
+
+    </form>
+
+    <div *ngIf="successMsg" class="success-message">{{ successMsg }} <a class="order-overview-link" routerLink="/profilepage">Go to your order overview</a></div>
+    <div *ngIf="errorMsg && !showLiefDetails" class="error-message">{{ errorMsg }}</div>
+  </div>
+
+  <div class="liefConteneur-2" *ngIf="showLiefDetails">
+    <div class="liefContProd-1">
+      <ng-container *ngFor="let item of cartItems">
+        <ng-container *ngIf="productsMap.get(item.product_id) as product">
+          <app-cart-product
+            [product]="product"
+            [quantity]="item.quantity"
+            (quantityChange)="onQuantityChange($event)"
+            (remove)="onRemove(item.product_id)"
+          ></app-cart-product>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <!-- Coupon Code -->
+    <div class="coupon-section">
+      <div class="coupon-input-row" *ngIf="!couponApplied">
+        <input type="text" [(ngModel)]="couponCode" name="couponCode" placeholder="Coupon code" class="coupon-input" />
+        <button type="button" class="btn-coupon" (click)="applyCoupon()">Apply</button>
+      </div>
+      <div *ngIf="couponApplied" class="coupon-applied">
+        <span><i class="fa-solid fa-tag"></i> {{ couponCode }}</span>
+        <button type="button" class="btn-remove-coupon" (click)="removeCoupon()">Remove</button>
+      </div>
+      <div *ngIf="couponError" class="coupon-error">{{ couponError }}</div>
+      <div *ngIf="couponSuccess" class="coupon-success">{{ couponSuccess }}</div>
+    </div>
+
+    <div class="liefContProd-2">
+      <div>
+        <p>Subtotal</p>
+        <span>{{ subtotal | currency:'RWF':'symbol':'1.0-0' }}</span>
+      </div>
+      <div *ngIf="discountAmount > 0" class="discount-row">
+        <p>Discount</p>
+        <span>-{{ discountAmount | currency:'RWF':'symbol':'1.0-0' }}</span>
+      </div>
+      <div>
+        <p>Shipping ({{ shippingMethod }})</p>
+        <span>{{ shippingCost | currency:'RWF':'symbol':'1.0-0' }}</span>
+      </div>
+      <div>
+        <p>Tax (19% VAT)</p>
+        <span>{{ taxAmount | currency:'RWF':'symbol':'1.0-0' }}</span>
+      </div>
+      <div>
+        <p>Total</p>
+        <span>{{ total | currency:'RWF':'symbol':'1.0-0' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

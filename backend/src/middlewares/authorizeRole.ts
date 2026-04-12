@@ -10,7 +10,7 @@ export const authorizeRole = (roles: Roles[]) => {
   ): void => {
     if (!req.user || !roles.includes(req.user.role)) {
       res.status(403).json({
-        message: "Zugriff verweigert – unzureichende Berechtigungen.",
+        message: "You don't have permission to perform this action.",
       });
       return;
     }

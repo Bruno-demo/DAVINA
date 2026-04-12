@@ -1,0 +1,35 @@
+<section class="wishlist-page">
+  <div class="wishlist-container">
+    <h1 class="wishlist-title">My Wishlist</h1>
+
+    <div *ngIf="loading" class="loading-state">
+      <p>Loading your wishlist...</p>
+    </div>
+
+    <div *ngIf="!loading && wishlistItems.length === 0" class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <h2>Your wishlist is empty</h2>
+      <p>Start adding products you love!</p>
+      <a routerLink="/products" class="btn-shop">Browse Products</a>
+    </div>
+
+    <div *ngIf="!loading && wishlistItems.length > 0" class="wishlist-grid">
+      <div *ngFor="let item of wishlistItems" class="wishlist-card">
+        <div class="card-image">
+          <img [src]="item.product_id?.image_url || 'assets/placeholder.png'" [alt]="item.product_id?.p_name || 'Product'" loading="lazy">
+        </div>
+        <div class="card-info">
+          <h3>{{ item.product_id?.p_name || 'Product' }}</h3>
+          <p class="price">RWF {{ item.product_id?.price | number:'1.0-0' }}</p>
+          <p class="skin-type">{{ item.product_id?.skin_typ_target }} · {{ item.product_id?.effect }}</p>
+          <div class="card-actions">
+            <button class="btn-cart" (click)="addToCart(item)">Add to Cart</button>
+            <button class="btn-remove" (click)="removeFromWishlist(item.product_id?._id || item.product_id)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+<div class="overlay" (click)="close()">
+  <div class="cart-panel" (click)="$event.stopPropagation()">
+    <div class="cart">
+      <div class="cart-title">
+        <span>Cart ({{ orderedItems.length }})</span>
+        <i class="fa-solid fa-xmark" (click)="close()"></i>
+      </div>
+
+      @if (loading) {
+        <div class="loading">Loading...</div>
+      } @else {
+        <ng-container *ngIf="orderedItems.length > 0; else emptyCart">
+          <ng-container *ngFor="let item of orderedItems">
+            <ng-container *ngIf="productsMap.get(item.product_id) as product">
+              <app-cart-product
+                [product]="product"
+                [quantity]="item.quantity"
+                [stock]="product.stock"
+                (quantityChange)="onQuantityChange($event)"
+                (remove)="onRemove(item.product_id)">
+              </app-cart-product>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      }
+
+      <ng-template #emptyCart>
+        <p>Your cart is empty.</p>
+      </ng-template>
+
+      <div class="cart-summary" *ngIf="orderedItems.length > 0 && !loading">
+        <div class="summary-row">
+          <p>Subtotal</p>
+          <span>{{ subtotal | currency:'RWF':'symbol':'1.0-0' }}</span>
+        </div>
+        <div class="summary-row">
+          <p>Shipping</p>
+          <span>{{ shipping | currency:'RWF':'symbol':'1.0-0' }}</span>
+        </div>
+        <div class="summary-row total">
+          <p>Total</p>
+          <span>{{ total | currency:'RWF':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <button class="btn checkout-button" (click)="navigateToCheckout()">
+          Go to checkout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

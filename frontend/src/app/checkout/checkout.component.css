@@ -1,0 +1,523 @@
+/* ───── Checkout Page ───── */
+
+/* Progress Bar */
+.checkout-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0.5rem 0 1.5rem;
+  padding: 0 1rem;
+}
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--color-border, #e0ddd8);
+  color: var(--color-text-light, #999);
+  transition: all 0.3s ease;
+}
+.step-label {
+  font-size: 0.75rem;
+  color: var(--color-text-light, #999);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.progress-step.active .step-num {
+  background: var(--color-orange, #f24901);
+  color: #fff;
+}
+.progress-step.active .step-label {
+  color: var(--color-dark, #1a1a1a);
+}
+.progress-step.completed .step-num {
+  background: var(--color-green, #B8D14A);
+  color: #fff;
+}
+.progress-line {
+  flex: 1;
+  height: 3px;
+  background: var(--color-border, #e0ddd8);
+  min-width: 30px;
+  margin: 0 0.25rem;
+  margin-bottom: 1.3rem;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.progress-line.filled {
+  background: var(--color-green, #B8D14A);
+}
+
+.liefConteneur {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Form Column ── */
+.liefConteneur-1,
+.liefConteneur-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+}
+
+.title-form {
+  text-align: left;
+  width: 100%;
+}
+
+.title-form h2 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+/* ── Form ── */
+.liefForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.liefForm-title-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.liefForm-title-1 h4 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.liefForm-title-1 h6 {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted, #6b6b6b);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.liefForm-title-1 h6:hover {
+  color: var(--color-orange, #f24901);
+}
+
+.liefFormCont-2 {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ── Inputs ── */
+.input-cont {
+  width: 100%;
+}
+
+.input-cont input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.88rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: calc(var(--radius, 16px) / 2);
+  outline: none;
+  color: var(--color-dark, #1a1a1a);
+  background: var(--color-white, #fff);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-cont input::placeholder {
+  color: var(--color-muted, #6b6b6b);
+  font-weight: 400;
+}
+
+.input-cont input:focus {
+  border-color: var(--color-orange, #f24901);
+  box-shadow: 0 0 0 3px rgba(242, 73, 1, 0.08);
+}
+
+/* ── Payment Options ── */
+.liefForm-title-2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+.liefForm-title-2 h4 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.liefForm-title-2 p {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  color: var(--color-muted, #6b6b6b);
+  margin-top: 0.25rem;
+}
+
+.liefFormPay {
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: calc(var(--radius, 16px) / 2);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  background: var(--color-white, #fff);
+  transition: border-color 0.3s ease;
+  margin-bottom: 0.25rem;
+}
+
+.liefFormPay:hover {
+  border-color: var(--color-orange, #f24901);
+}
+
+.liefFormPay label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.liefFormPay input[type="radio"] {
+  accent-color: var(--color-orange, #f24901);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.liefFormPay .label-text {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.liefFormPay i {
+  font-size: 1.2rem;
+  color: var(--color-muted, #6b6b6b);
+}
+
+.liefFormPay i.fa-paypal {
+  color: #003087;
+}
+
+/* ── Submit Button ── */
+.liefForm .btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.85rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-white, #fff);
+  background: var(--color-dark, #1a1a1a);
+  border: 2px solid var(--color-dark, #1a1a1a);
+  border-radius: var(--radius-pill, 9999px);
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.liefForm .btn:hover {
+  background: var(--color-orange, #f24901);
+  border-color: var(--color-orange, #f24901);
+}
+
+.liefForm .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Messages ── */
+.error-message {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.78rem;
+  color: #c0392b;
+  margin-top: 0.25rem;
+}
+
+.success-message {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  color: #2d6a4f;
+  background: rgba(184, 209, 74, 0.12);
+  padding: 1rem 1.25rem;
+  border-radius: calc(var(--radius, 16px) / 2);
+  border: 1px solid rgba(184, 209, 74, 0.3);
+}
+
+.order-overview-link {
+  color: var(--color-orange, #f24901);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Cart Summary (right column) ── */
+.liefContProd-1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.liefContProd-2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 1.25rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.liefContProd-2 div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.liefContProd-2 div p {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  color: var(--color-muted, #6b6b6b);
+  margin: 0;
+}
+
+.liefContProd-2 div span {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.liefContProd-2 div:last-child p {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.liefContProd-2 div:last-child span {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-orange, #f24901);
+}
+
+/* ───── Responsive ───── */
+@media screen and (max-width: 1000px) {
+  .liefConteneur {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .liefConteneur .liefConteneur-1 {
+    order: 2;
+  }
+
+  .liefConteneur .liefConteneur-2 {
+    order: 1;
+  }
+}
+
+@media screen and (max-width: 427px) {
+  .liefFormCont-2 {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* Saved Addresses */
+.saved-addr-section {
+  margin-bottom: 0.5rem;
+}
+
+.saved-addr-section h4 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+  margin-bottom: 0.5rem;
+}
+
+.saved-addr-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.saved-addr-btn {
+  background: var(--color-white, #fff);
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: calc(var(--radius, 16px) / 2);
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.saved-addr-btn strong {
+  font-size: 0.85rem;
+  color: var(--color-dark, #1a1a1a);
+}
+
+.saved-addr-btn span {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.saved-addr-btn.selected {
+  border-color: var(--color-orange, #f24901);
+  background: rgba(242, 73, 1, 0.03);
+}
+
+.saved-addr-btn:hover {
+  border-color: var(--color-orange, #f24901);
+}
+
+/* Order Notes */
+.order-notes-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.88rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: calc(var(--radius, 16px) / 2);
+  outline: none;
+  color: var(--color-dark, #1a1a1a);
+  background: var(--color-white, #fff);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: vertical;
+}
+
+.order-notes-input:focus {
+  border-color: var(--color-orange, #f24901);
+  box-shadow: 0 0 0 3px rgba(242, 73, 1, 0.08);
+}
+
+/* Coupon */
+.coupon-section {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.coupon-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.coupon-input {
+  flex: 1;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: calc(var(--radius, 16px) / 2);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.coupon-input:focus {
+  border-color: var(--color-orange, #f24901);
+}
+
+.btn-coupon {
+  padding: 0.7rem 1rem;
+  background: var(--color-dark, #1a1a1a);
+  color: #fff;
+  border: none;
+  border-radius: calc(var(--radius, 16px) / 2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-coupon:hover {
+  background: var(--color-orange, #f24901);
+}
+
+.coupon-applied {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(184, 209, 74, 0.12);
+  border-radius: 8px;
+}
+
+.coupon-applied span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b8e00;
+}
+
+.btn-remove-coupon {
+  background: transparent;
+  border: none;
+  color: #c0392b;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.coupon-error {
+  font-size: 0.78rem;
+  color: #c0392b;
+  margin-top: 0.25rem;
+}
+
+.coupon-success {
+  font-size: 0.78rem;
+  color: #2d6a4f;
+  margin-top: 0.25rem;
+}
+
+.discount-row span {
+  color: #2d6a4f !important;
+  font-weight: 600 !important;
+}
+
+/* ── Dark Mode ── */
+:host-context([data-theme="dark"]) .saved-addr-btn { border-color: #444; }
+:host-context([data-theme="dark"]) .saved-addr-btn span { color: #a8a4a0; }
+:host-context([data-theme="dark"]) .saved-addr-btn.selected { background: rgba(242,73,1,0.08); }
+:host-context([data-theme="dark"]) .coupon-error { color: #f08886; }
+:host-context([data-theme="dark"]) .coupon-success { color: #6ee7b7; }
+:host-context([data-theme="dark"]) .discount-row span { color: #6ee7b7 !important; }
+:host-context([data-theme="dark"]) .checkout-progress .step-num { background: #333; color: #a8a4a0; }
+:host-context([data-theme="dark"]) .checkout-progress .step-num.active { background: var(--color-orange); color: #fff; }
+:host-context([data-theme="dark"]) .checkout-progress .progress-line { background: #333; }
+:host-context([data-theme="dark"]) .checkout-progress .progress-line.filled { background: var(--color-orange); }
+:host-context([data-theme="dark"]) .liefForm .btn { background: #f0ede8; color: #1a1a1a; border-color: #f0ede8; }
+:host-context([data-theme="dark"]) .liefForm .btn:hover { background: var(--color-orange, #f24901); color: #fff; border-color: var(--color-orange, #f24901); }
+:host-context([data-theme="dark"]) .btn-coupon { background: #f0ede8; color: #1a1a1a; }
+:host-context([data-theme="dark"]) .btn-coupon:hover { background: var(--color-orange, #f24901); color: #fff; }

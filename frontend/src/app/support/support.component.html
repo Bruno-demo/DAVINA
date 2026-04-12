@@ -1,0 +1,103 @@
+<section class="support-page">
+  <h1><i class="fa-solid fa-headset"></i> Support Center</h1>
+  <p class="subtitle">Need help? Submit a ticket and our team will assist you.</p>
+
+  <div class="tabs">
+    <button [class.active]="activeTab === 'new'" (click)="activeTab = 'new'"><i class="fa-solid fa-plus"></i> New Ticket</button>
+    <button *ngIf="isLoggedIn" [class.active]="activeTab === 'tickets'" (click)="loadMyTickets()"><i class="fa-solid fa-list-check"></i> My Tickets</button>
+  </div>
+
+  <!-- New Ticket Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'new'">
+    <form (ngSubmit)="submitTicket()" #ticketForm="ngForm">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="email" name="email" required placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" [(ngModel)]="subject" name="subject" required placeholder="Brief description of the issue" />
+      </div>
+
+      <div class="form-group">
+        <label>Priority</label>
+        <select [(ngModel)]="priority" name="priority">
+          <option value="low">Low</option>
+          <option value="normal">Normal</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea [(ngModel)]="message" name="message" required rows="5" placeholder="Describe your issue in detail..."></textarea>
+      </div>
+
+      <div class="alert success" *ngIf="submitSuccess">{{ submitSuccess }}</div>
+      <div class="alert error" *ngIf="submitError">{{ submitError }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="submitLoading">
+        <i class="fa-solid fa-paper-plane"></i> {{ submitLoading ? 'Submitting...' : 'Submit Ticket' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- My Tickets Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'tickets'">
+    <div *ngIf="ticketsLoading" class="loading">Loading tickets...</div>
+
+    <div *ngIf="!ticketsLoading && tickets.length === 0" class="empty">
+      You haven't submitted any tickets yet.
+    </div>
+
+    <!-- Ticket detail view -->
+    <div *ngIf="selectedTicket" class="ticket-detail">
+      <button class="back-btn" (click)="selectedTicket = null"><i class="fa-solid fa-arrow-left"></i> Back to list</button>
+      <div class="ticket-header">
+        <h3>{{ selectedTicket.subject }}</h3>
+        <span class="status-badge" [ngClass]="getStatusClass(selectedTicket.status)">
+          {{ selectedTicket.status }}
+        </span>
+      </div>
+      <div class="ticket-meta">
+        <span>Priority: {{ selectedTicket.priority }}</span>
+        <span>Created: {{ selectedTicket.created_at | date:'medium' }}</span>
+      </div>
+      <div class="ticket-message">
+        <strong>Your message:</strong>
+        <p>{{ selectedTicket.message }}</p>
+      </div>
+      <div class="ticket-reply" *ngIf="selectedTicket.admin_reply">
+        <strong>Admin reply:</strong>
+        <p>{{ selectedTicket.admin_reply }}</p>
+      </div>
+      <div class="ticket-reply waiting" *ngIf="!selectedTicket.admin_reply && selectedTicket.status !== 'closed'">
+        <em>Waiting for admin response...</em>
+      </div>
+      <button
+        *ngIf="selectedTicket.status !== 'closed'"
+        class="btn-secondary"
+        (click)="closeTicket(selectedTicket.ticket_id)">
+        <i class="fa-solid fa-circle-check"></i> Close Ticket
+      </button>
+    </div>
+
+    <!-- Ticket list -->
+    <div *ngIf="!selectedTicket && !ticketsLoading && tickets.length > 0" class="ticket-list">
+      <div class="ticket-item" *ngFor="let ticket of tickets" (click)="viewTicket(ticket)">
+        <div class="ticket-item-header">
+          <span class="ticket-subject">{{ ticket.subject }}</span>
+          <span class="status-badge" [ngClass]="getStatusClass(ticket.status)">
+            {{ ticket.status }}
+          </span>
+        </div>
+        <div class="ticket-item-meta">
+          <span>{{ ticket.created_at | date:'mediumDate' }}</span>
+          <span>Priority: {{ ticket.priority }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -83,12 +83,12 @@ export class ProfilePageComponent implements OnInit {
         this.showDeleteConfirm = false;
         localStorage.removeItem('token');
         this.router.navigate(['/register']);
-        alert('Your account has been deleted.');
+        alert('Your account has been deleted successfully.');
       },
       error: (err) => {
         this.showDeleteConfirm = false;
         console.error('Account deletion failed:', err);
-        alert('Failed to delete your account. Please try again.');
+        alert('We couldn\'t delete your account right now. Please try again later.');
       }
     });
   }

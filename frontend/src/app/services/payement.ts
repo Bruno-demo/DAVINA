@@ -22,4 +22,16 @@ export class PaymentService {
   getPaymentById(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
+
+  processRefund(paymentId: number, reason: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${paymentId}/refund`, { reason });
+  }
+
+  downloadInvoice(orderId: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/invoice/${orderId}`, { responseType: 'blob' });
+  }
+
+  verifyPaystackPayment(reference: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/paystack/verify`, { reference }, { withCredentials: true });
+  }
 }

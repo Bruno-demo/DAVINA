@@ -1,7 +1,11 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
+<app-toast></app-toast>
+<app-back-to-top></app-back-to-top>
+
 <div class="page-wrapper">
   <app-header></app-header>
 
-  <main class="content">
+  <main id="main-content" class="content" role="main">
     <router-outlet></router-outlet>
     <router-outlet name="modal"></router-outlet>
   </main>

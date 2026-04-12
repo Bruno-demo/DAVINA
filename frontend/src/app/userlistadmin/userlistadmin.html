@@ -1,37 +1,77 @@
-<div class="cards-grid">
-  <div class="card" *ngFor="let user of users">
-    <div class="header">
-      <div class="avatar" *ngIf="user.avatarUrl">
-        <img [src]="user.avatarUrl" alt="Avatar">
-      </div>
-      <div class="avatar initials" *ngIf="!user.avatarUrl">
-        {{ user.initials }}
-      </div>
-      <div class="info">
-        <div class="name">{{ user.u_name || 'Utilisateur' }}</div>
-        <div class="date">{{ user.u_role }}</div>
-      </div>
-      <div class="menu" (click)="toggleMenu(user)">⋯</div>
-    </div>
-    <div class="details">
-      <div class="detail">
-          <i class="fa-solid fa-users"></i>
-          <span>ID: {{ user.u_id }}</span>
-      </div>
-      <div class="detail">
-          <i class="fa-solid fa-envelope"></i>
-          <span>{{ user.u_email }}</span>
-      </div>
-      <div class="detail">
-          <i class="fa-regular fa-hashtag"></i>
-          <span>{{ user.u_role }}</span>
-      </div>
-    </div>
+<div class="panel">
 
-    <div class="floating-menu" *ngIf="user.showMenu">
-      <div class="menu-title">status ändern</div>
-      <button (click)="changeRole(user, 'user')">User</button>
-      <button (click)="changeRole(user, 'admin')">Admin</button>
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <i class="fa-solid fa-search"></i>
+      <input type="text" placeholder="Search users..." [(ngModel)]="searchQuery" (input)="onSearch()">
     </div>
+    <span class="count">{{ filteredUsers.length }} users</span>
   </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">Loading users...</div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="!isLoading">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Verified</th>
+          <th>Role</th>
+          <th>Change Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of paginatedUsers">
+          <td class="id-cell">{{ user.u_id }}</td>
+          <td><strong>{{ user.u_name || '—' }}</strong></td>
+          <td>{{ user.u_email }}</td>
+          <td>
+            <span *ngIf="user.is_verified" class="verify-badge verified">
+              <i class="fa-solid fa-circle-check"></i> Yes
+            </span>
+            <span *ngIf="!user.is_verified" class="verify-badge unverified">
+              <i class="fa-solid fa-circle-xmark"></i> No
+              <button class="verify-btn" (click)="verifyUser(user)" title="Manually verify this user">
+                <i class="fa-solid fa-user-check"></i> Verify
+              </button>
+            </span>
+          </td>
+          <td>
+            <span class="role-badge" [ngClass]="getRoleBadgeClass(user.u_role)">{{ user.u_role }}</span>
+          </td>
+          <td>
+            <div class="role-update">
+              <select [(ngModel)]="user.newRole">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button class="save-btn" (click)="saveRole(user)" [disabled]="user.newRole === user.u_role">Save</button>
+            </div>
+          </td>
+          <td>
+            <button class="delete-btn" (click)="deleteUser(user)" title="Delete this user">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="paginatedUsers.length === 0">
+          <td colspan="7" class="empty">No users found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage <= 1">&laquo; Prev</button>
+    <button *ngFor="let pg of pageNumbers" [class.active]="pg === currentPage" (click)="goToPage(pg)">{{ pg }}</button>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages">Next &raquo;</button>
+  </div>
+
 </div>

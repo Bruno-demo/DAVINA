@@ -1,0 +1,14 @@
+# Production overrides — use with: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  backend:
+    volumes:
+      - ./dump:/dump
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    ports:
+      - "80:80"
+    volumes: []
+    environment:
+      - NODE_ENV=production

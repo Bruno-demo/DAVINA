@@ -1,0 +1,20 @@
+<div class="newsletter-section">
+  <h3><i class="fa-solid fa-envelope-open-text"></i> Stay Updated</h3>
+  <p>Subscribe to our newsletter for exclusive offers and beauty tips.</p>
+  <form (ngSubmit)="subscribe()" class="newsletter-form">
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Enter your email"
+      class="newsletter-input"
+      [disabled]="loading"
+    >
+    <button type="submit" class="newsletter-btn" [disabled]="loading">
+      <i class="fa-solid fa-paper-plane"></i> {{ loading ? 'Subscribing...' : 'Subscribe' }}
+    </button>
+  </form>
+  <p *ngIf="message" class="newsletter-message" [class.error]="messageType === 'error'" [class.success]="messageType === 'success'">
+    {{ message }}
+  </p>
+</div>

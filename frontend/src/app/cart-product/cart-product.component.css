@@ -1,0 +1,197 @@
+/* ───── Cart Product Row ───── */
+.product-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.product {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.product:last-child {
+  border-bottom: none;
+}
+
+/* ── Image ── */
+.product-image {
+  flex: 0 0 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: calc(var(--radius, 16px) / 2);
+  background-color: var(--color-base, #F0EDE8);
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Info ── */
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.product-info h3 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+  margin: 0;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.product-info p {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.82rem;
+  color: var(--color-muted, #6b6b6b);
+  margin: 0;
+}
+
+/* ── Quantity Controls ── */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.quantity-controls button {
+  width: 28px;
+  height: 28px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-dark, #1a1a1a);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-controls button:hover {
+  background: var(--color-dark, #1a1a1a);
+  border-color: var(--color-dark, #1a1a1a);
+  color: var(--color-white, #fff);
+}
+
+.quantity-controls span {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ── Price & Remove ── */
+.product-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 70px;
+}
+
+.product-price p {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-dark, #1a1a1a);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.remove-btn {
+  font-size: 0.9rem;
+  color: var(--color-muted, #6b6b6b);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.remove-btn:hover {
+  color: #c0392b;
+}
+
+/* ───── Responsive ───── */
+@media screen and (max-width: 600px) {
+  .product {
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .product-image {
+    flex: 0 0 64px;
+    height: 64px;
+  }
+
+  .product-info h3 {
+    font-size: 0.88rem;
+  }
+}
+
+/* Dark mode */
+:host-context([data-theme="dark"]) .product { border-bottom-color: #3a3a3a; }
+:host-context([data-theme="dark"]) .quantity-controls button { border-color: #444; }
+
+/* ── Out-of-stock message ── */
+.out-of-stock-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.08);
+  border: 1px solid rgba(192, 57, 43, 0.25);
+  border-radius: 6px;
+  padding: 0.25rem 0.55rem;
+  width: fit-content;
+  animation: fadeInUp 0.2s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Disabled + button ── */
+.quantity-controls button.disabled,
+.quantity-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.quantity-controls button.disabled:hover,
+.quantity-controls button:disabled:hover {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: var(--color-dark, #1a1a1a);
+}
+
+:host-context([data-theme="dark"]) .out-of-stock-msg {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.12);
+  border-color: rgba(231, 76, 60, 0.3);
+}
+
+:host-context([data-theme="dark"]) .quantity-controls button.disabled:hover,
+:host-context([data-theme="dark"]) .quantity-controls button:disabled:hover {
+  border-color: #444;
+  color: var(--color-dark, #e0e0e0);
+}

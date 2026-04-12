@@ -7,7 +7,6 @@ const execPromise = util.promisify(exec);
 
 const dumpDir = path.resolve(__dirname, "../../../dump");
 
-const remoteUri = "mongodb+srv://inf4302:DekE&bBmZ3.5af8@ourapp.sq3togc.mongodb.net/skincare";
 const localHost = "mongo";
 const dbName = "skincare";
 
@@ -38,12 +37,13 @@ async function seedIfEmpty() {
   const collections = await db.listCollections().toArray();
 
   if (collections.length === 0) {
-    console.log("DB empty, importing data...");
+    console.log("DB empty, restoring data from dump...");
 
-    await execPromise(`mongodump --uri="${remoteUri}" --out="${dumpDir}"`);
-    await execPromise(`mongorestore --host=${localHost} --db=${dbName} --drop "${dumpDir}/${dbName}"`);
+    await execPromise(
+      `mongorestore --host=${localHost} --db=${dbName} --drop "${dumpDir}/${dbName}"`
+    );
 
-    console.log("Dump and restore completed.");
+    console.log("Restore completed.");
   } else {
     console.log("DB already has data, skipping import.");
   }
@@ -52,3 +52,10 @@ async function seedIfEmpty() {
 }
 
 export default seedIfEmpty;
+
+if (require.main === module) {
+  seedIfEmpty().catch((err: unknown) => {
+    console.error("MongoDB seed failed:", err);
+    process.exit(1);
+  });
+}

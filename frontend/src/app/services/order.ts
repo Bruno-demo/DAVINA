@@ -11,8 +11,12 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  createOrderFromWarenkorb(orderData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/from-warenkorb`, orderData, { withCredentials: true });
+  createOrder(orderData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/from-cart`, orderData, { withCredentials: true });
+  }
+
+  createGuestOrder(orderData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/guest`, orderData);
   }
 
   getMyOrders(): Observable<any> {
@@ -29,5 +33,9 @@ export class OrderService {
 
   deleteOrder(orderId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${orderId}`, { withCredentials: true });
+  }
+
+  getTrackingInfo(orderId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${orderId}/tracking`, { withCredentials: true });
   }
 }
