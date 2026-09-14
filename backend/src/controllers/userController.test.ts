@@ -43,7 +43,7 @@ describe("registerUser", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      message: "Name, Email, or Password is missing.",
+      message: "Please provide your name, email address, and password.",
     });
   });
   it("returns 409 if user already exists", async () => {
@@ -66,7 +66,7 @@ describe("registerUser", () => {
 
     expect(res.status).toHaveBeenCalledWith(409);
     expect(res.json).toHaveBeenCalledWith({
-      message: "The user is already registered.",
+      message: "This email address is already in use. Please try logging in or use a different email.",
     });
   });
 
@@ -95,6 +95,9 @@ describe("registerUser", () => {
       u_email: "newuser@example.com",
       u_password: "mockedHashedPassword123",
       u_role: "user",
+      is_verified: false,
+      verification_token: expect.any(String),
+      verification_expires: expect.any(Date),
     });
 
     expect(Cart.create).toHaveBeenCalledWith({
@@ -105,7 +108,9 @@ describe("registerUser", () => {
     });
 
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ u_id: 42 });
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Account created. Please check your email to verify your account.",
+    });
   });
 
   it("returns 500 if an unexpected error occurs", async () => {
@@ -127,7 +132,7 @@ describe("registerUser", () => {
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({
-      error: "Failed to create user",
+      error: "Something went wrong while creating your account. Please try again.",
     });
   });
 });
