@@ -427,7 +427,7 @@ async function getAllUsers(_req: Request, res: Response): Promise<void> {
    ───────────────────────────────────────────── */
 async function adminDeleteUser(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     if (!userId) {
       res.status(400).json({ message: "userId is required." });
       return;

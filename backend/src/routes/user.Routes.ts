@@ -48,7 +48,7 @@ router.put(
   userController.adminVerifyUser
 );
 router.delete(
-  "/admin-delete",
+  "/admin-delete/:userId",
   authenticateUser,
   authorizeRole([Roles.ADMIN]),
   userController.adminDeleteUser

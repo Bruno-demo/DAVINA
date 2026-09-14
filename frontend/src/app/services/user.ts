@@ -44,8 +44,7 @@ export class UserService {
   }
 
   adminDeleteUser(userId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/admin-delete`, {
-      body: { userId },
+    return this.http.delete(`${this.baseUrl}/admin-delete/${userId}`, {
       withCredentials: true,
     });
   }
