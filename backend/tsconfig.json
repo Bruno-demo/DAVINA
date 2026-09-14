@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "Node16",
     "rootDir": "./",
     "outDir": "./dist",
     "strict": true,
@@ -9,8 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "ignoreDeprecations": "6.0",
+    "moduleResolution": "Node16",
+    "ignoreDeprecations": "5.0",
     "types": ["node", "express"],
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },

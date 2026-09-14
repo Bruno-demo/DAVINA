@@ -13,6 +13,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import connectMongoDB from "./config/mongodb";
 import sequelize from "./config/db";
+import ProductItem from "./models/productItems";
 
 import userRoutes from "./routes/user.Routes";
 import orderRoutes from "./routes/order.Routes";
@@ -175,7 +176,6 @@ app.get("/api/test", (_req: Request, res: Response) => {
 // Sitemap endpoint for SEO
 app.get("/api/sitemap.xml", async (_req: Request, res: Response) => {
   try {
-    const ProductItem = (await import("./models/productItems")).default;
     const products = await ProductItem.find().select("_id").lean();
     const baseUrl = "http://localhost:4200";
 
